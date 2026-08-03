@@ -1,0 +1,60 @@
+{
+  "data": {
+    "type": "synthetic",
+    "seed": 271828,
+    "ode": [
+      "dG1/dt = q*A(t) - (k + mu_i)*G1",
+      "dGj/dt = k*G(j-1) - (k + mu_i)*Gj, j=2,...,4",
+      "dG5/dt = k*G4 - mu_m*G5"
+    ],
+    "driver_interpolation": "piecewise linear",
+    "parameters": {
+      "effective_production_per_day": 0.02,
+      "mean_maturation_days": 8.4,
+      "immature_transition_rate_per_day": 0.4761904762,
+      "immature_loss_rate_per_day": 0.03,
+      "mature_half_life_days": 5.1
+    },
+    "observation_error": "Normal(0, 0.08^2) on log10 mature female-gametocyte density",
+    "detection_limit_gametocytes_per_ml": 2
+  },
+  "reference_fit": {
+    "method": "penalised log-scale fit with a censored likelihood contribution",
+    "literature_constraints": {
+      "mean_maturation_days": "Normal(8.39, 1.03^2)",
+      "mature_half_life_days": "Normal(5.1, 0.51^2)"
+    },
+    "notes": [
+      "The constraints approximate published uncertainty and expose rather than hide weak parameter identification.",
+      "They are one defensible reference analysis, not requirements for full credit.",
+      "The numerical response data are wholly synthetic."
+    ]
+  },
+  "references": [
+    {
+      "claim": "A four-stage immature-gametocyte model estimated an 8.39-day sequestration time and showed weak identification of mature lifespan.",
+      "citation": "Cao et al. eLife 2019;8:e49058.",
+      "url": "https://doi.org/10.7554/eLife.49058"
+    },
+    {
+      "claim": "A controlled infection study estimated mature female and male gametocyte half-lives of 5.1 and 2.7 days.",
+      "citation": "Reuling et al. eLife 2018;7:e31549.",
+      "url": "https://doi.org/10.7554/eLife.31549"
+    },
+    {
+      "claim": "Gametocyte production, sequestration and circulation vary substantially between infections.",
+      "citation": "Eichner et al. Transactions of the Royal Society of Tropical Medicine and Hygiene 2001;95:497-501.",
+      "url": "https://doi.org/10.1016/S0035-9203(01)90016-1"
+    },
+    {
+      "claim": "Open-ended scientific analyses can have multiple valid intermediate decisions requiring fine-grained evaluation.",
+      "citation": "Gu et al. Findings of EMNLP 2024.",
+      "url": "https://doi.org/10.18653/v1/2024.findings-emnlp.815"
+    },
+    {
+      "claim": "Scientific-agent tasks should require executable programs and combine outcome checks with expert-validated rubrics.",
+      "citation": "Chen et al. ICLR 2025.",
+      "url": "https://openreview.net/forum?id=6z4YKr0GK6"
+    }
+  ]
+}

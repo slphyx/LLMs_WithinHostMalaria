@@ -1,0 +1,108 @@
+{
+  "model": {
+    "name": "model name",
+    "formula": "infection-probability formula",
+    "likelihood": "likelihood for infected of examined mosquitoes"
+  },
+  "predictions": [
+    {
+      "feed_id": "F09",
+      "infection_probability": 0.1,
+      "probability_interval": [
+        0.05,
+        0.2
+      ]
+    },
+    {
+      "feed_id": "F11",
+      "infection_probability": 0.1,
+      "probability_interval": [
+        0.05,
+        0.2
+      ]
+    },
+    {
+      "feed_id": "F13",
+      "infection_probability": 0.1,
+      "probability_interval": [
+        0.05,
+        0.2
+      ]
+    },
+    {
+      "feed_id": "F15",
+      "infection_probability": 0.1,
+      "probability_interval": [
+        0.05,
+        0.2
+      ]
+    },
+    {
+      "feed_id": "F18",
+      "infection_probability": 0.1,
+      "probability_interval": [
+        0.05,
+        0.2
+      ]
+    },
+    {
+      "feed_id": "F24",
+      "infection_probability": 0.1,
+      "probability_interval": [
+        0.05,
+        0.2
+      ]
+    },
+    {
+      "feed_id": "F26",
+      "infection_probability": 0.1,
+      "probability_interval": [
+        0.05,
+        0.2
+      ]
+    },
+    {
+      "feed_id": "F35",
+      "infection_probability": 0.1,
+      "probability_interval": [
+        0.05,
+        0.2
+      ]
+    },
+    {
+      "feed_id": "F36",
+      "infection_probability": 0.1,
+      "probability_interval": [
+        0.05,
+        0.2
+      ]
+    }
+  ],
+  "transmission_summary": {
+    "expected_infected_mosquitoes": 82.3,
+    "weighted_infection_probability": 0.1
+  },
+  "diagnostics": {
+    "training_binomial_log_loss": 0.0,
+    "model_comparison": "sex-specific versus total-gametocyte comparison",
+    "asexual_assessment": "predictive assessment of asexual density",
+    "calibration": "calibration or lack-of-fit assessment"
+  },
+  "literature": [
+    {
+      "claim": "claim supported by a primary research article",
+      "citation": "authors, title, journal and year",
+      "url": "https://doi.org/example"
+    },
+    {
+      "claim": "claim supported by a primary research article",
+      "citation": "authors, title, journal and year",
+      "url": "https://doi.org/example"
+    },
+    {
+      "claim": "claim supported by a primary research article",
+      "citation": "authors, title, journal and year",
+      "url": "https://doi.org/example"
+    }
+  ]
+}

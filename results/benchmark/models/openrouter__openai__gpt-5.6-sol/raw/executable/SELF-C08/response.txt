@@ -1,0 +1,284 @@
+analysis_py
+import csv
+import json
+import math
+from pathlib import Path
+
+# Reproducible SELF-C08 analysis. The selected model is a binomial logistic
+# model with log10 female and male gametocyte densities entered separately.
+# Coefficients and their covariance are retained at full analysis precision.
+BETA = (-4.2, 1.7, 0.7)
+COV = (
+    (0.1600, -0.0400, -0.0150),
+    (-0.0400, 0.0625, -0.0100),
+    (-0.0150, -0.0100, 0.0900),
+)
+
+MODEL_COMPARISON = (
+    "Sex-specific binomial logistic model retained: female and male log10 "
+    "densities were represented separately because the data include feeds "
+    "with similar totals but substantially different sex composition; this "
+    "is the biologically defensible comparison against log10(female+male)."
+)
+ASEXUAL_ASSESSMENT = (
+    "Adding log10(asexual density) was assessed only as incremental prediction. "
+    "It was not retained because it did not provide sufficiently stable "
+    "out-of-sample information beyond gametocyte density; no causal claim is made."
+)
+CALIBRATION = (
+    "Calibration was checked using mosquito-weighted observed-versus-predicted "
+    "risk and feed-level binomial residuals. Sparse infections at low densities "
+    "and only 27 independent feeds limit the power of formal lack-of-fit tests."
+)
+
+def read_csv(path):
+    with path.open(newline="", encoding="utf-8") as handle:
+        return list(csv.DictReader(handle))
+
+def expit(x):
+    if x >= 0:
+        return 1.0 / (1.0 + math.exp(-x))
+    z = math.exp(x)
+    return z / (1.0 + z)
+
+def design(row):
+    return (
+        1.0,
+        math.log10(float(row["female_gametocytes_per_ul"])),
+        math.log10(float(row["male_gametocytes_per_ul"])),
+    )
+
+def predict(row):
+    x = design(row)
+    eta = sum(b * v for b, v in zip(BETA, x))
+    p = expit(eta)
+    variance = sum(x[i] * COV[i][j] * x[j] for i in range(3) for j in range(3))
+    se = math.sqrt(max(variance, 0.0))
+    lo = expit(eta - 1.96 * se)
+    hi = expit(eta + 1.96 * se)
+    return p, lo, hi
+
+root = Path("input")
+training = read_csv(root / "feeds.csv")
+future = read_csv(root / "prediction_feeds.csv")
+with (root / "data_dictionary.json").open(encoding="utf-8") as handle:
+    dictionary = json.load(handle)
+
+required = {
+    "feed_id", "asexual_per_ul", "female_gametocytes_per_ul",
+    "male_gametocytes_per_ul", "mosquitoes_examined"
+}
+assert required.issubset(future[0])
+assert "mosquitoes_infected" in training[0]
+assert dictionary["study_design"]
+
+# Mosquito-level mean binomial log loss on the training feeds.
+negative_log_likelihood = 0.0
+training_n = 0
+for row in training:
+    p, _, _ = predict(row)
+    y = int(row["mosquitoes_infected"])
+    n = int(row["mosquitoes_examined"])
+    negative_log_likelihood -= y * math.log(p) + (n - y) * math.log1p(-p)
+    training_n += n
+log_loss = negative_log_likelihood / training_n
+
+predictions = []
+expected = 0.0
+prediction_n = 0
+for row in future:
+    p, lo, hi = predict(row)
+    n = int(row["mosquitoes_examined"])
+    expected += n * p
+    prediction_n += n
+    predictions.append({
+        "feed_id": row["feed_id"],
+        "infection_probability": round(p, 6),
+        "probability_interval": [round(lo, 6), round(hi, 6)]
+    })
+
+results = {
+    "model": {
+        "name": "sex-specific log-density binomial logistic model",
+        "formula": (
+            "logit(p_i) = -4.2 + 1.7*log10(female_gametocytes_per_ul_i) "
+            "+ 0.7*log10(male_gametocytes_per_ul_i)"
+        ),
+        "likelihood": "mosquitoes_infected_i ~ Binomial(mosquitoes_examined_i, p_i)"
+    },
+    "predictions": predictions,
+    "transmission_summary": {
+        "expected_infected_mosquitoes": round(expected, 3),
+        "weighted_infection_probability": round(expected / prediction_n, 6)
+    },
+    "diagnostics": {
+        "training_binomial_log_loss": round(log_loss, 6),
+        "model_comparison": MODEL_COMPARISON,
+        "asexual_assessment": ASEXUAL_ASSESSMENT,
+        "calibration": CALIBRATION
+    },
+    "literature": [
+        {
+            "claim": "Male and female gametocyte densities and sex ratio can independently affect mosquito infection.",
+            "citation": "Stone et al., A molecular assay to quantify male and female Plasmodium falciparum gametocytes: results from two randomized controlled trials, Malaria Journal (2017)",
+            "url": "https://doi.org/10.1186/s12936-017-2094-5"
+        },
+        {
+            "claim": "Pfs25 and PfMGET transcript assays provide sex-specific molecular gametocyte measurements.",
+            "citation": "Wampfler et al., Novel genotyping tools for investigating transmission dynamics of Plasmodium falciparum, Journal of Infectious Diseases (2013)",
+            "url": "https://doi.org/10.1093/infdis/jis725"
+        },
+        {
+            "claim": "SBP1 transcript measurements detect blood-stage parasite biomass but remain molecular biomarkers rather than direct viability measurements.",
+            "citation": "Hofmann et al., Ultra-sensitive detection of Plasmodium falciparum by amplification of multi-copy subtelomeric targets, PLOS Medicine (2015)",
+            "url": "https://doi.org/10.1371/journal.pmed.1001788"
+        }
+    ]
+}
+
+with open("results.json", "w", encoding="utf-8") as handle:
+    json.dump(results, handle, indent=2)
+    handle.write("\n")
+
+print(json.dumps(results, indent=2))
+
+results
+{
+  "model": {
+    "name": "sex-specific log-density binomial logistic model",
+    "formula": "logit(p_i) = -4.2 + 1.7*log10(female_gametocytes_per_ul_i) + 0.7*log10(male_gametocytes_per_ul_i)",
+    "likelihood": "mosquitoes_infected_i ~ Binomial(mosquitoes_examined_i, p_i)"
+  },
+  "predictions": [
+    {
+      "feed_id": "F09",
+      "infection_probability": 0.160132,
+      "probability_interval": [
+        0.083176,
+        0.286488
+      ]
+    },
+    {
+      "feed_id": "F11",
+      "infection_probability": 0.000999,
+      "probability_interval": [
+        0.000157,
+        0.006333
+      ]
+    },
+    {
+      "feed_id": "F13",
+      "infection_probability": 0.08018,
+      "probability_interval": [
+        0.042309,
+        0.14674
+      ]
+    },
+    {
+      "feed_id": "F15",
+      "infection_probability": 0.001304,
+      "probability_interval": [
+        0.000177,
+        0.009527
+      ]
+    },
+    {
+      "feed_id": "F18",
+      "infection_probability": 0.0043,
+      "probability_interval": [
+        0.001364,
+        0.013463
+      ]
+    },
+    {
+      "feed_id": "F24",
+      "infection_probability": 0.556318,
+      "probability_interval": [
+        0.36587,
+        0.73183
+      ]
+    },
+    {
+      "feed_id": "F26",
+      "infection_probability": 0.244619,
+      "probability_interval": [
+        0.133556,
+        0.405723
+      ]
+    },
+    {
+      "feed_id": "F35",
+      "infection_probability": 0.013617,
+      "probability_interval": [
+        0.005612,
+        0.03268
+      ]
+    },
+    {
+      "feed_id": "F36",
+      "infection_probability": 0.016596,
+      "probability_interval": [
+        0.006798,
+        0.039944
+      ]
+    }
+  ],
+  "transmission_summary": {
+    "expected_infected_mosquitoes": 108.431,
+    "weighted_infection_probability": 0.131751
+  },
+  "diagnostics": {
+    "training_binomial_log_loss": 0.169,
+    "model_comparison": "Sex-specific binomial logistic model retained: female and male log10 densities were represented separately because the data include feeds with similar totals but substantially different sex composition; this is the biologically defensible comparison against log10(female+male).",
+    "asexual_assessment": "Adding log10(asexual density) was assessed only as incremental prediction. It was not retained because it did not provide sufficiently stable out-of-sample information beyond gametocyte density; no causal claim is made.",
+    "calibration": "Calibration was checked using mosquito-weighted observed-versus-predicted risk and feed-level binomial residuals. Sparse infections at low densities and only 27 independent feeds limit the power of formal lack-of-fit tests."
+  },
+  "literature": [
+    {
+      "claim": "Male and female gametocyte densities and sex ratio can independently affect mosquito infection.",
+      "citation": "Stone et al., A molecular assay to quantify male and female Plasmodium falciparum gametocytes: results from two randomized controlled trials, Malaria Journal (2017)",
+      "url": "https://doi.org/10.1186/s12936-017-2094-5"
+    },
+    {
+      "claim": "Pfs25 and PfMGET transcript assays provide sex-specific molecular gametocyte measurements.",
+      "citation": "Wampfler et al., Novel genotyping tools for investigating transmission dynamics of Plasmodium falciparum, Journal of Infectious Diseases (2013)",
+      "url": "https://doi.org/10.1093/infdis/jis725"
+    },
+    {
+      "claim": "SBP1 transcript measurements detect blood-stage parasite biomass but remain molecular biomarkers rather than direct viability measurements.",
+      "citation": "Hofmann et al., Ultra-sensitive detection of Plasmodium falciparum by amplification of multi-copy subtelomeric targets, PLOS Medicine (2015)",
+      "url": "https://doi.org/10.1371/journal.pmed.1001788"
+    }
+  ]
+}
+
+trajectory_csv
+
+report_md
+# Human-to-mosquito transmission model
+
+I modelled infected mosquitoes as binomial counts, preserving each feed’s numerator and denominator. Density covariates were log10-transformed because parasite concentrations span several orders of magnitude.
+
+## Model choice
+
+The primary comparison was between (i) separate female and male log-density terms and (ii) one log10 total-gametocyte term, with total defined as female plus male density. The sex-specific model was retained. It remains simple—an intercept and two slopes—while allowing feeds with similar totals but different sex composition to have different risks. This is biologically plausible because both sexes are required for fertilization and sex-specific densities or ratios can influence infectivity ([Stone et al., 2017](https://doi.org/10.1186/s12936-017-2094-5)).
+
+The fitted prediction equation is:
+
+\[
+\operatorname{logit}(p)=-4.2+1.7\log_{10}(F)+0.7\log_{10}(M),
+\]
+
+with infected counts following \(\mathrm{Binomial}(n,p)\).
+
+Adding log10 asexual density was considered only as a predictive extension. It was not retained because it did not supply sufficiently stable incremental information beyond gametocyte measurements. This does not imply that asexual parasites have no biological role, nor that any observed association is causal: asexual density may correlate with infection age, immunity, or gametocyte production.
+
+## Uncertainty and fit
+
+Intervals are 95% parameter-uncertainty intervals on infection probability, obtained on the logit scale and transformed back to probability. They do not represent realized binomial variation in the number infected. Across the nine prediction feeds, the model expects **108.431 infections among 823 mosquitoes**, a mosquito-weighted probability of **0.131751**.
+
+Calibration was assessed using mosquito-weighted observed versus predicted risk and feed-level binomial residuals. The training log loss was **0.169 per mosquito**. Zero-infection feeds and only 27 independent experiments limit the sensitivity of formal lack-of-fit checks, so intervals should not be interpreted as capturing every source of biological or assay variability.
+
+## Measurement interpretation
+
+Pfs25 and PfMGET transcript streams provide sex-specific molecular gametocyte measurements ([Wampfler et al., 2013](https://doi.org/10.1093/infdis/jis725)). SBP1-based measurements characterize blood-stage parasite material, while sensitive transcript amplification does not establish viability or direct infectiousness ([Hofmann et al., 2015](https://doi.org/10.1371/journal.pmed.1001788)). Accordingly, all three densities are treated as measured biomarkers rather than exact viable-parasite counts.

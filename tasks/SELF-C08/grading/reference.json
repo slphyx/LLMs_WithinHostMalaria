@@ -1,0 +1,83 @@
+{
+  "data": {
+    "type": "synthetic",
+    "seed": 25072,
+    "infection_probability": "0.42 * (1 - exp(-0.045 * female_per_ul)) * (1 - exp(-0.20 * male_per_ul))",
+    "outcome_model": "mosquitoes_infected ~ Binomial(mosquitoes_examined, infection_probability)",
+    "split": "Nine feeds selected across the ranked female-density range were held out before fitting.",
+    "notes": [
+      "Asexual density is correlated with gametocyte density but has no direct term in the data-generating probability.",
+      "Assay covariates are used as observed; the small task does not identify a measurement-error model.",
+      "The generator is a benchmark device, not a claim that this formula is a complete biological transmission mechanism."
+    ]
+  },
+  "reference_fit": {
+    "model": "sex-specific saturating binomial model",
+    "formula": "p = p_max * (1 - exp(-k_f * F)) * (1 - exp(-k_m * M))",
+    "p_max": 0.4089633,
+    "k_f": 0.0358612,
+    "k_m": 0.2822970,
+    "training_binomial_log_loss": 0.1496637,
+    "held_out_binomial_log_loss": 0.1942676,
+    "aic": 775.8702
+  },
+  "comparisons": {
+    "training_rate_baseline": {
+      "probability": 0.0614308,
+      "held_out_binomial_log_loss": 0.2853572
+    },
+    "total_gametocyte_saturating_model": {
+      "held_out_binomial_log_loss": 0.2045064,
+      "aic": 803.0824
+    },
+    "sex_specific_plus_asexual_model": {
+      "held_out_binomial_log_loss": 0.1942656,
+      "aic": 777.8682
+    }
+  },
+  "notes": [
+    "The reference fit uses maximum likelihood and approximate Hessian intervals.",
+    "Alternative binomial, beta-binomial, logistic, spline, or Bayesian analyses may earn full credit.",
+    "Reference values verify the task and do not prescribe the submitted model.",
+    "Only the input directory and public task files may be exposed to the evaluated agent."
+  ],
+  "biological_references": [
+    {
+      "citation": "Bradley et al. eLife 2018;7:e34463.",
+      "url": "https://doi.org/10.7554/eLife.34463",
+      "use": "Sex-specific qRT-PCR measurements and nonlinear mosquito infectivity involving both female and male gametocyte densities."
+    },
+    {
+      "citation": "Cao et al. eLife 2019;8:e49058.",
+      "url": "https://doi.org/10.7554/eLife.49058",
+      "use": "Joint asexual, female-gametocyte, and male-gametocyte molecular measurements in within-host modelling."
+    },
+    {
+      "citation": "Churcher et al. eLife 2013;2:e00626.",
+      "url": "https://doi.org/10.7554/eLife.00626",
+      "use": "Nonlinear relationships between gametocyte density and mosquito infection in feeding experiments."
+    },
+    {
+      "citation": "Collins et al. Journal of Clinical Investigation 2018;128:1551-1562.",
+      "url": "https://doi.org/10.1172/JCI98012",
+      "use": "Controlled infection data linking asexual parasite exposure, sex-specific gametocytes, and transmission assays."
+    }
+  ],
+  "benchmark_references": [
+    {
+      "citation": "Gu et al. Findings of EMNLP 2024:4653-4740.",
+      "url": "https://doi.org/10.18653/v1/2024.findings-emnlp.815",
+      "use": "Open-ended data analysis can contain multiple defensible analytical decisions."
+    },
+    {
+      "citation": "Chen et al. ICLR 2025.",
+      "url": "https://proceedings.iclr.cc/paper_files/paper/2025/hash/f12b4df26344f3be803c06b555252efe-Abstract-Conference.html",
+      "use": "Scientific agent tasks should produce executable programs and be checked on execution and results."
+    },
+    {
+      "citation": "Starace et al. Proceedings of ICML 2025;267:56843-56873.",
+      "url": "https://proceedings.mlr.press/v267/starace25a.html",
+      "use": "Open-ended work can be evaluated with atomic, auditable rubric criteria."
+    }
+  ]
+}

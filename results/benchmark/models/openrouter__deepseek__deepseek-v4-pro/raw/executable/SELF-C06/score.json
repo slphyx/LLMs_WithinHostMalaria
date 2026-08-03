@@ -1,0 +1,442 @@
+{
+  "id": "SELF-C06",
+  "condition": "raw",
+  "model": "openrouter/deepseek/deepseek-v4-pro",
+  "score": 15.0,
+  "explanation": "Automated 0.0/50; scientific 15.0/50; cap 50. Replay error: analysis.py failed during clean replay with return code 1.",
+  "response_file": "response.txt",
+  "artifact_error": null,
+  "automated": {
+    "score": 0.0,
+    "maximum": 50,
+    "error": "analysis.py failed during clean replay with return code 1."
+  },
+  "scientific": {
+    "score": 14.999999999999996,
+    "maximum": 50,
+    "criteria": [
+      {
+        "id": "S1",
+        "criterion": "Fits positive parasite density on an appropriate scale with a stated observation model.",
+        "points": 5,
+        "votes_met": 2,
+        "votes_total": 3,
+        "awarded": 3.333333333333333
+      },
+      {
+        "id": "S2",
+        "criterion": "Treats the nondetect as left-censored at 10 parasites/mL rather than as zero or an exact threshold value.",
+        "points": 5,
+        "votes_met": 2,
+        "votes_total": 3,
+        "awarded": 3.333333333333333
+      },
+      {
+        "id": "S3",
+        "criterion": "Estimates the intercept and explains a defensible method for the PMF uncertainty interval.",
+        "points": 5,
+        "votes_met": 1,
+        "votes_total": 3,
+        "awarded": 1.6666666666666665
+      },
+      {
+        "id": "S4",
+        "criterion": "Compares added structure with free-intercept log-linear growth using diagnostics or predictive evidence rather than training fit alone.",
+        "points": 5,
+        "votes_met": 2,
+        "votes_total": 3,
+        "awarded": 3.333333333333333
+      },
+      {
+        "id": "B1",
+        "criterion": "Interprets PMF as average successful blood-stage multiplication over 48 hours.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "B2",
+        "criterion": "Relates supported approximately 48-hour variation to parasite age structure and sequestration without treating a statistical periodic term as proof of mechanism.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "B3",
+        "criterion": "Distinguishes peripheral qPCR density from total viable parasite biomass.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "B4",
+        "criterion": "Does not claim that short-period fluctuation alone demonstrates immunity or density-dependent regulation.",
+        "points": 5,
+        "votes_met": 2,
+        "votes_total": 3,
+        "awarded": 3.333333333333333
+      },
+      {
+        "id": "C1",
+        "criterion": "Checks residual or predictive behaviour and identifies material lack of fit.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "C2",
+        "criterion": "Discusses parsimony, sparse-data identifiability, and the limits of inference from one trajectory.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      }
+    ],
+    "cap": 50
+  },
+  "execution": {
+    "success": false,
+    "complete": true,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "AttributeError: 'str' object has no attribute 'log10'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/tmp/replay/analysis.py\", line 20, in <module>\n    log_y_obs = np.log10(y_obs)\n                ^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/pandas/core/arrays/numpy_.py\", line 240, in __array_ufunc__\n    result = getattr(ufunc, method)(*inputs, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: loop of ufunc does not support argument 0 of type str which has no callable log10 method\n",
+    "reproduced": false,
+    "timed_out": false,
+    "timeout_seconds": 600,
+    "error": {
+      "type": "nonzero_exit",
+      "stage": "clean_replay",
+      "message": "analysis.py failed during clean replay with return code 1."
+    }
+  },
+  "judges": [
+    {
+      "judge": "openrouter/openai/gpt-5.5",
+      "served_model": "openai/gpt-5.5",
+      "usage": {
+        "input_tokens": 4257,
+        "output_tokens": 585,
+        "total_tokens": 4842,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 349,
+        "total_cost": 0.038834999999999995
+      },
+      "generation_time": 11.624244295060635,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": true,
+          "reason": "Uses log10-normal density model."
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "ND handled by log-CDF censoring below 10."
+        },
+        {
+          "id": "S3",
+          "met": false,
+          "reason": "PMF uses 48 days, not 48 hours."
+        },
+        {
+          "id": "S4",
+          "met": true,
+          "reason": "Compares harmonic via AICc and RMSE."
+        },
+        {
+          "id": "B1",
+          "met": false,
+          "reason": "PMF interpretation is not biologically explicit."
+        },
+        {
+          "id": "B2",
+          "met": false,
+          "reason": "No age-structure or sequestration discussion."
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "No qPCR versus biomass distinction."
+        },
+        {
+          "id": "B4",
+          "met": true,
+          "reason": "No immunity or density-dependence claim."
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "No material lack-of-fit identified."
+        },
+        {
+          "id": "C2",
+          "met": false,
+          "reason": "Limited sparse-data inference not discussed."
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "analysis.py fails clean replay."
+      }
+    },
+    {
+      "judge": "openrouter/anthropic/claude-haiku-4.5",
+      "served_model": "anthropic/claude-haiku-4.5",
+      "usage": {
+        "input_tokens": 5185,
+        "output_tokens": 1384,
+        "total_tokens": 6569,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 670,
+        "total_cost": 0.012105000000000001
+      },
+      "generation_time": 13.81320434808731,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": false,
+          "reason": "Code fails before fitting completes; analysis.py returns exit code 1."
+        },
+        {
+          "id": "S2",
+          "met": false,
+          "reason": "Code does not run; censoring logic unreached."
+        },
+        {
+          "id": "S3",
+          "met": false,
+          "reason": "Code fails; no valid parameter estimates produced."
+        },
+        {
+          "id": "S4",
+          "met": false,
+          "reason": "Code fails; model comparison not executed."
+        },
+        {
+          "id": "B1",
+          "met": false,
+          "reason": "Code does not run; biological interpretation not evaluated."
+        },
+        {
+          "id": "B2",
+          "met": false,
+          "reason": "Code does not run; no biologically grounded analysis."
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "Code does not run; no distinction addressed."
+        },
+        {
+          "id": "B4",
+          "met": false,
+          "reason": "Code does not run; no claim evaluation possible."
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "Code does not run; diagnostics not computed."
+        },
+        {
+          "id": "C2",
+          "met": false,
+          "reason": "Code does not run; parsimony discussion vacuous without results."
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "Code fails clean replay (TypeError on data parse, line 20). analysis.py does not execute successfully; exit code 1. Hard cap triggered by nonzero exit and absent working reproduction."
+      }
+    },
+    {
+      "judge": "openrouter/google/gemini-3.5-flash",
+      "served_model": "google/gemini-3.5-flash",
+      "usage": {
+        "input_tokens": 4944,
+        "output_tokens": 1093,
+        "total_tokens": 6037,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 730,
+        "total_cost": 0.017253
+      },
+      "generation_time": 6.739082559943199,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": true,
+          "reason": "Fits log10-transformed density with a censored log-normal observation model."
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "Treats ND as left-censored at 10 parasites/mL using logcdf."
+        },
+        {
+          "id": "S3",
+          "met": true,
+          "reason": "Estimates intercept and uses numerical Hessian for PMF Wald interval."
+        },
+        {
+          "id": "S4",
+          "met": true,
+          "reason": "Compares baseline and harmonic models using AICc."
+        },
+        {
+          "id": "B1",
+          "met": false,
+          "reason": "Does not interpret PMF as successful blood-stage multiplication over 48h."
+        },
+        {
+          "id": "B2",
+          "met": false,
+          "reason": "Does not discuss parasite age structure or sequestration."
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "Does not distinguish peripheral qPCR density from total biomass."
+        },
+        {
+          "id": "B4",
+          "met": true,
+          "reason": "Does not make claims about immunity or density-dependent regulation."
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "Does not identify material lack of fit in the baseline model."
+        },
+        {
+          "id": "C2",
+          "met": false,
+          "reason": "Does not discuss limits of inference from a single trajectory."
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "Code failed to run during clean replay due to a TypeError."
+      }
+    }
+  ],
+  "judge_failures": [],
+  "web_search_calls": [],
+  "usage": {
+    "openrouter/deepseek/deepseek-v4-pro": {
+      "input_tokens": 839,
+      "output_tokens": 9406,
+      "total_tokens": 10245,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 6635,
+      "total_cost": 0.008548185
+    },
+    "openrouter/google/gemini-3.5-flash": {
+      "input_tokens": 4944,
+      "output_tokens": 1093,
+      "total_tokens": 6037,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 730,
+      "total_cost": 0.017253
+    },
+    "openrouter/openai/gpt-5.5": {
+      "input_tokens": 4257,
+      "output_tokens": 585,
+      "total_tokens": 4842,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 349,
+      "total_cost": 0.038834999999999995
+    },
+    "openrouter/anthropic/claude-haiku-4.5": {
+      "input_tokens": 5185,
+      "output_tokens": 1384,
+      "total_tokens": 6569,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 670,
+      "total_cost": 0.012105000000000001
+    }
+  },
+  "tools": {},
+  "cost": {
+    "model": 0.08135720490000001,
+    "web_search": 0,
+    "total": 0.08135720490000001,
+    "model_calls": [
+      {
+        "model": "openrouter/deepseek/deepseek-v4-pro",
+        "served_model": "deepseek/deepseek-v4-pro",
+        "provider": "StreamLake",
+        "generation_id": "gen-1785503667-yPLUqjqotZVQlGWwSvtw",
+        "service_tier": null,
+        "cost": 0.0131642049,
+        "cost_details": {
+          "upstream_inference_cost": 0.0131642049,
+          "upstream_inference_prompt_cost": 0.0005620461,
+          "upstream_inference_completions_cost": 0.0126021588
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/openai/gpt-5.5",
+        "served_model": "openai/gpt-5.5",
+        "provider": "OpenAI",
+        "generation_id": "gen-1785503822-ABYp2aFF6QHxFB9K7qjL",
+        "service_tier": "default",
+        "cost": 0.038835,
+        "cost_details": {
+          "upstream_inference_cost": 0.038835,
+          "upstream_inference_prompt_cost": 0.021285,
+          "upstream_inference_completions_cost": 0.01755
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/anthropic/claude-haiku-4.5",
+        "served_model": "anthropic/claude-haiku-4.5",
+        "provider": "Anthropic",
+        "generation_id": "gen-1785503822-wE7Q0aH1YDd4zz9YPaIc",
+        "service_tier": "default",
+        "cost": 0.012105,
+        "cost_details": {
+          "upstream_inference_cost": 0.012105,
+          "upstream_inference_prompt_cost": 0.005185,
+          "upstream_inference_completions_cost": 0.00692
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/google/gemini-3.5-flash",
+        "served_model": "google/gemini-3.5-flash",
+        "provider": "Google",
+        "generation_id": "gen-1785503822-nJ6GRDb4mddNKaMZKazg",
+        "service_tier": "default",
+        "cost": 0.017253,
+        "cost_details": {
+          "upstream_inference_cost": 0.017253,
+          "upstream_inference_prompt_cost": 0.007416,
+          "upstream_inference_completions_cost": 0.009837
+        },
+        "is_byok": false
+      }
+    ]
+  },
+  "timing": {
+    "started_at": "2026-07-31T13:04:09.858053+00:00",
+    "completed_at": "2026-07-31T13:17:16.403139+00:00",
+    "total_time": 786.545,
+    "working_time": 168.823
+  },
+  "error": null
+}

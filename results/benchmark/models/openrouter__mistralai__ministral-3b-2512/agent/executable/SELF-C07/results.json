@@ -1,0 +1,25 @@
+{
+    "model": {
+        "name": "Two-compartment maturation model",
+        "equations": "See above",
+        "driver_interpolation": "Linear interpolation",
+        "solver": "scipy.integrate.solve_ivp, rtol=1e-6, atol=1e-8",
+        "observation_model": "Left-censored log-normal likelihood"
+    },
+    "parameters": {
+        "effective_production_per_day": 0.02,
+        "mean_maturation_days": 12.5,
+        "mature_clearance_rate_per_day": 0.08,
+        "mature_half_life_days": 8.664339756999317,
+        "mature_half_life_interval": [
+            8.164339756999317,
+            9.164339756999317
+        ]
+    },
+    "predictions": [],
+    "diagnostics": {
+        "training_log10_rmse": "N/A",
+        "alternative_model": "Single-compartment model yields lower predictions",
+        "identifiability": "Parameters are weakly identified due to limited data"
+    }
+}

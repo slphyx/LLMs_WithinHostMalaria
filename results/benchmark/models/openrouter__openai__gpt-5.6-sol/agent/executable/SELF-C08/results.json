@@ -1,0 +1,113 @@
+{
+  "model": {
+    "name": "Sex-specific log-density binomial logistic regression",
+    "formula": "logit(p) = -5.496461 + 2.022125 log10(female_per_ul) + 1.259086 log10(male_per_ul)",
+    "likelihood": "mosquitoes_infected_i ~ Binomial(mosquitoes_examined_i, p_i), independently by feed"
+  },
+  "predictions": [
+    {
+      "feed_id": "F09",
+      "infection_probability": 0.08809,
+      "probability_interval": [
+        0.068861,
+        0.112042
+      ]
+    },
+    {
+      "feed_id": "F11",
+      "infection_probability": 8.8e-05,
+      "probability_interval": [
+        2.3e-05,
+        0.000338
+      ]
+    },
+    {
+      "feed_id": "F13",
+      "infection_probability": 0.039246,
+      "probability_interval": [
+        0.02713,
+        0.056459
+      ]
+    },
+    {
+      "feed_id": "F15",
+      "infection_probability": 0.000109,
+      "probability_interval": [
+        2.9e-05,
+        0.000405
+      ]
+    },
+    {
+      "feed_id": "F18",
+      "infection_probability": 0.000649,
+      "probability_interval": [
+        0.000236,
+        0.001786
+      ]
+    },
+    {
+      "feed_id": "F24",
+      "infection_probability": 0.549959,
+      "probability_interval": [
+        0.460422,
+        0.636373
+      ]
+    },
+    {
+      "feed_id": "F26",
+      "infection_probability": 0.161406,
+      "probability_interval": [
+        0.131145,
+        0.197066
+      ]
+    },
+    {
+      "feed_id": "F35",
+      "infection_probability": 0.00425,
+      "probability_interval": [
+        0.00182,
+        0.009888
+      ]
+    },
+    {
+      "feed_id": "F36",
+      "infection_probability": 0.004357,
+      "probability_interval": [
+        0.002137,
+        0.008861
+      ]
+    }
+  ],
+  "transmission_summary": {
+    "expected_infected_mosquitoes": 89.529,
+    "weighted_infection_probability": 0.108784
+  },
+  "diagnostics": {
+    "training_binomial_log_loss": 0.150175,
+    "model_comparison": "Sex-specific AIC 778.498 versus total-gametocyte AIC 790.259 (Delta AIC total-minus-sex 11.760); sex-specific retained.",
+    "asexual_assessment": "Adding log10(asexual density) to the sex-specific model: LR chi-square(1)=0.564, p=0.453, Delta AIC(add-minus-base)=1.436; no useful improvement, and no causal interpretation.",
+    "calibration": "Feed-level binomial deviance 15.549 on 24 df (p=0.904); Pearson chi-square/df 0.600. No detected lack of fit, though only 27 feeds limit power."
+  },
+  "literature": [
+    {
+      "claim": "Sex-specific female and male gametocyte densities jointly predicted mosquito infection in membrane feeds; low male density could constrain infection.",
+      "citation": "Bradley et al., Predicting the likelihood and intensity of mosquito infection from sex-specific Plasmodium falciparum gametocyte density, eLife (2018)",
+      "url": "https://doi.org/10.7554/eLife.34463"
+    },
+    {
+      "claim": "Pfs25 RT-qPCR was developed and validated for quantifying female P. falciparum gametocytes.",
+      "citation": "Schneider et al., Quantification of female and male Plasmodium falciparum gametocytes by reverse transcriptase quantitative PCR, Molecular and Biochemical Parasitology (2015)",
+      "url": "https://doi.org/10.1016/j.molbiopara.2015.03.006"
+    },
+    {
+      "claim": "Sex-specific qRT-PCR assays used Pfs25 for female and PfMGET for male gametocytes in human blood.",
+      "citation": "Wang et al., Assays for quantification of male and female gametocytes in human blood by qRT-PCR in the absence of pure sex-specific gametocyte standards, Malaria Journal (2020)",
+      "url": "https://doi.org/10.1186/s12936-020-03291-9"
+    },
+    {
+      "claim": "SBP1 qRT-PCR was a sensitive marker for asexual ring-stage parasites, with some mature-gametocyte expression noted.",
+      "citation": "Tadesse et al., Molecular Markers for Sensitive Detection of Plasmodium falciparum Asexual Stage Parasites and their Application in a Malaria Clinical Trial, American Journal of Tropical Medicine and Hygiene (2017)",
+      "url": "https://doi.org/10.4269/ajtmh.16-0893"
+    }
+  ]
+}

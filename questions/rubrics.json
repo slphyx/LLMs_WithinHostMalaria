@@ -1,0 +1,226 @@
+{
+  "SUP-B01": [
+    "Explains that the approximately 48-hour pattern arises from the asexual blood-stage developmental cycle and synchronous maturation or rupture."
+  ],
+  "SUP-B02": [
+    "Defines sequestration as mature infected erythrocytes leaving peripheral circulation for deeper tissue or microvasculature, thereby reducing peripheral microscopy counts."
+  ],
+  "SUP-B03": [
+    "Defines an age-structured model as one that tracks parasites by developmental age or stage rather than only as a single total."
+  ],
+  "SUP-B04": [
+    "Explains that daily sampling can resolve short-term oscillations or changes in growth that sparser sampling can miss."
+  ],
+  "SUP-B05": [
+    "Distinguishes microscopy as visual counting of parasites in blood films from qPCR as measurement of parasite nucleic acid.",
+    "Notes that qPCR is generally more sensitive at low parasite densities."
+  ],
+  "SUP-B06": [
+    "Explains that treatment changes parasite growth or clearance, so post-treatment observations no longer represent untreated expansion."
+  ],
+  "SUP-B07": [
+    "States that an observation model maps an unobserved biological state to measured data.",
+    "Recognises measurement error, detection limits, or related assay properties as part of that mapping."
+  ],
+  "SUP-B08": [
+    "Identifies biologically defensible sources of between-individual or between-strain variation, such as synchrony, replication, growth limitation, host environment, or infection history."
+  ],
+  "SUP-B09": [
+    "Explains that predictive criteria such as LOO assess expected performance on unseen data.",
+    "Recognises that predictive comparison discourages unsupported model complexity."
+  ],
+  "SUP-B10": [
+    "Explains that a phenomenological model represents an observed pattern using a compact or interpretable description.",
+    "Does not claim that every fitted term necessarily represents a specific underlying biological mechanism."
+  ],
+  "SUP-B11": [
+    "Defines PMF as the average number of merozoites that successfully establish new infected erythrocytes per infected erythrocyte completing one cycle."
+  ],
+  "SUP-B12": [
+    "Explains that parasites older than about 26 hours are assumed to sequester and therefore cease contributing to observed peripheral blood counts."
+  ],
+  "SELF-B01": [
+    "States that immature gametocyte stages I-IV are predominantly sequestered.",
+    "States that mature stage-V gametocytes circulate in peripheral blood.",
+    "Identifies extravascular bone marrow as a principal immature-gametocyte maturation site."
+  ],
+  "SELF-B02": [
+    "Rejects autonomous replication of mature gametocytes in human blood.",
+    "Includes an input representing maturation into the circulating stage-V compartment.",
+    "Includes a clearance or death loss proportional to the mature-gametocyte compartment."
+  ],
+  "SELF-B03": [
+    "States that nine complete 48-hour cycles are required.",
+    "Converts nine 48-hour cycles to 18 days."
+  ],
+  "SELF-B04": [
+    "States that parasite burden declines when MS is less than one, equivalently when S is less than 1/M.",
+    "States that the stationary threshold is MS equal to one."
+  ],
+  "SUP-A01": [
+    "Identifies periodic fluctuations and sequestration-related changes in peripheral visibility.",
+    "Includes growth timing or dynamics and the effect of microscopy detection thresholds."
+  ],
+  "SUP-A02": [
+    "Recognises qPCR's lower detection limit or greater low-density sensitivity.",
+    "Recognises irregular observation times or an assay signal based on parasite DNA rather than only microscopically visible parasites."
+  ],
+  "SUP-A03": [
+    "Explains that constant exponential growth cannot represent the observed slowing, plateau, or decline of many untreated trajectories."
+  ],
+  "SUP-A04": [
+    "Adds density dependence when expansion weakens as density rises or after an initial rise trajectories plateau or decline."
+  ],
+  "SUP-A05": [
+    "Explains that sexual commitment diverts parasites out of the asexual replication cycle.",
+    "Connects this diversion to gametocyte production or transmission potential."
+  ],
+  "SUP-A06": [
+    "Explains that hierarchical models share information across individuals.",
+    "Connects partial pooling to improved common-pattern estimation or less noisy estimates for poorly informed individuals."
+  ],
+  "SUP-A07": [
+    "Attributes wide individual credible intervals to sparse observations and/or confounding in which multiple parameter combinations explain the same trajectory."
+  ],
+  "SUP-A08": [
+    "Interprets overlapping credible intervals cautiously as a lack of strong evidence that strain effects are clearly separated."
+  ],
+  "SUP-A09": [
+    "States that similar LOO performance provides little evidence that either model predicts better than the other."
+  ],
+  "SUP-A10": [
+    "Identifies lack of predictive improvement and/or poor identifiability of added parameters as evidence that extra complexity is unnecessary."
+  ],
+  "SUP-A11": [
+    "Explains that a normal age distribution compactly represents initial synchrony or asynchrony through a mean and spread."
+  ],
+  "SUP-A12": [
+    "Explains that a lower PMF reduces cycle-to-cycle expansion and therefore produces slower growth and/or a later or lower peak."
+  ],
+  "SUP-A13": [
+    "Identifies explicit parasite age structure and sequestration as the missing biological representation.",
+    "Explains that stage progression, mature-stage disappearance, and reappearance after rupture generate peripheral oscillations."
+  ],
+  "SUP-A14": [
+    "Explains that age structure tracks stage progression, sequestration of mature parasites, and reappearance of young parasites after rupture.",
+    "Contrasts this with a simple exponential model in which all parasites behave identically and periodic peripheral oscillations are not generated."
+  ],
+  "SELF-A01": [
+    "Rejects interpreting female Pfs25 RT-qPCR density as a direct measure of mosquito infectivity.",
+    "Gives an assay-related reason, such as transcript calibration or failure to establish viability or fertilisation competence.",
+    "Gives a biological reason, such as dependence on male gametocytes, sex ratio, nonlinear density effects, or host and mosquito factors."
+  ],
+  "SELF-A02": [
+    "Correctly converts 0.02 parasites per microlitre in 5 litres of blood to 100,000 parasites.",
+    "Treats the nondetect as left-censored and gives the likelihood contribution as F_Y(L), or an equivalent probability below the detection limit, rather than a point observation of zero."
+  ],
+  "SELF-A03": [
+    "Defines parasite abundance in discrete hourly age classes across a 48-hour cycle.",
+    "Gives ageing transitions with age-specific survival and a rupture transition that returns viable progeny to age zero through an effective multiplication factor.",
+    "Defines total burden by summing all age classes.",
+    "Maps latent age classes to peripheral density using an age-dependent visibility or sequestration function and blood-volume scaling."
+  ],
+  "SELF-A04": [
+    "Defines an age- and concentration-dependent killing hazard and corresponding one-hour drug-survival probability.",
+    "Applies drug survival to both ordinary ageing transitions and the terminal rupture transition.",
+    "Recognises that the pharmacokinetic, concentration-effect, stage-specific, or delayed-injury assumptions require empirical support."
+  ],
+  "SUP-S01": [
+    "Explains that the contrast may arise partly from assay-specific observation processes.",
+    "Recognises that smoother qPCR trajectories can reflect greater sensitivity or fewer sparse nondetects."
+  ],
+  "SUP-S02": [
+    "Proposes additional measurements that can distinguish biology from a detection floor, such as qPCR, stage-specific counts, or repeated observations extending beyond the microscopy range."
+  ],
+  "SUP-S03": [
+    "Explains that several mechanisms can produce similar fitted growth limitation, for example immunity, resource limitation, sexual commitment, or density dependence."
+  ],
+  "SUP-S04": [
+    "Links joint asexual-gametocyte modelling to the availability of gametocyte or transmission data and to a scientific question involving sexual differentiation or infectivity."
+  ],
+  "SUP-S05": [
+    "Proposes measurements capable of separating host killing from parasite regulation, such as immune, gametocyte, sequestration, intervention, or perturbation data."
+  ],
+  "SUP-S06": [
+    "Explains that changing sequestration age changes how long parasites remain peripherally visible.",
+    "Connects this change to the timing and/or amplitude of predicted oscillations."
+  ],
+  "SUP-S07": [
+    "Identifies overfitting to training-specific features and/or omission of the true generalising biological process as causes of poor performance on new trajectories."
+  ],
+  "SUP-S08": [
+    "Explains that separating latent biology from observation distinguishes biological dynamics from measurement effects and makes assumptions independently testable."
+  ],
+  "SUP-S09": [
+    "Adds sexual-stage or gametocyte dynamics.",
+    "Adds a mapping from gametocyte density or state to mosquito infectivity or transmission."
+  ],
+  "SUP-S10": [
+    "Explains that parsimony improves identifiability and reduces overfitting when observations are sparse, supporting generalisation."
+  ],
+  "SUP-S11": [
+    "Rejects daily fluctuations alone as evidence of an immune response.",
+    "Attributes short-period oscillations primarily to parasite age structure and sequestration.",
+    "Distinguishes these oscillations from longer-term attenuation, plateau, or decline that could reflect immune control."
+  ],
+  "SUP-S12": [
+    "Infers that the model captures age structure and sequestration because it reproduces the approximately 48-hour oscillations.",
+    "Infers that it lacks a later growth-limiting mechanism, such as immunity, resource limitation, density dependence, or sexual commitment."
+  ],
+  "SELF-S01": [
+    "States a same-cycle or next-cycle commitment convention and diverts committed parasites at the corresponding point without double counting.",
+    "Conserves progeny flow between asexual renewal and the committed sexual pathway.",
+    "Represents delayed immature-gametocyte development, for example with a transit chain having an approximately 8-12 day mean delay.",
+    "Splits mature outflow into female and male compartments with appropriate loss and no replication in human blood."
+  ],
+  "SELF-S02": [
+    "Uses assay-specific observation functions and error models rather than one shared mapping.",
+    "Maps microscopy to the peripheral age-weighted asexual state and an appropriate density scale.",
+    "Allows pan-Plasmodium DNA qPCR and sex-enriched RT-qPCR to have target-specific calibration and stage or cross-expression contributions.",
+    "Treats nondetects as censored observations and does not equate molecular positivity with viability or infectivity."
+  ],
+  "SELF-S03": [
+    "Identifies confounding between initial biomass, parasite age distribution, and the fraction visible because of sequestration.",
+    "Identifies confounding among stage-specific killing, unmeasured drug exposure, and parasite stages present at treatment.",
+    "Explains that sequestration can resemble clearance and that multiplication, drug killing, and immune clearance may be observed only through a net rate.",
+    "Proposes informative additional data such as stage-resolved counts, pharmacokinetics, an independent biomass marker, longer untreated follow-up, or immune measurements.",
+    "Avoids claiming exact structural identifiability without complete model equations."
+  ],
+  "SELF-S04": [
+    "Explains that time to microscopy negativity depends on starting density, detection limit, and/or sampling frequency.",
+    "Explains why a log-linear clearance half-life is more comparable and gives or correctly interprets ln(2)/k.",
+    "States that peripheral clearance half-life is not a pure parasite-intrinsic killing rate.",
+    "Identifies relevant influences such as parasite age, sequestration, schizogony, exposure, splenic or immune clearance, or measurement choices."
+  ],
+  "SELF-C01": [
+    "Reports A(24) = 467.99.",
+    "Reports A(48) = 758.37.",
+    "Reports T(48) = 849.38.",
+    "Reports A(96) = 2300.51.",
+    "Reports T(96) = 2576.57."
+  ],
+  "SELF-C02": [
+    "Reports A(24) = 80992.6.",
+    "Reports A(48) = 2272713.5.",
+    "Reports A(72) = 1245629.8.",
+    "Reports T(72) = 3159203.8."
+  ],
+  "SELF-C03": [
+    "Reports alpha = -1.478.",
+    "Reports r = 0.362 per day.",
+    "Reports the maximised log-likelihood as 4.419.",
+    "Reports the detection-limit crossing time as 1.320 days."
+  ],
+  "SELF-C04": [
+    "Reports the posterior for mu as mean 0.934 with interval [0.577, 1.292].",
+    "Reports the posterior for theta_1 as mean 0.121 with interval [-0.096, 0.337].",
+    "Reports the posterior for theta_2 as mean 0.904 with interval [0.688, 1.121].",
+    "Reports the posterior for theta_3 as mean 1.863 with interval [1.646, 2.079]."
+  ],
+  "SELF-C05": [
+    "Reports Delta = 1.400 in favour of model A.",
+    "Reports SE(Delta) = 0.967.",
+    "Identifies two observations for which at least one model has Pareto-k greater than 0.7.",
+    "Concludes that the ELPD difference is weak relative to its uncertainty and that the Pareto-k diagnostics warrant exact leave-one-out refits or further investigation."
+  ]
+}

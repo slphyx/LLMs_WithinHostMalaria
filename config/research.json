@@ -1,0 +1,11 @@
+{
+  "model": "openrouter/openai/gpt-5.6-terra",
+  "judge_reasoning_effort": "low",
+  "raw_cost_limit": 0.75,
+  "agent_cost_limit": 1.75,
+  "agent_token_limit": 500000,
+  "run_budget": 9.5,
+  "web_search_allowance": 0.02,
+  "max_tasks": 2,
+  "max_samples": 3
+}

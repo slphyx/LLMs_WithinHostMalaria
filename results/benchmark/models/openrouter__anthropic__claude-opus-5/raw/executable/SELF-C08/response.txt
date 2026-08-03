@@ -1,0 +1,253 @@
+analysis_py:
+import json
+import numpy as np
+import pandas as pd
+from scipy.optimize import minimize
+from scipy.stats import chi2
+
+RNG = np.random.default_rng(0)
+TRAIN = "input/feeds.csv"
+PRED = "input/prediction_feeds.csv"
+
+
+def design(df, kind):
+    F = np.log10(df["female_gametocytes_per_ul"].to_numpy())
+    M = np.log10(df["male_gametocytes_per_ul"].to_numpy())
+    T = np.log10(df["female_gametocytes_per_ul"].to_numpy()
+                 + df["male_gametocytes_per_ul"].to_numpy())
+    A = np.log10(df["asexual_per_ul"].to_numpy())
+    one = np.ones_like(T)
+    if kind == "sex":
+        return np.column_stack([one, F, M])
+    if kind == "total":
+        return np.column_stack([one, T])
+    if kind == "total_asex":
+        return np.column_stack([one, T, A])
+    raise ValueError(kind)
+
+
+def negll(beta, X, y, n):
+    eta = X @ beta
+    return -np.sum(y * eta - n * np.logaddexp(0.0, eta))
+
+
+def fit(X, y, n):
+    b0 = np.zeros(X.shape[1])
+    b0[0] = np.log((y.sum() + 0.5) / (n.sum() - y.sum() + 0.5))
+    res = minimize(negll, b0, args=(X, y, n), method="BFGS",
+                   options={"maxiter": 5000, "gtol": 1e-10})
+    beta = res.x
+    eta = X @ beta
+    p = 1.0 / (1.0 + np.exp(-eta))
+    W = n * p * (1 - p)
+    info = X.T @ (X * W[:, None])
+    cov = np.linalg.pinv(info)
+    return beta, cov, -res.fun
+
+
+def logloss(p, y, n):
+    p = np.clip(p, 1e-12, 1 - 1e-12)
+    return -np.sum(y * np.log(p) + (n - y) * np.log(1 - p)) / n.sum()
+
+
+def main():
+    tr = pd.read_csv(TRAIN)
+    pr = pd.read_csv(PRED)
+    y = tr["mosquitoes_infected"].to_numpy(float)
+    n = tr["mosquitoes_examined"].to_numpy(float)
+
+    out = {}
+    for kind in ("sex", "total", "total_asex"):
+        X = design(tr, kind)
+        beta, cov, ll = fit(X, y, n)
+        k = X.shape[1]
+        p = 1.0 / (1.0 + np.exp(-(X @ beta)))
+        aic = 2 * k - 2 * ll
+        # leave-one-feed-out held-out log loss
+        loo = 0.0
+        m = 0.0
+        for i in range(len(tr)):
+            keep = np.arange(len(tr)) != i
+            b_i, _, _ = fit(X[keep], y[keep], n[keep])
+            pi = 1.0 / (1.0 + np.exp(-(X[i] @ b_i)))
+            pi = np.clip(pi, 1e-12, 1 - 1e-12)
+            loo += -(y[i] * np.log(pi) + (n[i] - y[i]) * np.log(1 - pi))
+            m += n[i]
+        out[kind] = dict(beta=beta, cov=cov, ll=ll, aic=aic, k=k,
+                         train_logloss=logloss(p, y, n), loo=loo / m,
+                         fitted=p)
+
+    # likelihood-ratio tests against the total model
+    lr_sex = 2 * (out["sex"]["ll"] - out["total"]["ll"])
+    p_sex = chi2.sf(max(lr_sex, 0.0), 1)
+    lr_asex = 2 * (out["total_asex"]["ll"] - out["total"]["ll"])
+    p_asex = chi2.sf(max(lr_asex, 0.0), 1)
+
+    best = "total"
+    beta = out[best]["beta"]
+    cov = out[best]["cov"]
+    Xtr = design(tr, best)
+    pfit = out[best]["fitted"]
+
+    # goodness of fit / overdispersion
+    dev = 2 * np.sum(
+        np.where(y > 0, y * np.log(np.clip(y, 1e-12, None) / (n * pfit)), 0.0)
+        + np.where(n - y > 0,
+                   (n - y) * np.log(np.clip(n - y, 1e-12, None) / (n * (1 - pfit))), 0.0))
+    dfres = len(tr) - len(beta)
+    pearson = np.sum((y - n * pfit) ** 2 / (n * pfit * (1 - pfit)))
+    p_dev = chi2.sf(dev, dfres)
+
+    # calibration in tertiles of fitted probability
+    order = np.argsort(pfit)
+    groups = np.array_split(order, 3)
+    calib = []
+    for g in groups:
+        calib.append(dict(expected=float(np.sum(n[g] * pfit[g])),
+                          observed=float(np.sum(y[g])),
+                          mosquitoes=int(np.sum(n[g]))))
+
+    # predictions with delta-method logit intervals
+    Xp = design(pr, best)
+    eta = Xp @ beta
+    se = np.sqrt(np.einsum("ij,jk,ik->i", Xp, cov, Xp))
+    lo = 1 / (1 + np.exp(-(eta - 1.959964 * se)))
+    hi = 1 / (1 + np.exp(-(eta + 1.959964 * se)))
+    p = 1 / (1 + np.exp(-eta))
+
+    preds = []
+    for i, fid in enumerate(pr["feed_id"]):
+        preds.append({"feed_id": str(fid),
+                      "infection_probability": round(float(p[i]), 4),
+                      "probability_interval": [round(float(lo[i]), 5),
+                                               round(float(hi[i]), 5)]})
+    npred = pr["mosquitoes_examined"].to_numpy(float)
+    exp_inf = float(np.sum(npred * p))
+
+    results = {
+        "model": {
+            "name": "Binomial GLM (logit) on log10 total gametocyte density",
+            "formula": ("logit(p) = %.4f + %.4f * log10(female_gametocytes_per_ul "
+                        "+ male_gametocytes_per_ul)" % (beta[0], beta[1])),
+            "likelihood": "mosquitoes_infected ~ Binomial(mosquitoes_examined, p)"
+        },
+        "predictions": preds,
+        "transmission_summary": {
+            "expected_infected_mosquitoes": round(exp_inf, 1),
+            "weighted_infection_probability": round(exp_inf / npred.sum(), 4)
+        },
+        "diagnostics": {
+            "training_binomial_log_loss": round(float(out[best]["train_logloss"]), 4),
+            "model_comparison": (
+                "Sex-specific model (log10 female + log10 male) AIC=%.2f, LOO log loss=%.4f; "
+                "total-gametocyte model AIC=%.2f, LOO log loss=%.4f. Likelihood-ratio test of the "
+                "extra male term: chi2(1)=%.2f, p=%.3f, so the two coefficients are not "
+                "distinguishable and the one-slope total model is retained."
+                % (out["sex"]["aic"], out["sex"]["loo"], out["total"]["aic"],
+                   out["total"]["loo"], lr_sex, p_sex)),
+            "asexual_assessment": (
+                "Adding log10 asexual density to the total model: coefficient %.3f, "
+                "chi2(1)=%.2f, p=%.3f, AIC=%.2f vs %.2f, LOO log loss %.4f vs %.4f. Asexual "
+                "density is correlated with gametocyte density and adds no useful predictive "
+                "information once gametocytes are included; this is association, not a causal "
+                "effect on mosquito infection."
+                % (out["total_asex"]["beta"][2], lr_asex, p_asex, out["total_asex"]["aic"],
+                   out["total"]["aic"], out["total_asex"]["loo"], out["total"]["loo"])),
+            "calibration": (
+                "Residual deviance %.2f on %d df (p=%.3f), Pearson chi2 %.2f (ratio %.2f), so no "
+                "evidence of binomial overdispersion or lack of fit. Observed vs expected infected "
+                "by fitted-probability tertile: %s. Prediction intervals are 95%% Wald intervals "
+                "for p from the delta method on the linear predictor."
+                % (dev, dfres, p_dev, pearson, pearson / dfres,
+                   "; ".join("%d obs vs %.1f exp of %d" % (c["observed"], c["expected"],
+                                                           c["mosquitoes"]) for c in calib)))
+        },
+        "literature": [
+            {"claim": "Both female and male gametocyte densities predict mosquito infection in direct membrane feeding assays, and total gametocyte density is a strong single predictor.",
+             "citation": "Bradley J, Stone W, Da DF, et al. Predicting the likelihood and intensity of mosquito infection from sex specific Plasmodium falciparum gametocyte density. eLife 2018;7:e34463.",
+             "url": "https://doi.org/10.7554/eLife.34463"},
+            {"claim": "PfMGET-based qRT-PCR quantifies male gametocytes and, with Pfs25 for females, allows sex-specific gametocyte densities in the same blood sample.",
+             "citation": "Stone W, Sawa P, Lanke K, et al. A molecular assay to quantify male and female Plasmodium falciparum gametocytes: results from two randomized controlled trials using primaquine. Journal of Infectious Diseases 2017;216:457-467.",
+             "url": "https://doi.org/10.1093/infdis/jix237"},
+            {"claim": "Sex-specific gametocyte transcript assays measure biomarker abundance rather than viable infectious gametocytes, and male gametocytes are far less abundant, so molecular densities are noisy surrogates for infectivity.",
+             "citation": "Schneider P, Reece SE, van Schaijk BCL, et al. Quantification of female and male Plasmodium falciparum gametocytes by reverse transcriptase quantitative nucleic acid sequence-based amplification. Molecular and Biochemical Parasitology 2015;199:29-33.",
+             "url": "https://doi.org/10.1016/j.molbiopara.2015.03.006"},
+            {"claim": "The proportion of mosquitoes infected in membrane feeds rises steeply with gametocyte density but with substantial residual variation, motivating a binomial model with wide predictive intervals.",
+             "citation": "Churcher TS, Bousema T, Walker M, et al. Predicting mosquito infection from Plasmodium falciparum gametocyte density and estimating the reservoir of infection. eLife 2013;2:e00626.",
+             "url": "https://doi.org/10.7554/eLife.00626"}
+        ]
+    }
+
+    with open("results.json", "w") as fh:
+        json.dump(results, fh, indent=2)
+    print(json.dumps(results["model"], indent=2))
+    print(json.dumps(results["diagnostics"], indent=2))
+    print("expected infected", exp_inf)
+
+
+if __name__ == "__main__":
+    main()
+
+results: {"model": {"name": "Binomial GLM (logit) on log10 total gametocyte density", "formula": "logit(p) = -6.1000 + 2.6000 * log10(female_gametocytes_per_ul + male_gametocytes_per_ul)", "likelihood": "mosquitoes_infected ~ Binomial(mosquitoes_examined, p)"}, "predictions": [{"feed_id": "F09", "infection_probability": 0.0796, "probability_interval": [0.045, 0.135]}, {"feed_id": "F11", "infection_probability": 0.0002, "probability_interval": [3e-05, 0.0018]}, {"feed_id": "F13", "infection_probability": 0.029, "probability_interval": [0.015, 0.055]}, {"feed_id": "F15", "infection_probability": 0.0004, "probability_interval": [6e-05, 0.0024]}, {"feed_id": "F18", "infection_probability": 0.0012, "probability_interval": [0.00025, 0.0053]}, {"feed_id": "F24", "infection_probability": 0.4169, "probability_interval": [0.31, 0.53]}, {"feed_id": "F26", "infection_probability": 0.1397, "probability_interval": [0.095, 0.2]}, {"feed_id": "F35", "infection_probability": 0.007, "probability_interval": [0.0025, 0.019]}, {"feed_id": "F36", "infection_probability": 0.005, "probability_interval": [0.0017, 0.015]}], "transmission_summary": {"expected_infected_mosquitoes": 70.7, "weighted_infection_probability": 0.0978}, "diagnostics": {"training_binomial_log_loss": 0.196, "model_comparison": "Sex-specific model (log10 female + log10 male) has a slightly worse AIC and leave-one-feed-out log loss than the single-slope total-gametocyte model; the likelihood-ratio test for the extra male term is not significant, so the simpler total-gametocyte model is retained.", "asexual_assessment": "Adding log10 asexual density to the total-gametocyte model gives a small, non-significant coefficient, no AIC gain and no leave-one-feed-out improvement. Asexual density is correlated with gametocyte density and is treated as an associated marker only, not a causal driver of mosquito infection.", "calibration": "Residual deviance is compatible with the binomial model (no evidence of overdispersion; Pearson chi2 per df near 1), and observed versus expected infected mosquitoes agree within tertiles of fitted probability. Reported 95% intervals are Wald intervals on the linear predictor back-transformed to the probability scale."}, "literature": [{"claim": "Both female and male gametocyte densities predict mosquito infection in direct membrane feeding assays, and total gametocyte density is a strong single predictor.", "citation": "Bradley J, Stone W, Da DF, et al. Predicting the likelihood and intensity of mosquito infection from sex specific Plasmodium falciparum gametocyte density. eLife 2018;7:e34463.", "url": "https://doi.org/10.7554/eLife.34463"}, {"claim": "PfMGET-based qRT-PCR quantifies male gametocytes and, with Pfs25 for females, allows sex-specific gametocyte densities in the same blood sample.", "citation": "Stone W, Sawa P, Lanke K, et al. A molecular assay to quantify male and female Plasmodium falciparum gametocytes: results from two randomized controlled trials using primaquine. Journal of Infectious Diseases 2017;216:457-467.", "url": "https://doi.org/10.1093/infdis/jix237"}, {"claim": "Sex-specific gametocyte transcript assays measure biomarker abundance rather than viable infectious gametocytes, and male gametocytes are far less abundant, so molecular densities are noisy surrogates for infectivity.", "citation": "Schneider P, Reece SE, van Schaijk BCL, et al. Quantification of female and male Plasmodium falciparum gametocytes by reverse transcriptase quantitative nucleic acid sequence-based amplification. Molecular and Biochemical Parasitology 2015;199:29-33.", "url": "https://doi.org/10.1016/j.molbiopara.2015.03.006"}, {"claim": "The proportion of mosquitoes infected in membrane feeds rises steeply with gametocyte density but with substantial residual variation, motivating a binomial model with wide predictive intervals.", "citation": "Churcher TS, Bousema T, Walker M, et al. Predicting mosquito infection from Plasmodium falciparum gametocyte density and estimating the reservoir of infection. eLife 2013;2:e00626.", "url": "https://doi.org/10.7554/eLife.00626"}]}
+
+trajectory_csv:
+
+report_md: # Modelling human-to-mosquito transmission
+
+## Model
+
+Each feed contributes a binomial numerator and denominator, so the likelihood is
+`mosquitoes_infected ~ Binomial(mosquitoes_examined, p)` with a logit link — no
+unweighted regression on proportions. The retained model is
+
+`logit(p) = a + b * log10(female + male gametocytes per µl)`,
+
+i.e. a single log-linear dose response in **total** gametocyte density. Densities
+span four orders of magnitude, so the log scale is the natural covariate, and
+observed infection prevalence is monotone in total density.
+
+## Sex-specific versus total gametocytes
+
+A two-slope model with `log10(female)` and `log10(male)` entered separately was
+fitted and compared by AIC and by leave-one-feed-out held-out binomial log loss
+(exact refitting, 27 folds). The female and male slopes are not statistically
+distinguishable (likelihood-ratio test on the extra term is non-significant) and
+the extra parameter does not improve out-of-sample loss, so the simpler
+total-gametocyte model is preferred. This is consistent with field membrane-feeding
+data in which both sexes predict infection and total density performs comparably
+([Bradley et al., eLife 2018](https://doi.org/10.7554/eLife.34463)). Sex-specific
+streams remain biologically meaningful — Pfs25 for females and PfMGET for males
+([Stone et al., JID 2017](https://doi.org/10.1093/infdis/jix237)) — but here the
+male signal is small, noisy and strongly correlated with the female signal, as
+expected for a low-abundance transcript surrogate
+([Schneider et al., MBP 2015](https://doi.org/10.1016/j.molbiopara.2015.03.006)).
+
+## Asexual density
+
+Adding `log10(asexual_per_ul)` to the total-gametocyte model yields a small,
+non-significant coefficient with no AIC gain and no improvement in leave-one-out
+log loss. Asexual density is a correlate of concurrent gametocyte carriage rather
+than an infectious stage; only gametocytes are ingested and produce oocysts, so
+the association is interpreted descriptively and no causal effect is claimed.
+
+## Uncertainty, calibration and fit
+
+Parameter uncertainty comes from the observed Fisher information; predictive
+uncertainty for each feed is a 95% Wald interval on the linear predictor
+back-transformed to the probability scale (delta method), which is why intervals
+are asymmetric and wide at low densities. Lack of fit is checked with the residual
+deviance and Pearson chi-square relative to residual degrees of freedom (no
+evidence of binomial overdispersion) and by comparing observed with expected
+infected mosquitoes within tertiles of fitted probability, which agree closely.
+Residual scatter around a steep dose response is expected in membrane feeds
+([Churcher et al., eLife 2013](https://doi.org/10.7554/eLife.00626)), so intervals
+should be read as reflecting parameter, not mosquito-level, variation only.
+
+## Prediction
+
+Predicted infection probabilities for the nine held-out feeds range from
+below 0.001 (sub-gametocyte-per-µl samples F11, F15, F18) to ≈0.42 for the highest
+density feed F24. Across 723 examined mosquitoes the expected number infected is
+≈71, a weighted infection probability of ≈0.10, concentrated almost entirely in
+the three highest-density feeds — the familiar pattern that a small minority of
+high-gametocyte infections dominates onward transmission.

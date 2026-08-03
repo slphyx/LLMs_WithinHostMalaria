@@ -1,0 +1,442 @@
+{
+  "id": "SELF-C07",
+  "condition": "raw",
+  "model": "openrouter/openai/gpt-5.6-sol",
+  "score": 0.0,
+  "explanation": "Automated 0.0/50; scientific 0.0/50; cap 50. Replay error: analysis.py was not submitted.",
+  "response_file": "response.txt",
+  "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+  "automated": {
+    "score": 0.0,
+    "maximum": 50,
+    "error": "analysis.py was not submitted."
+  },
+  "scientific": {
+    "score": 0.0,
+    "maximum": 50,
+    "criteria": [
+      {
+        "id": "S1",
+        "criterion": "States the ODEs, initial conditions, parameter units, and mapping from latent mature gametocytes to observations.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "S2",
+        "criterion": "Uses an adaptive ODE solver with reported tolerances and checks non-negativity and numerical convergence.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "S3",
+        "criterion": "Fits positive density on an appropriate scale and treats the nondetect as left-censored at 2 gametocytes/mL.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "S4",
+        "criterion": "Quantifies uncertainty and distinguishes information supplied by this profile from information imposed through bounds or literature-informed priors.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "S5",
+        "criterion": "Compares at least one alternative maturation structure using predictive evidence and parsimony rather than training fit alone.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "B1",
+        "criterion": "Represents immature stages as delayed and sequestered, with only mature stage-V female gametocytes mapped to the supplied peripheral measurements.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "B2",
+        "criterion": "Models mature gametocytes as non-replicating, with upstream maturation inflow and clearance loss.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "B3",
+        "criterion": "Interprets the fitted production coefficient as an effective scale and does not equate it directly with a sexual commitment probability.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "B4",
+        "criterion": "Separates the supplied no-direct-gametocytocidal-effect assumption from an empirical conclusion about antimalarial drugs.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "C1",
+        "criterion": "Discusses confounding among production, maturation and persistence, and does not equate female transcript-based gametocyte density with viability or mosquito infectivity.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      }
+    ],
+    "cap": 50
+  },
+  "execution": {
+    "success": false,
+    "complete": false,
+    "returncode": null,
+    "stdout": "",
+    "stderr": "",
+    "reproduced": false,
+    "timed_out": false,
+    "timeout_seconds": 600,
+    "error": {
+      "type": "missing_analysis",
+      "stage": "clean_replay",
+      "message": "analysis.py was not submitted."
+    }
+  },
+  "judges": [
+    {
+      "judge": "openrouter/openai/gpt-5.5",
+      "served_model": "openai/gpt-5.5",
+      "usage": {
+        "input_tokens": 2057,
+        "output_tokens": 256,
+        "total_tokens": 2313,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 57,
+        "total_cost": 0.017965000000000002
+      },
+      "generation_time": 4.647493049502373,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": false,
+          "reason": "No submitted analysis or report"
+        },
+        {
+          "id": "S2",
+          "met": false,
+          "reason": "No solver or tolerances reported"
+        },
+        {
+          "id": "S3",
+          "met": false,
+          "reason": "No fitting or censoring treatment"
+        },
+        {
+          "id": "S4",
+          "met": false,
+          "reason": "No uncertainty quantification"
+        },
+        {
+          "id": "S5",
+          "met": false,
+          "reason": "No alternative model comparison"
+        },
+        {
+          "id": "B1",
+          "met": false,
+          "reason": "No immature sequestered model provided"
+        },
+        {
+          "id": "B2",
+          "met": false,
+          "reason": "No mature compartment dynamics provided"
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "No production interpretation provided"
+        },
+        {
+          "id": "B4",
+          "met": false,
+          "reason": "No treatment-assumption discussion"
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "No limitations or confounding discussion"
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "analysis.py and required artefacts absent"
+      }
+    },
+    {
+      "judge": "openrouter/anthropic/claude-haiku-4.5",
+      "served_model": "anthropic/claude-haiku-4.5",
+      "usage": {
+        "input_tokens": 2396,
+        "output_tokens": 667,
+        "total_tokens": 3063,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 315,
+        "total_cost": 0.005731
+      },
+      "generation_time": 5.552204467356205,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": false,
+          "reason": "analysis.py not submitted; ODEs and mapping cannot be verified"
+        },
+        {
+          "id": "S2",
+          "met": false,
+          "reason": "No ODE solver implementation present"
+        },
+        {
+          "id": "S3",
+          "met": false,
+          "reason": "No fitting method or likelihood implemented"
+        },
+        {
+          "id": "S4",
+          "met": false,
+          "reason": "No uncertainty quantification provided"
+        },
+        {
+          "id": "S5",
+          "met": false,
+          "reason": "No model structures compared"
+        },
+        {
+          "id": "B1",
+          "met": false,
+          "reason": "No immature compartments defined"
+        },
+        {
+          "id": "B2",
+          "met": false,
+          "reason": "No mature gametocyte dynamics modeled"
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "No production coefficient interpretation given"
+        },
+        {
+          "id": "B4",
+          "met": false,
+          "reason": "No drug-effect assumption stated"
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "No confounding discussion provided"
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "Required artefacts absent: analysis.py, results.json, trajectory.csv, report.md not submitted; code did not run; execution failed at clean-replay stage"
+      }
+    },
+    {
+      "judge": "openrouter/google/gemini-3.5-flash",
+      "served_model": "google/gemini-3.5-flash",
+      "usage": {
+        "input_tokens": 2276,
+        "output_tokens": 428,
+        "total_tokens": 2704,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 148,
+        "total_cost": 0.007266
+      },
+      "generation_time": 3.265919730067253,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": false,
+          "reason": "No report or analysis.py submitted."
+        },
+        {
+          "id": "S2",
+          "met": false,
+          "reason": "No analysis.py submitted."
+        },
+        {
+          "id": "S3",
+          "met": false,
+          "reason": "No analysis.py submitted."
+        },
+        {
+          "id": "S4",
+          "met": false,
+          "reason": "No report submitted."
+        },
+        {
+          "id": "S5",
+          "met": false,
+          "reason": "No report submitted."
+        },
+        {
+          "id": "B1",
+          "met": false,
+          "reason": "No model submitted."
+        },
+        {
+          "id": "B2",
+          "met": false,
+          "reason": "No model submitted."
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "No report submitted."
+        },
+        {
+          "id": "B4",
+          "met": false,
+          "reason": "No report submitted."
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "No report submitted."
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "Required artefacts are absent and code was not executed."
+      }
+    }
+  ],
+  "judge_failures": [],
+  "web_search_calls": [],
+  "usage": {
+    "openrouter/openai/gpt-5.6-sol": {
+      "input_tokens": 3,
+      "output_tokens": 4715,
+      "total_tokens": 6099,
+      "input_tokens_cache_write": 1381,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 1465,
+      "total_cost": 0.15009625
+    },
+    "openrouter/google/gemini-3.5-flash": {
+      "input_tokens": 2276,
+      "output_tokens": 428,
+      "total_tokens": 2704,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 148,
+      "total_cost": 0.007266
+    },
+    "openrouter/openai/gpt-5.5": {
+      "input_tokens": 2057,
+      "output_tokens": 256,
+      "total_tokens": 2313,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 57,
+      "total_cost": 0.017965000000000002
+    },
+    "openrouter/anthropic/claude-haiku-4.5": {
+      "input_tokens": 2396,
+      "output_tokens": 667,
+      "total_tokens": 3063,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 315,
+      "total_cost": 0.005731
+    }
+  },
+  "tools": {},
+  "cost": {
+    "model": 0.18105824999999998,
+    "web_search": 0,
+    "total": 0.18105824999999998,
+    "model_calls": [
+      {
+        "model": "openrouter/openai/gpt-5.6-sol",
+        "served_model": "openai/gpt-5.6-sol",
+        "provider": "OpenAI",
+        "generation_id": "gen-1785494733-qEiinlF7dy8RJtXzn1GR",
+        "service_tier": "default",
+        "cost": 0.15009625,
+        "cost_details": {
+          "upstream_inference_cost": 0.15009625,
+          "upstream_inference_prompt_cost": 0.00864625,
+          "upstream_inference_completions_cost": 0.14145
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/openai/gpt-5.5",
+        "served_model": "openai/gpt-5.5",
+        "provider": "OpenAI",
+        "generation_id": "gen-1785494805-jcV84wr23IGx3rBULxGH",
+        "service_tier": "default",
+        "cost": 0.017965,
+        "cost_details": {
+          "upstream_inference_cost": 0.017965,
+          "upstream_inference_prompt_cost": 0.010285,
+          "upstream_inference_completions_cost": 0.00768
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/anthropic/claude-haiku-4.5",
+        "served_model": "anthropic/claude-haiku-4.5",
+        "provider": "Anthropic",
+        "generation_id": "gen-1785494805-ETMcZSukECCtPcIWxF8N",
+        "service_tier": "default",
+        "cost": 0.005731,
+        "cost_details": {
+          "upstream_inference_cost": 0.005731,
+          "upstream_inference_prompt_cost": 0.002396,
+          "upstream_inference_completions_cost": 0.003335
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/google/gemini-3.5-flash",
+        "served_model": "google/gemini-3.5-flash",
+        "provider": "Google",
+        "generation_id": "gen-1785494805-vQ8e6wyvKjwQR59d843U",
+        "service_tier": "provisioned",
+        "cost": 0.007266,
+        "cost_details": {
+          "upstream_inference_cost": 0.007266,
+          "upstream_inference_prompt_cost": 0.003414,
+          "upstream_inference_completions_cost": 0.003852
+        },
+        "is_byok": false
+      }
+    ]
+  },
+  "timing": {
+    "started_at": "2026-07-31T10:45:33.768633+00:00",
+    "completed_at": "2026-07-31T10:46:51.855541+00:00",
+    "total_time": 78.087,
+    "working_time": 78.039
+  },
+  "error": null
+}

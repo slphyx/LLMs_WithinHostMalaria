@@ -1,0 +1,44 @@
+{
+  "model": {
+    "name": "five-stage Erlang immature delay plus circulating mature compartment",
+    "equations": "I1'=p A(t)-k I1; Ij'=k(I[j-1]-Ij), j=2..5; M'=k I5-mu M; k=5/T. Densities are per mL, rates per day, and all states start at zero on day 0.",
+    "driver_interpolation": "piecewise-linear interpolation of supplied asexual densities (fixed input)",
+    "solver": "SciPy solve_ivp DOP853 adaptive solver; rtol=1e-08, atol=1e-10",
+    "observation_model": "independent lognormal measurements with fitted log-SD; ND is left-censored at 2 gametocytes/mL via its lognormal CDF"
+  },
+  "parameters": {
+    "effective_production_per_day": 0.010084270617817226,
+    "mean_maturation_days": 6.16743621053152,
+    "mature_clearance_rate_per_day": 0.0707837619940351,
+    "mature_half_life_days": 9.792460319053914,
+    "mature_half_life_interval": [
+      2.1715863613760686,
+      44.157709223906444
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 10.0,
+      "gametocytes_per_ml": 120.22406744710683
+    },
+    {
+      "time_days": 14.0,
+      "gametocytes_per_ml": 633.252360032962
+    },
+    {
+      "time_days": 21.0,
+      "gametocytes_per_ml": 700.6447047792442
+    },
+    {
+      "time_days": 24.0,
+      "gametocytes_per_ml": 580.519530437247
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.06943854524548389,
+    "alternative_model": "One exponential immature compartment (same 4 fitted parameters) had AIC 198.62, versus 134.00 for the five-stage Erlang model (Delta AIC 64.62); its training log10 RMSE was 0.721.",
+    "identifiability": "In this single infection, production, maturation and clearance trade off. The half-life interval uses local observed information and conditions on five stages and the fixed driver; maturation-stage count is structural, not estimated. No direct treatment effect on immature or mature states was included.",
+    "fitted_log_sd": 0.14828430888647068,
+    "clearance_log_scale_standard_error": 0.7684463223430211
+  }
+}

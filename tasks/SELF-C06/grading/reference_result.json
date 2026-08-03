@@ -1,0 +1,37 @@
+{
+  "model": {
+    "name": "fixed 48-hour periodic log-growth model",
+    "formula": "mu(t) = alpha + beta*(t-6) + a*sin(pi*(t-6)) + b*cos(pi*(t-6))",
+    "observation_model": "Gaussian error on log10 density; ND contributes the normal CDF at log10(10)"
+  },
+  "growth": {
+    "log10_rate_per_day": 0.38207062,
+    "pmf_48h": 5.8095331,
+    "pmf_48h_interval": [
+      5.0267,
+      6.7143
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 7.5,
+      "parasites_per_ml": 21.96
+    },
+    {
+      "time_days": 9.5,
+      "parasites_per_ml": 127.59
+    },
+    {
+      "time_days": 11.5,
+      "parasites_per_ml": 741.27
+    },
+    {
+      "time_days": 12.0,
+      "parasites_per_ml": 933.10
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.068036,
+    "baseline_comparison": "The periodic model reduces structured residuals relative to free-intercept log-linear growth."
+  }
+}

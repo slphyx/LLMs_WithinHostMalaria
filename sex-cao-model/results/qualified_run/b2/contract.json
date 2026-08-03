@@ -1,0 +1,17 @@
+{
+  "schema": "cao-sex-allocation-heterogeneity-joint-refit-v1",
+  "arm": "b2",
+  "model": "b2_assay_calibrated_participant_allocation",
+  "allocation_active": 1,
+  "excluded_sex_participant": null,
+  "matched_observation_control": "two sex-specific positive-detection slopes in both arms",
+  "biological_extension": "rho_i=inv_logit(logit(rho_global)+tau_rho*z_i)",
+  "global_rho_prior": "beta(2, 8)",
+  "z_rho_prior": "normal(0, 1)",
+  "tau_rho_prior": "half-normal(0, 0.5)",
+  "maturation_contrast": "fixed exactly to zero; female and male maturation are equal",
+  "holdout_warning": "Participant-block PSIS deletes the observations that identify z_rho[i]; high Pareto-k requires an exact sex_include=0 masked refit.",
+  "exact_refit_fallback": "rerun sample with --exclude-sex-participant PARTICIPANT; generated log_lik_sex remains available for the masked rows",
+  "public_release_only": true,
+  "protected_data_used": false
+}

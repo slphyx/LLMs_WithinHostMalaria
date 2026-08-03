@@ -1,0 +1,135 @@
+{
+  "schema": "sex-cao-qualified-reported-result-v1",
+  "status": "valid_qualified_all_marker_mcmc_psis_comparison",
+  "performance_claim_permitted": true,
+  "models": {
+    "b0": "matched Cao-derived comparator with one global effective male allocation",
+    "b2": "B0 plus a partially pooled persistent participant-specific effective male allocation"
+  },
+  "endpoint": {
+    "cohort": "public 17-volunteer Cao development cohort",
+    "deletion": "all Pfs25 and PfMGET rows for one participant jointly deleted",
+    "sex_marker_rows": 390,
+    "sex_marker_calibration_rows_for_heldout_participant": 0,
+    "conditioning_retained": "complete 18S and piperaquine course for the participant",
+    "primary_weighting": "row mean within participant and sex, female/male equal, then participant equal",
+    "method": "participant-block PSIS",
+    "bootstrap_unit": "participant",
+    "bootstrap_replicates": 50000,
+    "bootstrap_seed": 2026080370
+  },
+  "fit_configuration": {
+    "common": {
+      "chains": 4,
+      "metric": "diag_e",
+      "max_treedepth": 13,
+      "threads_per_chain": 6,
+      "cmdstan_version": "2.39.0"
+    },
+    "b0": {
+      "seed": 2026080271,
+      "warmup_per_chain": 2500,
+      "retained_draws_per_chain": 3000,
+      "adapt_delta": 0.99
+    },
+    "b2": {
+      "seed": 20250802,
+      "warmup_per_chain": 2000,
+      "retained_draws_per_chain": 2000,
+      "adapt_delta": 0.95
+    }
+  },
+  "mcmc": {
+    "gate": {
+      "maximum_rhat": 1.01,
+      "minimum_bulk_ess": 400,
+      "minimum_tail_ess": 400,
+      "divergences": 0,
+      "max_treedepth_hits": 0,
+      "minimum_ebfmi": 0.3
+    },
+    "b0": {
+      "passed": true,
+      "maximum_rhat": 1.0037,
+      "minimum_bulk_ess": 1484.19,
+      "minimum_tail_ess": 2770.49,
+      "divergences": 0,
+      "max_treedepth_hits": 0,
+      "ebfmi_by_chain": [
+        0.8210582005114774,
+        0.762144481610693,
+        0.7466346385028887,
+        0.7134103616951337
+      ]
+    },
+    "b2": {
+      "passed": true,
+      "maximum_rhat": 1.00559,
+      "minimum_bulk_ess": 758.659,
+      "minimum_tail_ess": 1339.05,
+      "divergences": 0,
+      "max_treedepth_hits": 0,
+      "ebfmi_by_chain": [
+        0.8106139893147094,
+        0.7519754299837454,
+        0.7918600682142809,
+        0.7682770032628914
+      ]
+    }
+  },
+  "prediction": {
+    "definition": "B0 NLPD minus B2 NLPD; positive favours B2",
+    "b0_primary_nlpd": 4.655711682527845,
+    "b2_primary_nlpd": 4.63580048305118,
+    "mean_nlpd_gain": 0.019911199476665264,
+    "participant_bootstrap_95": [
+      0.011730424779537472,
+      0.02860692240670881
+    ],
+    "strict_participant_wins": 15,
+    "participants": 17,
+    "secondary_joint_trajectory_gain": 0.013782344397336466,
+    "secondary_joint_trajectory_bootstrap_95": [
+      0.006683459402567097,
+      0.0212103006948585
+    ],
+    "secondary_joint_trajectory_wins": 13,
+    "female_marker_gain": 0.006160133018715541,
+    "female_marker_bootstrap_95": [
+      -0.0029649752231883457,
+      0.016118216713707025
+    ],
+    "male_marker_gain": 0.03366226593461441,
+    "male_marker_bootstrap_95": [
+      0.019208367180509202,
+      0.05144328770702324
+    ],
+    "maximum_pareto_k": {
+      "b0": 0.29199088784582405,
+      "b2": 0.31840072839827566
+    },
+    "all_participant_blocks_psis_valid": true,
+    "exact_refits_required_by_gate": false
+  },
+  "allocation_hierarchy_b2": {
+    "population_rho_median": 0.2437428863,
+    "population_rho_95": [
+      0.1886776548,
+      0.3057240817
+    ],
+    "tau_rho_posterior_mean": 0.3869852695085486,
+    "tau_rho_posterior_median": 0.38502254670320846,
+    "tau_rho_posterior_95": [
+      0.06213079404484708,
+      0.7274796668562601
+    ],
+    "participant_posterior_mean_rho_range": [
+      0.1905271435,
+      0.3592830066
+    ]
+  },
+  "claim": "B2 improved internal participant-block prediction of sex-marker measurements conditional on each participant's complete 18S and piperaquine trajectory relative to the matched Cao-derived B0 comparator.",
+  "claim_ceiling": "This is not a comparison with Cao's published fit unchanged, external or prospective validation, or causal identification of biological sex allocation.",
+  "public_release_only": true,
+  "protected_data_used": false
+}

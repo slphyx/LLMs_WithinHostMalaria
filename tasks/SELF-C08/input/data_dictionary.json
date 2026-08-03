@@ -1,0 +1,16 @@
+{
+  "study_design": "Synthetic direct membrane feeding experiments; one independent blood sample per row.",
+  "fields": {
+    "feed_id": "Unique experiment identifier.",
+    "asexual_per_ul": "Circulating asexual parasites per microlitre measured by SBP1 qRT-PCR.",
+    "female_gametocytes_per_ul": "Female gametocytes per microlitre measured by Pfs25 qRT-PCR.",
+    "male_gametocytes_per_ul": "Male gametocytes per microlitre measured by PfMGET qRT-PCR.",
+    "mosquitoes_examined": "Number of fed mosquitoes examined for oocyst infection.",
+    "mosquitoes_infected": "Number of examined mosquitoes with at least one oocyst; present only in the training file."
+  },
+  "notes": [
+    "All parasite densities are positive and above their assay's quantification limit.",
+    "Molecular density is a measured biomarker, not a direct count of viable or infectious gametocytes.",
+    "The files contain no repeated participants or study sites requiring clustered effects."
+  ]
+}

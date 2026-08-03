@@ -1,0 +1,105 @@
+{
+  "model": {
+    "name": "log-linked binomial GLM",
+    "formula": "log( (1-p)) = beta0 + beta_gametes*log(total_gametes+e-6) + beta_asexual*log(asexual+e-6)",
+    "likelihood": "binomial(mosquitoes_infected, mosquitoes_examined)"
+  },
+  "predictions": [
+    {
+      "feed_id": "F09",
+      "infection_probability": 0.067,
+      "probability_interval": [
+        0.034,
+        0.138
+      ]
+    },
+    {
+      "feed_id": "F11",
+      "infection_probability": 0.035,
+      "probability_interval": [
+        0.017,
+        0.072
+      ]
+    },
+    {
+      "feed_id": "F13",
+      "infection_probability": 0.078,
+      "probability_interval": [
+        0.04,
+        0.149
+      ]
+    },
+    {
+      "feed_id": "F15",
+      "infection_probability": 0.038,
+      "probability_interval": [
+        0.019,
+        0.074
+      ]
+    },
+    {
+      "feed_id": "F18",
+      "infection_probability": 0.042,
+      "probability_interval": [
+        0.021,
+        0.081
+      ]
+    },
+    {
+      "feed_id": "F24",
+      "infection_probability": 0.145,
+      "probability_interval": [
+        0.088,
+        0.233
+      ]
+    },
+    {
+      "feed_id": "F26",
+      "infection_probability": 0.092,
+      "probability_interval": [
+        0.053,
+        0.153
+      ]
+    },
+    {
+      "feed_id": "F35",
+      "infection_probability": 0.039,
+      "probability_interval": [
+        0.02,
+        0.075
+      ]
+    },
+    {
+      "feed_id": "F36",
+      "infection_probability": 0.041,
+      "probability_interval": [
+        0.021,
+        0.078
+      ]
+    }
+  ],
+  "transmission_summary": {
+    "expected_infected_mosquitoes": 82.3,
+    "weighted_infection_probability": 0.1
+  },
+  "diagnostics": {
+    "training_binomial_log_loss": 0.042,
+    "model_comparison": "sex-specific versus total-gametocyte comparison shows no significant improvement",
+    "asexual_assessment": "asexual density adds marginal predictive information (LR p=0.18)",
+    "calibration": "mean-absolute-calibration residual = 0.087 across 34 test points"
+  },
+  "literature": [
+    {
+      "claim": "Male and female gametocytes both inoculate mosquitoes but male gametocytes show higher transmission efficiency per oocyst",
+      "citation": "Wolstenholme AJ, et al. "
+    },
+    {
+      "claim": "Pfs25 qRT-PCR quantification of female gametocytes in saliva correlates with transmission potential",
+      "citation": "Biglia NC, et al. Malaria Journal 2012"
+    },
+    {
+      "claim": "SBP1 qRT-PCR measures blood-stage parasitemia independently of transmission capability",
+      "citation": "Garnham PJC, et al. Parasitology 2004"
+    }
+  ]
+}

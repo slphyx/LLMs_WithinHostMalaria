@@ -1,0 +1,39 @@
+{
+  "schema": "sex-cao-analysis-configuration-v1",
+  "cmdstan_version": "2.39.0",
+  "chains": 4,
+  "parallel_chains": 4,
+  "threads_per_chain": 6,
+  "metric": "diag_e",
+  "max_treedepth": 13,
+  "sig_figs": 18,
+  "arms": {
+    "b0": {
+      "allocation_active": 0,
+      "seed": 2026080271,
+      "warmup": 2500,
+      "sampling": 3000,
+      "adapt_delta": 0.99,
+      "data": "b0/data.json",
+      "initializations": "b0/initializations.json"
+    },
+    "b2": {
+      "allocation_active": 1,
+      "seed": 20250802,
+      "warmup": 2000,
+      "sampling": 2000,
+      "adapt_delta": 0.95,
+      "data": "b2/data.json",
+      "initializations": "b2/initializations.json"
+    }
+  },
+  "score": {
+    "endpoint": "for each participant jointly delete all of that participant's sex-marker rows while retaining the complete 18S and PK course",
+    "sex_rows": 390,
+    "participants": 17,
+    "bootstrap_unit": "participant",
+    "bootstrap_replicates": 50000,
+    "bootstrap_seed": 2026080370,
+    "primary_weighting": "row mean within participant and sex, then equal weight to female and male streams, then equal weight to participants"
+  }
+}

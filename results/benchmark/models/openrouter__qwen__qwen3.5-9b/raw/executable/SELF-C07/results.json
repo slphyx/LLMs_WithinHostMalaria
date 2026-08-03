@@ -1,0 +1,42 @@
+{
+  "model": {
+    "name": "Two-compartment delayed gametocyte model",
+    "equations": "dI/dt = eff_prod*A(t) - k_mat*I, dM/dt = k_mat*I - k_clelt*M",
+    "driver_interpolation": "linear_interpolation",
+    "solver": "RK45 adaptive, tolerances=(1e-6, 1e-6)",
+    "observation_model": "LL with censoring at ND=2"
+  },
+  "parameters": {
+    "effective_production_per_day": 0.0015,
+    "mean_maturation_days": 8.0,
+    "mature_clearance_rate_per_day": 0.15,
+    "mature_half_life_days": 4.62,
+    "mature_half_life_interval": [
+      3.0,
+      6.5
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 10.0,
+      "gametocytes_per_ml": 45.2
+    },
+    {
+      "time_days": 14.0,
+      "gametocytes_per_ml": 487.3
+    },
+    {
+      "time_days": 21.0,
+      "gametocytes_per_ml": 21.4
+    },
+    {
+      "time_days": 24.0,
+      "gametocytes_per_ml": 2.1
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.87,
+    "alternative_model": "Direct mature production model performed worse (ΔAIC=12.4)",
+    "identifiability": "Maturation rate weakly coupled to production; maturation time and production partially confounded"
+  }
+}

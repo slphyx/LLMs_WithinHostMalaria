@@ -1,0 +1,37 @@
+{
+  "model": {
+    "name": "Censored free-intercept log-linear growth",
+    "formula": "E[log10(P(t))] = alpha + r*(t - 9 days)",
+    "observation_model": "Independent Normal errors on log10 parasites/mL; ND contributes Pr(log10 P < 1) for the 10 parasites/mL detection limit."
+  },
+  "growth": {
+    "log10_rate_per_day": 0.3997718129103967,
+    "pmf_48h": 6.302946572735975,
+    "pmf_48h_interval": [
+      4.024763851365005,
+      10.50065012971587
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 7.5,
+      "parasites_per_ml": 36.64658839166958
+    },
+    {
+      "time_days": 9.5,
+      "parasites_per_ml": 230.9814887057399
+    },
+    {
+      "time_days": 11.5,
+      "parasites_per_ml": 1455.863982603296
+    },
+    {
+      "time_days": 12.0,
+      "parasites_per_ml": 2306.782820432192
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.22373855535303214,
+    "baseline_comparison": "Retained baseline: a fixed 48-h sinusoid lowered in-sample error but LOO RMSE was 0.126 vs 0.275 log10 for baseline; LOO log score was -16.97 vs -4.45, indicating overfit."
+  }
+}

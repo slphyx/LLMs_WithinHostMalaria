@@ -1,0 +1,65 @@
+{
+  "model": {
+    "name": "Free-intercept log-linear (exponential) growth, censored MLE with 48-h periodic term",
+    "formula": "log10 N(t) = a + b t + c cos(pi t) + d sin(pi t)",
+    "observation_model": "Gaussian residuals on log10 density with constant sigma; the t=6 d non-detect enters as a left-censored (Tobit) contribution Phi((log10(10)-mu)/sigma)."
+  },
+  "growth": {
+    "log10_rate_per_day": 0.3820737394851669,
+    "pmf_48h": 5.809616686636742,
+    "pmf_48h_interval": [
+      4.732557920612588,
+      7.131797774443133
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 7.5,
+      "parasites_per_ml": 21.95844881015731
+    },
+    {
+      "time_days": 9.5,
+      "parasites_per_ml": 127.57017062014856
+    },
+    {
+      "time_days": 11.5,
+      "parasites_per_ml": 741.1337919519102
+    },
+    {
+      "time_days": 12.0,
+      "parasites_per_ml": 932.8687719172473
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.06803963299189993,
+    "baseline_comparison": "Baseline log-linear: AICc=10.69, LOO log10-RMSE=0.259. 48-h periodic extension: AICc=9.70, LOO log10-RMSE=0.119. Selected: log-linear + 48h periodic; the extension was accepted only because it improved AICc and cut LOO log10-RMSE by >20%.",
+    "sigma_log10": 0.06803952865097622,
+    "aicc": {
+      "log-linear": 10.693859602543908,
+      "log-linear + 48h periodic": 9.700380163229166
+    },
+    "prediction_95pct_intervals": [
+      [
+        11.21052360827207,
+        43.01078977189886
+      ],
+      [
+        67.24878828712097,
+        241.99913257278016
+      ],
+      [
+        378.372744641718,
+        1451.6883294359143
+      ],
+      [
+        504.2713290631141,
+        1725.745834559383
+      ]
+    ],
+    "amplitude_log10_48h_cycle": 0.31035599526686514,
+    "loo_log10_rmse": {
+      "log-linear": 0.25945242427990917,
+      "log-linear + 48h periodic": 0.11867610872521163
+    }
+  }
+}

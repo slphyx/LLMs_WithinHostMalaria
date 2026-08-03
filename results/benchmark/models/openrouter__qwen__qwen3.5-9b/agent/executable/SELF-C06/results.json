@@ -1,0 +1,37 @@
+{
+  "model": {
+    "name": "free-intercept log-linear growth with censoring",
+    "formula": "log10(parasites_per_ml) = alpha + beta * time_days",
+    "observation_model": "log10(parasites_per_ml) ~ Normal(alpha + beta*time, sigma^2); left-censored at log10(10)"
+  },
+  "growth": {
+    "log10_rate_per_day": 0.3998,
+    "pmf_48h": 6.303,
+    "pmf_48h_interval": [
+      1.0364,
+      38.3304
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 7.5,
+      "parasites_per_ml": 36.65
+    },
+    {
+      "time_days": 9.5,
+      "parasites_per_ml": 230.98
+    },
+    {
+      "time_days": 11.5,
+      "parasites_per_ml": 1455.87
+    },
+    {
+      "time_days": 12.0,
+      "parasites_per_ml": 2306.79
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.2237,
+    "baseline_comparison": "free-intercept log-linear model fits well with one ND observation handled via likelihood censoring"
+  }
+}

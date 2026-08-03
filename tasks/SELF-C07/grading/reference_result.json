@@ -1,0 +1,42 @@
+{
+  "model": {
+    "name": "four-stage immature transit model",
+    "equations": "dG1/dt=qA-(k+mu_i)G1; dGj/dt=kG(j-1)-(k+mu_i)Gj; dG5/dt=kG4-mu_mG5",
+    "driver_interpolation": "piecewise linear",
+    "solver": "SciPy solve_ivp RK45, rtol=1e-8, atol=1e-10",
+    "observation_model": "Gaussian error on log10 density; ND contributes the normal CDF at 2 gametocytes/mL"
+  },
+  "parameters": {
+    "effective_production_per_day": 0.019151849102287514,
+    "mean_maturation_days": 8.21842778530845,
+    "mature_clearance_rate_per_day": 0.13691031378002402,
+    "mature_half_life_days": 5.0627827913215935,
+    "mature_half_life_interval": [
+      4.16599254018529,
+      6.152620136703854
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 10.0,
+      "gametocytes_per_ml": 120.12770410124699
+    },
+    {
+      "time_days": 14.0,
+      "gametocytes_per_ml": 606.949298147914
+    },
+    {
+      "time_days": 21.0,
+      "gametocytes_per_ml": 716.045001838557
+    },
+    {
+      "time_days": 24.0,
+      "gametocytes_per_ml": 549.7471513667886
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.07597424480392759,
+    "alternative_model": "With days 13 and 18 withheld from fitting, log10 RMSE was 0.145 for four immature stages and 0.380 for one.",
+    "identifiability": "Production, maturation and persistence are confounded; published maturation and half-life estimates were used as explicit weak constraints."
+  }
+}

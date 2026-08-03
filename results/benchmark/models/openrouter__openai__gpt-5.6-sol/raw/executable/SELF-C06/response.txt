@@ -1,0 +1,192 @@
+analysis_py
+import csv
+import json
+import math
+from pathlib import Path
+
+import numpy as np
+from scipy.optimize import minimize
+from scipy.special import log_ndtr
+
+DATA_PATH = Path("input/parasitaemia.csv")
+PREDICTION_PATH = Path("input/prediction_times.csv")
+DETECTION_LIMIT = 10.0
+
+with DATA_PATH.open(newline="") as f:
+    rows = list(csv.DictReader(f))
+
+times = np.array([float(r["time_days"]) for r in rows], dtype=float)
+detected = np.array([r["status"] == "detected" for r in rows])
+values = np.array(
+    [float(r["parasites_per_ml"]) if d else np.nan
+     for r, d in zip(rows, detected)],
+    dtype=float,
+)
+log_values = np.log10(values[detected])
+center = float(np.mean(times[detected]))
+x = times - center
+limit_log10 = math.log10(DETECTION_LIMIT)
+
+with PREDICTION_PATH.open(newline="") as f:
+    prediction_times = np.array(
+        [float(r["time_days"]) for r in csv.DictReader(f)], dtype=float
+    )
+
+# Gaussian residuals on the log10 scale. ND observations contribute their
+# left-tail probability rather than being set to zero or to the detection limit.
+def negative_log_likelihood(theta):
+    intercept, slope, log_sigma = theta
+    sigma = math.exp(log_sigma)
+    mu = intercept + slope * x
+
+    residual = (log_values - mu[detected]) / sigma
+    detected_ll = np.sum(
+        -0.5 * residual**2 - log_sigma - 0.5 * math.log(2.0 * math.pi)
+    )
+    z = (limit_log10 - mu[~detected]) / sigma
+    censored_ll = np.sum(log_ndtr(z))
+    return float(-(detected_ll + censored_ll))
+
+ols_slope, ols_intercept = np.polyfit(x[detected], log_values, 1)
+ols_residual = log_values - (ols_intercept + ols_slope * x[detected])
+initial_sigma = max(float(np.sqrt(np.mean(ols_residual**2))), 1e-3)
+
+fit = minimize(
+    negative_log_likelihood,
+    np.array([ols_intercept, ols_slope, math.log(initial_sigma)]),
+    method="BFGS",
+    options={"gtol": 1e-10, "maxiter": 2000},
+)
+if not fit.success and np.linalg.norm(fit.jac) > 1e-5:
+    raise RuntimeError(f"Model fit failed: {fit.message}")
+
+intercept, slope, log_sigma = map(float, fit.x)
+sigma = math.exp(log_sigma)
+
+# A small-sample, conservative Wald interval uses the residual variance among
+# detected observations and n-2 degrees of freedom.
+fitted_detected = intercept + slope * x[detected]
+residuals = log_values - fitted_detected
+sse = float(np.sum(residuals**2))
+sxx = float(np.sum((times[detected] - center) ** 2))
+slope_se = math.sqrt((sse / (detected.sum() - 2)) / sxx)
+slope_interval = (
+    slope - 1.96 * slope_se,
+    slope + 1.96 * slope_se,
+)
+
+prediction_log10 = intercept + slope * (prediction_times - center)
+predictions = 10.0 ** prediction_log10
+pmf = 10.0 ** (2.0 * slope)
+pmf_interval = [10.0 ** (2.0 * b) for b in slope_interval]
+rmse = math.sqrt(float(np.mean(residuals**2)))
+
+result = {
+    "model": {
+        "name": "censored free-intercept log-linear growth",
+        "formula": "log10(parasites/mL) = alpha + beta*(time_days - mean_detected_time)",
+        "observation_model": (
+            "Independent Gaussian residuals on the log10 scale; ND contributes "
+            "P(log10 density < 1), corresponding to left-censoring at 10 parasites/mL."
+        ),
+    },
+    "growth": {
+        "log10_rate_per_day": round(slope, 3),
+        "pmf_48h": round(pmf, 2),
+        "pmf_48h_interval": [round(v, 2) for v in pmf_interval],
+    },
+    "predictions": [
+        {
+            "time_days": float(t),
+            "parasites_per_ml": round(float(p), 1),
+        }
+        for t, p in zip(prediction_times, predictions)
+    ],
+    "diagnostics": {
+        "training_log10_rmse": round(rmse, 3),
+        "baseline_comparison": (
+            "The selected model is the prespecified free-intercept log-linear "
+            "baseline. With only nine observations (one censored), curvature or "
+            "cycle-phase terms are weakly identifiable and do not provide "
+            "defensible held-out-prediction complexity."
+        ),
+    },
+}
+
+with Path("results.json").open("w") as f:
+    json.dump(result, f, indent=2)
+    f.write("\n")
+
+report = f"""# Untreated parasite trajectory
+
+A free-intercept log-linear model was fitted by maximum likelihood. Parasite
+density was modeled on the log10 scale with independent Gaussian residuals.
+The `ND` result was treated as left-censored at 10 parasites/mL and contributed
+a normal cumulative probability, rather than being replaced by zero or by the
+detection limit.
+
+The fitted log10 growth rate was {slope:.3f} per day, corresponding to an
+average 48-hour parasite multiplication factor (PMF) of {pmf:.2f}. The
+approximate 95% interval was {pmf_interval[0]:.2f}–{pmf_interval[1]:.2f}; it
+reflects slope uncertainty using a small-sample residual variance estimate.
+
+Predictions are geometric-median densities under the fitted log-scale
+observation model. Detected-observation training RMSE was {rmse:.3f} log10
+units. The measurements show substantial short-term scatter, including a
+temporary decline around day 10, but only nine observations are available and
+one is censored. Adding curvature, change points, or a 48-hour oscillatory term
+would therefore consume too many degrees of freedom and produce unstable
+extrapolation. The free-intercept exponential trajectory is retained as the
+simplest scientifically defensible description of average untreated growth.
+"""
+Path("report.md").write_text(report)
+
+results
+{
+  "model": {
+    "name": "censored free-intercept log-linear growth",
+    "formula": "log10(parasites/mL) = alpha + beta*(time_days - mean_detected_time)",
+    "observation_model": "Independent Gaussian residuals on the log10 scale; ND contributes P(log10 density < 1), corresponding to left-censoring at 10 parasites/mL."
+  },
+  "growth": {
+    "log10_rate_per_day": 0.403,
+    "pmf_48h": 6.39,
+    "pmf_48h_interval": [
+      3.45,
+      11.86
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 7.5,
+      "parasites_per_ml": 36.1
+    },
+    {
+      "time_days": 9.5,
+      "parasites_per_ml": 231.1
+    },
+    {
+      "time_days": 11.5,
+      "parasites_per_ml": 1477.6
+    },
+    {
+      "time_days": 12.0,
+      "parasites_per_ml": 2349.7
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.257,
+    "baseline_comparison": "The selected model is the prespecified free-intercept log-linear baseline. With only nine observations (one censored), curvature or cycle-phase terms are weakly identifiable and do not provide defensible held-out-prediction complexity."
+  }
+}
+
+trajectory_csv
+
+report_md
+# Untreated parasite trajectory
+
+A free-intercept log-linear model was fitted by maximum likelihood. Parasite density was modeled on the log10 scale with independent Gaussian residuals. The `ND` result was treated as left-censored at 10 parasites/mL and contributed a normal cumulative probability, rather than being replaced by zero or by the detection limit.
+
+The fitted log10 growth rate was 0.403 per day, corresponding to an average 48-hour parasite multiplication factor (PMF) of 6.39. The approximate 95% interval was 3.45–11.86; it reflects slope uncertainty using a small-sample residual variance estimate.
+
+Predictions are geometric-median densities under the fitted log-scale observation model. Detected-observation training RMSE was 0.257 log10 units. The measurements show substantial short-term scatter, including a temporary decline around day 10, but only nine observations are available and one is censored. Adding curvature, change points, or a 48-hour oscillatory term would therefore consume too many degrees of freedom and produce unstable extrapolation. The free-intercept exponential trajectory is retained as the simplest scientifically defensible description of average untreated growth.

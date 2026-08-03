@@ -1,0 +1,42 @@
+{
+  "model": {
+    "name": "model name",
+    "equations": "state equations with units",
+    "driver_interpolation": "method used between supplied asexual values",
+    "solver": "adaptive solver and tolerances",
+    "observation_model": "likelihood and censoring description"
+  },
+  "parameters": {
+    "effective_production_per_day": 0.01,
+    "mean_maturation_days": 8.0,
+    "mature_clearance_rate_per_day": 0.1,
+    "mature_half_life_days": 6.93,
+    "mature_half_life_interval": [
+      4.0,
+      10.0
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 10.0,
+      "gametocytes_per_ml": 1.0
+    },
+    {
+      "time_days": 14.0,
+      "gametocytes_per_ml": 1.0
+    },
+    {
+      "time_days": 21.0,
+      "gametocytes_per_ml": 1.0
+    },
+    {
+      "time_days": 24.0,
+      "gametocytes_per_ml": 1.0
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.0,
+    "alternative_model": "predictive comparison with another maturation structure",
+    "identifiability": "parameters or mechanisms not resolved by this profile"
+  }
+}

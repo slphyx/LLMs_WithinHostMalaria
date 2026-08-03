@@ -1,0 +1,37 @@
+{
+  "model": {
+    "name": "free-intercept log-linear growth",
+    "formula": "log10(parasites/mL) = a + b * time_days, with Normal(0, sigma^2) error on the log10 scale",
+    "observation_model": "Normal distribution on log10-transformed densities with constant variance sigma^2. Measurements below 10 parasites/mL are left-censored: likelihood contribution Phi((log10(10) - mu) / sigma)."
+  },
+  "growth": {
+    "log10_rate_per_day": 0.3997716909011374,
+    "pmf_48h": 6.302943031278928,
+    "pmf_48h_interval": [
+      4.1340890102216585,
+      9.609636066693575
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 7.5,
+      "parasites_per_ml": 36.6466000817552
+    },
+    {
+      "time_days": 9.5,
+      "parasites_per_ml": 230.98143260536483
+    },
+    {
+      "time_days": 11.5,
+      "parasites_per_ml": 1455.8628109948068
+    },
+    {
+      "time_days": 12.0,
+      "parasites_per_ml": 2306.7806400159325
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.223738527464422,
+    "baseline_comparison": "A logistic growth model (Delta_AICc = +7.2) does not improve on the free-intercept log-linear baseline: its carrying capacity (K ~ 921131643 parasites/mL, t_half ~ 26.0 d) is poorly identified, and the extra parameter is not supported by the data. Residuals show no systematic departure from log-linearity (lag-1 autocorrelation = -0.461, Shapiro-Wilk p = 0.125)."
+  }
+}

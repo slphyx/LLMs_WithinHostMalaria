@@ -1,0 +1,37 @@
+{
+  "model": {
+    "name": "Tobit Log-Linear",
+    "formula": "log10(P) = beta0 + beta1 * time",
+    "observation_model": "Y_i ~ N(0, sigma^2) on log-scale; censored < 10 parasites/mL"
+  },
+  "growth": {
+    "log10_rate_per_day": 0.158,
+    "pmf_48h": 2.26,
+    "pmf_48h_interval": [
+      0.85,
+      7.15
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 7.5,
+      "parasites_per_ml": 52.83
+    },
+    {
+      "time_days": 9.5,
+      "parasites_per_ml": 1258.41
+    },
+    {
+      "time_days": 11.5,
+      "parasites_per_ml": 2438.72
+    },
+    {
+      "time_days": 12.0,
+      "parasites_per_ml": 3314.09
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.1432,
+    "baseline_comparison": "Linear Tobit model appropriate; quadratic terms unjustified (small N, no severe nonlinearity)"
+  }
+}

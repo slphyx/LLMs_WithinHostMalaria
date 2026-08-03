@@ -1,0 +1,93 @@
+{
+  "id": "SELF-C06",
+  "total_points": 100,
+  "automated_points": 50,
+  "judge_points": 50,
+  "required_artifacts": ["analysis.py", "results.json", "report.md"],
+  "reproduced_artifacts": ["results.json"],
+  "execution_gate": "analysis.py must run successfully in a clean task workspace and recreate results.json; a valid report.md must also be submitted.",
+  "automated": [
+    {
+      "criterion": "Required result fields are present, finite, and well formed.",
+      "points": 10
+    },
+    {
+      "criterion": "Predictions improve on the training-mean baseline under hidden log10 RMSE.",
+      "points": 25
+    },
+    {
+      "criterion": "The reported PMF is numerically consistent with the reported average log10 growth rate.",
+      "points": 10
+    },
+    {
+      "criterion": "The PMF uncertainty interval is positive, ordered, and contains the estimate.",
+      "points": 5
+    }
+  ],
+  "judge": [
+    {
+      "id": "S1",
+      "criterion": "Fits positive parasite density on an appropriate scale with a stated observation model.",
+      "points": 5
+    },
+    {
+      "id": "S2",
+      "criterion": "Treats the nondetect as left-censored at 10 parasites/mL rather than as zero or an exact threshold value.",
+      "points": 5
+    },
+    {
+      "id": "S3",
+      "criterion": "Estimates the intercept and explains a defensible method for the PMF uncertainty interval.",
+      "points": 5
+    },
+    {
+      "id": "S4",
+      "criterion": "Compares added structure with free-intercept log-linear growth using diagnostics or predictive evidence rather than training fit alone.",
+      "points": 5
+    },
+    {
+      "id": "B1",
+      "criterion": "Interprets PMF as average successful blood-stage multiplication over 48 hours.",
+      "points": 5
+    },
+    {
+      "id": "B2",
+      "criterion": "Relates supported approximately 48-hour variation to parasite age structure and sequestration without treating a statistical periodic term as proof of mechanism.",
+      "points": 5
+    },
+    {
+      "id": "B3",
+      "criterion": "Distinguishes peripheral qPCR density from total viable parasite biomass.",
+      "points": 5
+    },
+    {
+      "id": "B4",
+      "criterion": "Does not claim that short-period fluctuation alone demonstrates immunity or density-dependent regulation.",
+      "points": 5
+    },
+    {
+      "id": "C1",
+      "criterion": "Checks residual or predictive behaviour and identifies material lack of fit.",
+      "points": 5
+    },
+    {
+      "id": "C2",
+      "criterion": "Discusses parsimony, sparse-data identifiability, and the limits of inference from one trajectory.",
+      "points": 5
+    }
+  ],
+  "caps": [
+    {
+      "condition": "Uses prediction targets during fitting.",
+      "maximum_total_points": 0
+    },
+    {
+      "condition": "Code does not run, exceeds the 600-second clean-replay limit, or required artefacts are absent.",
+      "maximum_total_points": 50
+    },
+    {
+      "condition": "Reported predictions are non-positive or non-finite.",
+      "maximum_total_points": 50
+    }
+  ]
+}

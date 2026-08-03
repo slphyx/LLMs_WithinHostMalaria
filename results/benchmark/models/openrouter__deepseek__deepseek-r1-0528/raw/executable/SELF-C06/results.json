@@ -1,0 +1,37 @@
+{
+  "model": {
+    "name": "Log-linear growth model with censoring",
+    "formula": "log10(ρ) = β0 + β1 * t",
+    "observation_model": "Normal error; left-censored at 10"
+  },
+  "growth": {
+    "log10_rate_per_day": 0.238,
+    "pmf_48h": 3.0,
+    "pmf_48h_interval": [
+      1.0,
+      9.0
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 7.5,
+      "parasites_per_ml": 47.9
+    },
+    {
+      "time_days": 9.5,
+      "parasites_per_ml": 340.0
+    },
+    {
+      "time_days": 11.5,
+      "parasites_per_ml": 2414.0
+    },
+    {
+      "time_days": 12.0,
+      "parasites_per_ml": 3800.0
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.35,
+    "baseline_comparison": "We used the free-intercept log-linear model and did not find evidence for a quadratic term given limited data."
+  }
+}

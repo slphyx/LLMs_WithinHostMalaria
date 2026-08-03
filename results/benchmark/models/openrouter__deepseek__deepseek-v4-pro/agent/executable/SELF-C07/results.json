@@ -1,0 +1,42 @@
+{
+  "model": {
+    "name": "Erlang-chain gametocyte maturation with n=5 sequestered immature compartments",
+    "equations": "dI1/dt = alpha * A(t) - k * I1; dI2/dt = k * I1 - k * I2; dI3/dt = k * I2 - k * I3; dI4/dt = k * I3 - k * I4; dI5/dt = k * I4 - k * I5; dM/dt = k * I5 - gamma * M. A(t) = asexual parasites/mL linear interpolation; all states >= 0; units per mL.",
+    "driver_interpolation": "Piecewise-linear interpolation of asexual density between supplied (time_days, asexual_parasites_per_ml) pairs, with constant extrapolation beyond [0, 26] days. Negative values clipped to zero.",
+    "solver": "scipy.integrate.solve_ivp with method='LSODA' (automatic stiff/non-stiff switching), rtol=1e-8, atol=1e-10, max_step=0.1 day.",
+    "observation_model": "Log-normal likelihood on log10(gametocytes/mL) with scale parameter sigma. Left-censored at 2 gametocytes/mL: contribution is log-CDF of the normal distribution."
+  },
+  "parameters": {
+    "effective_production_per_day": 0.003390269402306904,
+    "mean_maturation_days": 1.1558268311148914,
+    "mature_clearance_rate_per_day": 0.0010958036081113451,
+    "mature_half_life_days": 632.5469047821517,
+    "mature_half_life_interval": [
+      300.33766924723676,
+      964.7561403170666
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 10.0,
+      "gametocytes_per_ml": 0.0
+    },
+    {
+      "time_days": 14.0,
+      "gametocytes_per_ml": 0.5739880389177605
+    },
+    {
+      "time_days": 21.0,
+      "gametocytes_per_ml": 0.5704194617406624
+    },
+    {
+      "time_days": 24.0,
+      "gametocytes_per_ml": 0.5685473375308367
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.3854893694265397,
+    "alternative_model": "n=1 exponential; NLL=2.39 (main NLL=6.05); predictions [t=10: 0.0; t=14: 0.2; t=21: 0.6; t=24: 0.7]",
+    "identifiability": "With n=5 immature compartments, the production coefficient alpha and mean maturation time tau are partially confounded because both affect the amplitude of the mature-gametocyte peak. The number of compartments n cannot be uniquely identified from this profile; n=2-5 give similar NLL values. The single left-censored observation at day 5 provides limited information about the early rise. Mature clearance (gamma) and late-stage dynamics are better resolved from the post-peak decline (days 16-20), where asexual parasites are already cleared."
+  }
+}

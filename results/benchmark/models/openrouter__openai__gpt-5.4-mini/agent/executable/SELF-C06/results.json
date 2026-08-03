@@ -1,0 +1,37 @@
+{
+  "model": {
+    "name": "left-censored log-linear growth on log10 parasites/mL",
+    "formula": "log10(P(t)) = a + b t; observed ND values are left-censored at 10 parasites/mL",
+    "observation_model": "Gaussian errors on log10 scale; detected values use a normal density and ND measurements use the normal CDF below the 10 parasites/mL detection limit"
+  },
+  "growth": {
+    "log10_rate_per_day": 0.39977168247145284,
+    "pmf_48h": 6.302942786597852,
+    "pmf_48h_interval": [
+      4.676371904277365,
+      10.18683879784303
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 7.5,
+      "parasites_per_ml": 36.646595693154076
+    },
+    {
+      "time_days": 9.5,
+      "parasites_per_ml": 230.9813959775333
+    },
+    {
+      "time_days": 11.5,
+      "parasites_per_ml": 1455.8625236148966
+    },
+    {
+      "time_days": 12.0,
+      "parasites_per_ml": 2306.780162281798
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.22373853087857762,
+    "baseline_comparison": "Quadratic time curvature did not improve AIC (\u0394AIC=-2.00), so the free-intercept log-linear model was retained. It gives a daily log10 growth rate of 0.400 and 48 h multiplication factor 6.30; the fitted residual SD is 0.22 log10 units."
+  }
+}

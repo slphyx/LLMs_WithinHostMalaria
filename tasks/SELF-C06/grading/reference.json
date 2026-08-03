@@ -1,0 +1,42 @@
+{
+  "data": {
+    "type": "synthetic",
+    "seed": 24048,
+    "latent_log10_mean": "0.78 + 0.44*(t-6) + 0.28*sin(pi*(t-6.2))",
+    "observation_error": "Normal(0, 0.12^2) on log10 density",
+    "detection_limit_parasites_per_ml": 10,
+    "true_average_pmf_48h": 7.5858
+  },
+  "reference_fits": {
+    "free_intercept_log_linear": {
+      "log10_rate_per_day": 0.3998,
+      "pmf_48h": 6.3029,
+      "held_out_log10_rmse": 0.2915
+    },
+    "fixed_48h_periodic": {
+      "log10_rate_per_day": 0.3821,
+      "pmf_48h": 5.8095,
+      "pmf_48h_wald_interval": [
+        5.0267,
+        6.7143
+      ],
+      "held_out_log10_rmse": 0.2205
+    }
+  },
+  "notes": [
+    "Reference fits use a Gaussian log10 observation model and a censored likelihood for the nondetect.",
+    "The reference PMF interval transforms the numerical-Hessian Wald interval for the average log10 growth rate.",
+    "Reference values verify the task; they are not unique-answer requirements.",
+    "The harness must expose only the input directory to the evaluated agent."
+  ],
+  "references": [
+    {
+      "citation": "Wockner et al. Malaria Journal 2017;16:352.",
+      "url": "https://doi.org/10.1186/s12936-017-1999-1"
+    },
+    {
+      "citation": "Douglas et al. Journal of Infectious Diseases 2013;208:340-345.",
+      "url": "https://doi.org/10.1093/infdis/jit156"
+    }
+  ]
+}

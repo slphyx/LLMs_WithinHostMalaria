@@ -1,0 +1,113 @@
+{
+  "title": "Extended Computational Modelling Tasks for Within-host Plasmodium falciparum",
+  "source": "self",
+  "sections": [
+    {
+      "section": "Extended computational modelling",
+      "items": [
+        {
+          "id": "SELF-C06",
+          "source": "self",
+          "difficulty": "agentic",
+          "mode": "executable_research",
+          "question": "The input directory contains synthetic pre-treatment qPCR measurements from one Plasmodium falciparum infection and four times at which parasite density must be predicted. Fit the simplest model you consider scientifically defensible. Treat a nondetect as left-censored at 10 parasites/mL. Estimate the average parasite multiplication factor per 48-hour cycle with an uncertainty interval, assess whether structure beyond free-intercept log-linear growth is supported, and interpret the result biologically. Write analysis.py, results.json in the specified schema, and a report.md of no more than 300 words. Use only the supplied input files.",
+          "answer": "A defensible analysis fits parasite density on the log scale, estimates rather than fixes the intercept, and treats the nondetect as left-censored. A free-intercept log-linear model is the required baseline; a fixed 48-hour periodic component is also defensible when supported by residual and predictive evidence. In the reference analysis, the periodic model estimates an average PMF of about 5.8 and modestly improves held-out log10 RMSE, but alternative models may receive full credit when they are reproducible, predict well, quantify uncertainty, and avoid unsupported mechanistic claims.",
+          "metadata": {
+            "primary_capability": "Fit, criticise, and biologically interpret a within-host parasite model from data.",
+            "task_directory": "../tasks/SELF-C06",
+            "rubric": "../tasks/SELF-C06/rubric.json",
+            "answer_validation": {
+              "explanation": "The task permits multiple valid models. Numerical predictions and PMF consistency are checked in code; statistical decisions and biological interpretation are marked against atomic criteria.",
+              "references": [
+                {
+                  "claim": "Free-intercept log-linear growth is a defensible simple model for individual induced blood-stage malaria profiles.",
+                  "reference": "https://doi.org/10.1186/s12936-017-1999-1"
+                },
+                {
+                  "claim": "Log-linear, periodic, and mechanistic models have been compared for controlled human malaria qPCR trajectories.",
+                  "reference": "https://doi.org/10.1093/infdis/jit156"
+                },
+                {
+                  "claim": "Open-ended data-analysis benchmarks should recognise multiple valid intermediate decisions.",
+                  "reference": "https://doi.org/10.18653/v1/2024.findings-emnlp.815"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "SELF-C07",
+          "source": "self",
+          "difficulty": "agentic",
+          "mode": "executable_research",
+          "question": "The input directory contains a synthetic asexual-parasite driver, mature female-gametocyte measurements analogous to Pfs25 qRT-PCR from one Plasmodium falciparum infection, and four prediction times. Fit a non-negative compartment ODE linking the asexual trajectory to delayed mature-gametocyte appearance. Include at least one sequestered immature compartment and a non-replicating mature compartment with first-order loss. Treat the nondetect as left-censored at 2 gametocytes/mL. Estimate maturation, effective production, mature clearance and half-life with uncertainty; compare an alternative maturation structure; and interpret the result biologically. Write analysis.py, results.json in the specified schema, trajectory.csv, and a report.md of no more than 400 words. Literature may inform assumptions or priors, but do not add external participant-level observations.",
+          "answer": "A defensible analysis uses a stable adaptive ODE solve, a non-negative delayed maturation structure, and an observation model on a positive scale with the nondetect censored. The reference uses four immature transit compartments feeding a circulating mature female compartment, but other compartment counts or production functions can receive full credit. The production scale must not be interpreted directly as a sexual commitment probability, mature gametocytes must not replicate, and the analysis should expose confounding among production, maturation time and persistence. Female transcript-based density is not direct evidence of viability or infectivity. Numerical forecasts and the clearance-to-half-life identity are checked in code; scientific assumptions, comparison and interpretation are scored against atomic criteria.",
+          "metadata": {
+            "primary_capability": "Build, fit, criticise, and biologically interpret a delayed gametocyte ODE model.",
+            "task_directory": "../tasks/SELF-C07",
+            "rubric": "../tasks/SELF-C07/rubric.json",
+            "answer_validation": {
+              "explanation": "The task permits multiple valid ODE structures. Hidden forecasts and internal parameter consistency are checked deterministically; model construction and scientific interpretation are marked against atomic criteria.",
+              "references": [
+                {
+                  "claim": "A fitted within-host model represents four sequestered immature gametocyte stages feeding circulating stage V and estimates an approximately 8.4-day sequestration time.",
+                  "reference": "https://doi.org/10.7554/eLife.49058"
+                },
+                {
+                  "claim": "Controlled infection data provide empirical estimates of mature female and male gametocyte half-lives.",
+                  "reference": "https://doi.org/10.7554/eLife.31549"
+                },
+                {
+                  "claim": "Open-ended data-analysis benchmarks should recognise multiple valid analytical decisions.",
+                  "reference": "https://doi.org/10.18653/v1/2024.findings-emnlp.815"
+                },
+                {
+                  "claim": "Scientific-agent tasks can require executable code and combine output checks with expert-validated rubrics.",
+                  "reference": "https://openreview.net/forum?id=6z4YKr0GK6"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "SELF-C08",
+          "source": "self",
+          "difficulty": "agentic",
+          "mode": "executable_research",
+          "question": "The input directory contains synthetic direct membrane feeding experiments with asexual parasite, female-gametocyte, and male-gametocyte molecular measurements and mosquito infection counts. Develop the simplest defensible model for mosquito infection probability and predict the supplied held-out feeds. Use the infected and examined counts, compare sex-specific with total-gametocyte modelling, assess whether asexual density adds predictive information, quantify uncertainty, and diagnose the fit. Research and cite at least three primary articles that support the biological and assay interpretation, while distinguishing prior evidence from conclusions supported by these synthetic data. Write analysis.py, results.json in the specified schema, and a report.md of no more than 500 words. Use no external outcome data.",
+          "answer": "A defensible analysis uses a binomial or justified overdispersed likelihood, respects the feeding denominators, and returns calibrated held-out probabilities with uncertainty. It compares separate female and male predictors with a simpler total-density model using predictive or complexity-aware evidence. The reference saturating model predicts better than a training-rate baseline and a total-density alternative; adding asexual density is not supported. Other model families may receive full credit when their predictions, uncertainty, diagnostics, biological interpretation, and primary citations are sound.",
+          "metadata": {
+            "primary_capability": "Research, fit, criticise, and biologically interpret a multi-assay human-to-mosquito transmission model.",
+            "task_directory": "../tasks/SELF-C08",
+            "rubric": "../tasks/SELF-C08/rubric.json",
+            "answer_validation": {
+              "explanation": "The task permits multiple valid models. Hidden binomial prediction, schema consistency, uncertainty structure, and transmission summaries are checked in code; statistical decisions, biological interpretation, and source support are marked against atomic criteria.",
+              "references": [
+                {
+                  "claim": "Female and male gametocyte densities jointly inform mosquito infection probability, particularly at low male density.",
+                  "reference": "https://doi.org/10.7554/eLife.34463"
+                },
+                {
+                  "claim": "Asexual, female-gametocyte, and male-gametocyte molecular assay streams have been used jointly in within-host Plasmodium falciparum modelling.",
+                  "reference": "https://doi.org/10.7554/eLife.49058"
+                },
+                {
+                  "claim": "Gametocyte density has a nonlinear relationship with mosquito infection in feeding experiments.",
+                  "reference": "https://doi.org/10.7554/eLife.00626"
+                },
+                {
+                  "claim": "Open-ended data-analysis benchmarks should recognise multiple valid analytical decisions.",
+                  "reference": "https://doi.org/10.18653/v1/2024.findings-emnlp.815"
+                },
+                {
+                  "claim": "Scientific agent tasks can combine executable outputs with task-specific evaluation.",
+                  "reference": "https://proceedings.iclr.cc/paper_files/paper/2025/hash/f12b4df26344f3be803c06b555252efe-Abstract-Conference.html"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

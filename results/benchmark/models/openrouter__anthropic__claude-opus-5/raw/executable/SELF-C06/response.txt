@@ -1,0 +1,115 @@
+**analysis.py**
+
+import json
+import numpy as np
+import pandas as pd
+from scipy.optimize import minimize
+from scipy.stats import norm
+
+LOD = 10.0
+C = np.log10(LOD)
+
+dat = pd.read_csv("input/parasitaemia.csv")
+ptimes = pd.read_csv("input/prediction_times.csv")["time_days"].values
+
+detected = (dat["status"].values == "detected")
+vals = pd.to_numeric(dat["parasites_per_ml"], errors="coerce").values
+t = dat["time_days"].values.astype(float)
+logy = np.where(detected, np.log10(np.where(np.isnan(vals), LOD, vals)), C)
+
+td, yd = t[detected], logy[detected]
+tc = t[~detected]
+
+
+def design(tt, order):
+    cols = [np.ones_like(tt)] + [tt ** k for k in range(1, order + 1)]
+    return np.column_stack(cols)
+
+
+def nll(p, order):
+    beta, s = p[:-1], np.exp(p[-1])
+    mu_d = design(td, order) @ beta
+    ll = np.sum(norm.logpdf(yd, mu_d, s))
+    if tc.size:
+        mu_c = design(tc, order) @ beta
+        ll += np.sum(norm.logcdf((C - mu_c) / s))
+    return -ll
+
+
+def fit(order):
+    X = design(td, order)
+    b0, *_ = np.linalg.lstsq(X, yd, rcond=None)
+    r = yd - X @ b0
+    p0 = np.concatenate([b0, [np.log(max(r.std(ddof=1), 1e-3))]])
+    res = minimize(nll, p0, args=(order,), method="Nelder-Mead",
+                   options={"maxiter": 200000, "maxfev": 200000, "xatol": 1e-10, "fatol": 1e-12})
+    res = minimize(nll, res.x, args=(order,), method="Nelder-Mead",
+                   options={"maxiter": 200000, "maxfev": 200000, "xatol": 1e-12, "fatol": 1e-14})
+    return res
+
+
+fit1 = fit(1)
+a, b = fit1.x[0], fit1.x[1]
+sigma = np.exp(fit1.x[-1])
+
+# Observed-information SE for (a, b) with sigma held at its MLE (central differences)
+h = 1e-4
+
+
+def nll_ab(v):
+    return nll(np.array([v[0], v[1], np.log(sigma)]), 1)
+
+
+H = np.zeros((2, 2))
+x0 = np.array([a, b])
+for i in range(2):
+    for j in range(2):
+        ei = np.zeros(2); ei[i] = h
+        ej = np.zeros(2); ej[j] = h
+        H[i, j] = (nll_ab(x0 + ei + ej) - nll_ab(x0 + ei - ej)
+                   - nll_ab(x0 - ei + ej) + nll_ab(x0 - ei - ej)) / (4 * h * h)
+cov = np.linalg.inv(H)
+se_b = float(np.sqrt(cov[1, 1]))
+lo, hi = b - 1.96 * se_b, b + 1.96 * se_b
+
+pmf = 10 ** (2 * b)
+pmf_lo, pmf_hi = 10 ** (2 * lo), 10 ** (2 * hi)
+
+resid = yd - (a + b * td)
+rmse = float(np.sqrt(np.mean(resid ** 2)))
+
+# free-intercept log-linear OLS baseline on detected points only (ignores censoring)
+Xb = design(td, 1)
+bb, *_ = np.linalg.lstsq(Xb, yd, rcond=None)
+rb = yd - Xb @ bb
+rmse_b = float(np.sqrt(np.mean(rb ** 2)))
+pmf_b = 10 ** (2 * bb[1])
+
+# parsimony check: quadratic Tobit
+fit2 = fit(2)
+aic1 = 2 * fit1.fun + 2 * 3
+aic2 = 2 * fit2.fun + 2 * 4
+
+mu_pred = a + b * ptimes
+pred = 10 ** mu_pred
+
+print(f"Tobit log-linear: intercept={a:.5f} slope={b:.5f} sigma={sigma:.5f} nll={fit1.fun:.5f}")
+print(f"slope SE={se_b:.5f} 95% CI=[{lo:.5f},{hi:.5f}] PMF48={pmf:.4f} [{pmf_lo:.4f},{pmf_hi:.4f}]")
+print(f"OLS-on-detected baseline: slope={bb[1]:.5f} PMF48={pmf_b:.4f} rmse={rmse_b:.5f}")
+print(f"AIC linear={aic1:.3f} quadratic={aic2:.3f} (dAIC={aic2-aic1:.3f})")
+print("censored-point predicted mean at t=6: %.4f log10 (P(<LOD)=%.3f)"
+      % (a + b * 6.0, norm.cdf((C - (a + b * 6.0)) / sigma)))
+for tt, pp in zip(ptimes, pred):
+    print(f"pred t={tt}: {pp:.2f} parasites/mL")
+
+out = {
+    "model": {
+        "name": "Censored (Tobit) free-intercept log-linear growth model",
+        "formula": "log10 E[parasites/mL](t) = a + b*t, with a = %.4f, b = %.4f (log10 per day)" % (a, b),
+        "observation_model": ("Gaussian noise on log10 density with constant SD sigma = %.4f; "
+                              "detected points contribute the normal density, the ND point at t=6 d "
+                              "contributes the left-censored probability Phi((log10(10) - mu)/sigma); "
+                              "parameters by maximum likelihood." % sigma),
+    },
+    "growth": {
+        "log10_rate

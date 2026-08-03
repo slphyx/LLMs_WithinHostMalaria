@@ -1,0 +1,102 @@
+{
+  "id": "SELF-C07",
+  "total_points": 100,
+  "automated_points": 50,
+  "judge_points": 50,
+  "required_artifacts": [
+    "analysis.py",
+    "results.json",
+    "trajectory.csv",
+    "report.md"
+  ],
+  "reproduced_artifacts": ["results.json", "trajectory.csv"],
+  "execution_gate": "analysis.py must run in a clean task workspace and recreate results.json and trajectory.csv; a valid report.md must also be submitted.",
+  "automated": [
+    {
+      "criterion": "Required result fields are present, finite, and well formed.",
+      "points": 10
+    },
+    {
+      "criterion": "Predictions improve on the last-observation baseline under hidden log10 RMSE.",
+      "points": 25
+    },
+    {
+      "criterion": "The reported mature half-life is numerically consistent with the reported first-order clearance rate.",
+      "points": 10
+    },
+    {
+      "criterion": "The mature half-life uncertainty interval is positive, ordered, and contains the estimate.",
+      "points": 5
+    }
+  ],
+  "judge": [
+    {
+      "id": "S1",
+      "criterion": "States the ODEs, initial conditions, parameter units, and mapping from latent mature gametocytes to observations.",
+      "points": 5
+    },
+    {
+      "id": "S2",
+      "criterion": "Uses an adaptive ODE solver with reported tolerances and checks non-negativity and numerical convergence.",
+      "points": 5
+    },
+    {
+      "id": "S3",
+      "criterion": "Fits positive density on an appropriate scale and treats the nondetect as left-censored at 2 gametocytes/mL.",
+      "points": 5
+    },
+    {
+      "id": "S4",
+      "criterion": "Quantifies uncertainty and distinguishes information supplied by this profile from information imposed through bounds or literature-informed priors.",
+      "points": 5
+    },
+    {
+      "id": "S5",
+      "criterion": "Compares at least one alternative maturation structure using predictive evidence and parsimony rather than training fit alone.",
+      "points": 5
+    },
+    {
+      "id": "B1",
+      "criterion": "Represents immature stages as delayed and sequestered, with only mature stage-V female gametocytes mapped to the supplied peripheral measurements.",
+      "points": 5
+    },
+    {
+      "id": "B2",
+      "criterion": "Models mature gametocytes as non-replicating, with upstream maturation inflow and clearance loss.",
+      "points": 5
+    },
+    {
+      "id": "B3",
+      "criterion": "Interprets the fitted production coefficient as an effective scale and does not equate it directly with a sexual commitment probability.",
+      "points": 5
+    },
+    {
+      "id": "B4",
+      "criterion": "Separates the supplied no-direct-gametocytocidal-effect assumption from an empirical conclusion about antimalarial drugs.",
+      "points": 5
+    },
+    {
+      "id": "C1",
+      "criterion": "Discusses confounding among production, maturation and persistence, and does not equate female transcript-based gametocyte density with viability or mosquito infectivity.",
+      "points": 5
+    }
+  ],
+  "caps": [
+    {
+      "condition": "Uses hidden prediction measurements or external numerical profile data during fitting.",
+      "maximum_total_points": 0
+    },
+    {
+      "condition": "Code does not run, exceeds the 600-second clean-replay limit, or required artefacts are absent.",
+      "maximum_total_points": 50
+    },
+    {
+      "condition": "Does not solve a non-negative ODE model linking immature and mature gametocytes.",
+      "maximum_total_points": 50
+    },
+    {
+      "condition": "Reported predictions are non-positive or non-finite.",
+      "maximum_total_points": 50
+    }
+  ]
+}

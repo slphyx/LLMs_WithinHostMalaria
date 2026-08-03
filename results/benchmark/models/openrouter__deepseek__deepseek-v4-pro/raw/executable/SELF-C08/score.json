@@ -1,0 +1,442 @@
+{
+  "id": "SELF-C08",
+  "condition": "raw",
+  "model": "openrouter/deepseek/deepseek-v4-pro",
+  "score": 45.0,
+  "explanation": "Automated 0.0/50; scientific 45.0/50; cap 50. Replay error: analysis.py failed during clean replay with return code 1.",
+  "response_file": "response.txt",
+  "artifact_error": null,
+  "automated": {
+    "score": 0.0,
+    "maximum": 50,
+    "error": "analysis.py failed during clean replay with return code 1."
+  },
+  "scientific": {
+    "score": 45.0,
+    "maximum": 50,
+    "criteria": [
+      {
+        "id": "S1",
+        "criterion": "Models infected mosquitoes out of those examined with a binomial or defensibly overdispersed count likelihood.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "S2",
+        "criterion": "Compares sex-specific and total-gametocyte models using predictive evidence or a complexity-aware criterion.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "S3",
+        "criterion": "Derives probability uncertainty with a stated method that reflects parameter uncertainty.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "S4",
+        "criterion": "Checks calibration or residual lack of fit and does not turn zero infected counts into zero infection probabilities.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "S5",
+        "criterion": "Tests the predictive contribution of asexual density while recognising correlation, sparse data, and possible confounding.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "B1",
+        "criterion": "Explains why both female and male gametocytes can matter, particularly male limitation at low density, without claiming the fitted association proves that mechanism.",
+        "points": 5,
+        "votes_met": 2,
+        "votes_total": 3,
+        "awarded": 3.333333333333333
+      },
+      {
+        "id": "B2",
+        "criterion": "Distinguishes sex-specific molecular assay signals from counts of viable, mature, infectious gametocytes.",
+        "points": 5,
+        "votes_met": 2,
+        "votes_total": 3,
+        "awarded": 3.333333333333333
+      },
+      {
+        "id": "B3",
+        "criterion": "Treats membrane-feeding infection as an imperfect transmission endpoint and interprets nonlinear or saturating density effects cautiously.",
+        "points": 5,
+        "votes_met": 2,
+        "votes_total": 3,
+        "awarded": 3.333333333333333
+      },
+      {
+        "id": "R1",
+        "criterion": "Uses at least three verifiable primary research articles whose contents directly support the associated biological or measurement claims.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "R2",
+        "criterion": "Separates conclusions supported by this synthetic dataset from prior evidence and states limits on generalisation to natural infections or other sites.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      }
+    ],
+    "cap": 50
+  },
+  "execution": {
+    "success": false,
+    "complete": true,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"/tmp/replay/analysis.py\", line 15, in <module>\n    import statsmodels.api as sm\nModuleNotFoundError: No module named 'statsmodels'\n",
+    "reproduced": false,
+    "timed_out": false,
+    "timeout_seconds": 600,
+    "error": {
+      "type": "nonzero_exit",
+      "stage": "clean_replay",
+      "message": "analysis.py failed during clean replay with return code 1."
+    }
+  },
+  "judges": [
+    {
+      "judge": "openrouter/openai/gpt-5.5",
+      "served_model": "openai/gpt-5.5",
+      "usage": {
+        "input_tokens": 7042,
+        "output_tokens": 655,
+        "total_tokens": 7697,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 429,
+        "total_cost": 0.05486
+      },
+      "generation_time": 14.812275014817715,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": true,
+          "reason": "Uses binomial GLM with successes/failures"
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "Compares sex-specific versus total using AIC"
+        },
+        {
+          "id": "S3",
+          "met": true,
+          "reason": "Bootstrap intervals reflect fitted-parameter variation"
+        },
+        {
+          "id": "S4",
+          "met": true,
+          "reason": "Includes calibration regression check"
+        },
+        {
+          "id": "S5",
+          "met": true,
+          "reason": "LRT for asexual term; notes collinearity"
+        },
+        {
+          "id": "B1",
+          "met": true,
+          "reason": "Discusses male and female biological necessity"
+        },
+        {
+          "id": "B2",
+          "met": false,
+          "reason": "Does not distinguish RNA signals from viable gametocytes"
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "Little caution about membrane-feeding endpoint limitations"
+        },
+        {
+          "id": "R1",
+          "met": true,
+          "reason": "Three relevant primary articles cited"
+        },
+        {
+          "id": "R2",
+          "met": true,
+          "reason": "States synthetic dataset and validation limits"
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "analysis.py failed clean replay: missing statsmodels"
+      }
+    },
+    {
+      "judge": "openrouter/anthropic/claude-haiku-4.5",
+      "served_model": "anthropic/claude-haiku-4.5",
+      "usage": {
+        "input_tokens": 8423,
+        "output_tokens": 2133,
+        "total_tokens": 10556,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 1274,
+        "total_cost": 0.019088
+      },
+      "generation_time": 20.687433883547783,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": true,
+          "reason": "Code uses smf.glm with family=Binomial and success+failure formula; binomial likelihood correctly specified."
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "Explicitly fits and compares total-gametocyte and sex-specific models; reports AIC values and ΔAIC=7.3 favouring sex-specific."
+        },
+        {
+          "id": "S3",
+          "met": true,
+          "reason": "Uses non-parametric bootstrap with 2000 replicates; reports point and 95% percentile intervals for each prediction."
+        },
+        {
+          "id": "S4",
+          "met": true,
+          "reason": "Calibration regression fitted; reports intercept=-0.153, slope=0.826; no zero probabilities except properly small predicted values."
+        },
+        {
+          "id": "S5",
+          "met": true,
+          "reason": "LRT comparing mod_sex vs mod_asex; statistic=0.64, p=0.423; correctly concludes asexual adds no significant predictive value."
+        },
+        {
+          "id": "B1",
+          "met": false,
+          "reason": "Report mentions male/female fertilisation but logistic model is linear on log scale; lacks mechanistic explanation of why sex-specific captures biology."
+        },
+        {
+          "id": "B2",
+          "met": true,
+          "reason": "Acknowledges assays measure molecular markers; distinguishes from viable gametocytes; notes measurement-error limitation."
+        },
+        {
+          "id": "B3",
+          "met": true,
+          "reason": "States model ignores mosquito effects; notes calibration slope≠1 suggests imperfect transmission; acknowledges synthetic data limits."
+        },
+        {
+          "id": "R1",
+          "met": true,
+          "reason": "Lists three DOI-linked primary articles: Churcher 2013, Schneider 2015, Meerstein-Kessel 2018. Churcher and Meerstein-Kessel appear verifiable."
+        },
+        {
+          "id": "R2",
+          "met": true,
+          "reason": "Separates synthetic findings from biology; states external validation needed; notes model does not claim mechanism."
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "Code fails clean-replay with ModuleNotFoundError ('statsmodels' not found); execution error triggers hard cap at 50 points regardless of other quality."
+      }
+    },
+    {
+      "judge": "openrouter/google/gemini-3.5-flash",
+      "served_model": "google/gemini-3.5-flash",
+      "usage": {
+        "input_tokens": 7805,
+        "output_tokens": 386,
+        "total_tokens": 8191,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 0,
+        "total_cost": 0.015181499999999999
+      },
+      "generation_time": 3.1047301068902016,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": true,
+          "reason": "Uses statsmodels GLM with Binomial family and success/failure counts."
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "Compares models using AIC (delta AIC)."
+        },
+        {
+          "id": "S3",
+          "met": true,
+          "reason": "Derives prediction intervals using 2000 non-parametric bootstrap replicates."
+        },
+        {
+          "id": "S4",
+          "met": true,
+          "reason": "Checks calibration via regression and predicts non-zero probabilities for zero-count feeds."
+        },
+        {
+          "id": "S5",
+          "met": true,
+          "reason": "Tests asexual density contribution using a Likelihood Ratio Test (LRT)."
+        },
+        {
+          "id": "B1",
+          "met": true,
+          "reason": "Discusses male limitation at low density and fertilization requirements."
+        },
+        {
+          "id": "B2",
+          "met": true,
+          "reason": "Distinguishes molecular markers (Pfs25, PfMGET) from viable gametocytes."
+        },
+        {
+          "id": "B3",
+          "met": true,
+          "reason": "Discusses limitations of synthetic data and membrane-feeding assays."
+        },
+        {
+          "id": "R1",
+          "met": true,
+          "reason": "Cites and links three relevant primary research articles (Churcher, Schneider, Meerstein-Kessel)."
+        },
+        {
+          "id": "R2",
+          "met": true,
+          "reason": "Explicitly notes the dataset is small and synthetic, limiting generalisation."
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "Code failed during clean replay due to missing statsmodels dependency."
+      }
+    }
+  ],
+  "judge_failures": [],
+  "web_search_calls": [],
+  "usage": {
+    "openrouter/deepseek/deepseek-v4-pro": {
+      "input_tokens": 2348,
+      "output_tokens": 9672,
+      "total_tokens": 12020,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 4903,
+      "total_cost": 0.00943602
+    },
+    "openrouter/google/gemini-3.5-flash": {
+      "input_tokens": 7805,
+      "output_tokens": 386,
+      "total_tokens": 8191,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 0,
+      "total_cost": 0.015181499999999999
+    },
+    "openrouter/openai/gpt-5.5": {
+      "input_tokens": 7042,
+      "output_tokens": 655,
+      "total_tokens": 7697,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 429,
+      "total_cost": 0.05486
+    },
+    "openrouter/anthropic/claude-haiku-4.5": {
+      "input_tokens": 8423,
+      "output_tokens": 2133,
+      "total_tokens": 10556,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 1274,
+      "total_cost": 0.019088
+    }
+  },
+  "tools": {},
+  "cost": {
+    "model": 0.10366097079999999,
+    "web_search": 0,
+    "total": 0.10366097079999999,
+    "model_calls": [
+      {
+        "model": "openrouter/deepseek/deepseek-v4-pro",
+        "served_model": "deepseek/deepseek-v4-pro",
+        "provider": "StreamLake",
+        "generation_id": "gen-1785503050-NiLCop8qRvqw1IpmiLgn",
+        "service_tier": null,
+        "cost": 0.0145314708,
+        "cost_details": {
+          "upstream_inference_cost": 0.0145314708,
+          "upstream_inference_prompt_cost": 0.0015729252,
+          "upstream_inference_completions_cost": 0.0129585456
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/openai/gpt-5.5",
+        "served_model": "openai/gpt-5.5",
+        "provider": "OpenAI",
+        "generation_id": "gen-1785503263-RHRRAyssVSKifeeKGRMC",
+        "service_tier": "default",
+        "cost": 0.05486,
+        "cost_details": {
+          "upstream_inference_cost": 0.05486,
+          "upstream_inference_prompt_cost": 0.03521,
+          "upstream_inference_completions_cost": 0.01965
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/anthropic/claude-haiku-4.5",
+        "served_model": "anthropic/claude-haiku-4.5",
+        "provider": "Anthropic",
+        "generation_id": "gen-1785503264-VmB4mIidDDHY3sZsiDoO",
+        "service_tier": "default",
+        "cost": 0.019088,
+        "cost_details": {
+          "upstream_inference_cost": 0.019088,
+          "upstream_inference_prompt_cost": 0.008423,
+          "upstream_inference_completions_cost": 0.010665
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/google/gemini-3.5-flash",
+        "served_model": "google/gemini-3.5-flash",
+        "provider": "Google",
+        "generation_id": "gen-1785503263-LKmbeEgc6UKnGPAQBN5r",
+        "service_tier": "provisioned",
+        "cost": 0.0151815,
+        "cost_details": {
+          "upstream_inference_cost": 0.0151815,
+          "upstream_inference_prompt_cost": 0.0117075,
+          "upstream_inference_completions_cost": 0.003474
+        },
+        "is_byok": false
+      }
+    ]
+  },
+  "timing": {
+    "started_at": "2026-07-31T13:04:10.815184+00:00",
+    "completed_at": "2026-07-31T13:08:04.771747+00:00",
+    "total_time": 233.957,
+    "working_time": 233.914
+  },
+  "error": null
+}

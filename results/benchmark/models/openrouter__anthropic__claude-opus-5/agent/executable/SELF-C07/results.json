@@ -1,0 +1,42 @@
+{
+  "model": {
+    "name": "Linear-chain (Erlang) gametocyte maturation model, n=5 sequestered immature compartments",
+    "equations": "dI1/dt = f*A(t) - (n/tau)*I1; dIi/dt = (n/tau)*I(i-1) - (n/tau)*Ii (i=2..n); dG/dt = (n/tau)*In - delta*G. I_i, G in gametocytes/mL; A(t) in asexual parasites/mL; f in (gametocytes/mL)/(asexual parasites/mL)/day; tau in days; delta per day. All states start at 0 and stay non-negative.",
+    "driver_interpolation": "A(t) piecewise-linear interpolation of the supplied asexual values on the natural (non-log) scale, clipped at >=0; constant extrapolation (first value before t=0, 0 after t=26).",
+    "solver": "scipy solve_ivp LSODA (adaptive, stiff-capable), rtol=1e-07, atol=1e-09",
+    "observation_model": "log10-normal measurement error: log10(y) ~ Normal(log10(G(t)), sigma); ND values contribute the left-censored probability Phi((log10(2)-log10(G))/sigma) at LOD = 2 gametocytes/mL. MLE fit; sigma_hat = 0.069 log10 units."
+  },
+  "parameters": {
+    "effective_production_per_day": 0.011889777568578496,
+    "mean_maturation_days": 6.487443002464551,
+    "mature_clearance_rate_per_day": 0.10459990020211224,
+    "mature_half_life_days": 6.626652408086602,
+    "mature_half_life_interval": [
+      0.016431845500395,
+      2672.4035432626715
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 10.0,
+      "gametocytes_per_ml": 120.27887035772164
+    },
+    {
+      "time_days": 14.0,
+      "gametocytes_per_ml": 650.6880604268642
+    },
+    {
+      "time_days": 21.0,
+      "gametocytes_per_ml": 665.3175034392427
+    },
+    {
+      "time_days": 24.0,
+      "gametocytes_per_ml": 507.4336705092472
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.06904717986026043,
+    "alternative_model": "Compared Erlang chains with n=1 (single immature compartment, exponential maturation delay), n=2, n=3 and n=5 (more deterministic delay) by profile MLE and AIC: n=1: nll=1.79, AIC=11.58, tau=24600157533.50 d, t1/2=8886022.27 d; n=2: nll=-7.39, AIC=-6.78, tau=24.95 d, t1/2=8.65 d; n=3: nll=-12.14, AIC=-16.27, tau=12.11 d, t1/2=2.80 d; n=5: nll=-16.27, AIC=-24.55, tau=6.49 d, t1/2=6.63 d. Selected n=5 by lowest AIC.",
+    "identifiability": "f and delta are only weakly separated: the mature plateau depends on f/delta, so a compensating increase in both is nearly equivalent; the profile CI for the mature half-life is therefore wide. tau trades off against the asexual peak timing and is only constrained by the early rise (one ND point at day 5), so the number of immature compartments (delay shape/variance) is poorly resolved by a single profile. No post-day-20 data means the long-term decay of mature gametocytes after asexual clearance (hence delta) is extrapolated."
+  }
+}

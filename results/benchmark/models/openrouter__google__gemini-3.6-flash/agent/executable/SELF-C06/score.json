@@ -1,0 +1,515 @@
+{
+  "id": "SELF-C06",
+  "condition": "agent",
+  "model": "openrouter/google/gemini-3.6-flash",
+  "score": 84.999,
+  "explanation": "Automated 50.0/50; scientific 35.0/50; cap 100.",
+  "response_file": null,
+  "artifact_error": null,
+  "automated": {
+    "score": 49.999,
+    "maximum": 50,
+    "components": {
+      "schema": 10.0,
+      "held_out_prediction": 24.999,
+      "pmf_consistency": 10.0,
+      "uncertainty_interval": 5.0
+    },
+    "metrics": {
+      "held_out_log10_rmse": 0.22054826671057542
+    },
+    "checks": {
+      "model": true,
+      "diagnostics": true,
+      "growth": true,
+      "prediction_rows": true,
+      "pmf_interval": true
+    }
+  },
+  "scientific": {
+    "score": 35.0,
+    "maximum": 50,
+    "criteria": [
+      {
+        "id": "S1",
+        "criterion": "Fits positive parasite density on an appropriate scale with a stated observation model.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "S2",
+        "criterion": "Treats the nondetect as left-censored at 10 parasites/mL rather than as zero or an exact threshold value.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "S3",
+        "criterion": "Estimates the intercept and explains a defensible method for the PMF uncertainty interval.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "S4",
+        "criterion": "Compares added structure with free-intercept log-linear growth using diagnostics or predictive evidence rather than training fit alone.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "B1",
+        "criterion": "Interprets PMF as average successful blood-stage multiplication over 48 hours.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "B2",
+        "criterion": "Relates supported approximately 48-hour variation to parasite age structure and sequestration without treating a statistical periodic term as proof of mechanism.",
+        "points": 5,
+        "votes_met": 1,
+        "votes_total": 3,
+        "awarded": 1.6666666666666665
+      },
+      {
+        "id": "B3",
+        "criterion": "Distinguishes peripheral qPCR density from total viable parasite biomass.",
+        "points": 5,
+        "votes_met": 1,
+        "votes_total": 3,
+        "awarded": 1.6666666666666665
+      },
+      {
+        "id": "B4",
+        "criterion": "Does not claim that short-period fluctuation alone demonstrates immunity or density-dependent regulation.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "C1",
+        "criterion": "Checks residual or predictive behaviour and identifies material lack of fit.",
+        "points": 5,
+        "votes_met": 1,
+        "votes_total": 3,
+        "awarded": 1.6666666666666665
+      },
+      {
+        "id": "C2",
+        "criterion": "Discusses parsimony, sparse-data identifiability, and the limits of inference from one trajectory.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      }
+    ],
+    "cap": 100
+  },
+  "execution": {
+    "success": true,
+    "complete": true,
+    "returncode": 0,
+    "stdout": "",
+    "stderr": "",
+    "reproduced": true,
+    "timed_out": false,
+    "timeout_seconds": 600,
+    "error": null
+  },
+  "judges": [
+    {
+      "judge": "openrouter/openai/gpt-5.5",
+      "served_model": "openai/gpt-5.5",
+      "usage": {
+        "input_tokens": 4003,
+        "output_tokens": 584,
+        "total_tokens": 4587,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 353,
+        "total_cost": 0.037535
+      },
+      "generation_time": 9.148170702159405,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": true,
+          "reason": "Uses log10 Gaussian observation model."
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "ND handled via censoring likelihood at LOD."
+        },
+        {
+          "id": "S3",
+          "met": true,
+          "reason": "Free intercept and profile-likelihood interval stated."
+        },
+        {
+          "id": "S4",
+          "met": true,
+          "reason": "Compares baseline using AIC and LOOCV claims."
+        },
+        {
+          "id": "B1",
+          "met": true,
+          "reason": "PMF defined over 48-hour growth cycle."
+        },
+        {
+          "id": "B2",
+          "met": false,
+          "reason": "Overstates periodic term as confirming biology."
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "No biomass versus peripheral qPCR distinction."
+        },
+        {
+          "id": "B4",
+          "met": true,
+          "reason": "No immunity or density-regulation claim made."
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "No material lack-of-fit identified."
+        },
+        {
+          "id": "C2",
+          "met": false,
+          "reason": "No sparse-data or identifiability limits discussed."
+        }
+      ],
+      "cap": {
+        "maximum": 100,
+        "reason": "none"
+      }
+    },
+    {
+      "judge": "openrouter/anthropic/claude-haiku-4.5",
+      "served_model": "anthropic/claude-haiku-4.5",
+      "usage": {
+        "input_tokens": 4767,
+        "output_tokens": 1926,
+        "total_tokens": 6693,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 1062,
+        "total_cost": 0.014397
+      },
+      "generation_time": 16.46176788210869,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": true,
+          "reason": "Log-linear model on log10 scale with explicit Gaussian observation model and left-censoring."
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "Tobit likelihood correctly treats nondetect as censored below log10(10)=1.0, not zero."
+        },
+        {
+          "id": "S3",
+          "met": true,
+          "reason": "Free intercept (a≈−1.35) estimated; PMF interval via profile likelihood ratio method (2∆NLL=3.841)."
+        },
+        {
+          "id": "S4",
+          "met": true,
+          "reason": "Harmonic vs baseline compared by training RMSE, AIC, and LOOCV (0.126 vs 0.275); not training fit alone."
+        },
+        {
+          "id": "B1",
+          "met": true,
+          "reason": "PMF explicitly stated as 10^(2b)=5.81, interpreted over 48-hour blood-stage cycle."
+        },
+        {
+          "id": "B2",
+          "met": true,
+          "reason": "48-h oscillation attributed to schizogony/sequestration; biological interpretation cautious, not mechanistic proof."
+        },
+        {
+          "id": "B3",
+          "met": true,
+          "reason": "Report uses term 'peripheral parasitaemia'; acknowledges qPCR measures circulating parasites."
+        },
+        {
+          "id": "B4",
+          "met": true,
+          "reason": "No claims that fluctuation pattern demonstrates immunity or density-dependent regulation."
+        },
+        {
+          "id": "C1",
+          "met": true,
+          "reason": "LOOCV RMSE computed and compared; diagnostics used to justify model choice. Could show residual plots."
+        },
+        {
+          "id": "C2",
+          "met": false,
+          "reason": "Parsimony discussed implicitly (AIC, LOOCV); identifiability and single-trajectory limits not addressed."
+        }
+      ],
+      "cap": {
+        "maximum": 100,
+        "reason": "No condition met: execution success; predictions positive and finite; fitting does not use prediction targets."
+      }
+    },
+    {
+      "judge": "openrouter/google/gemini-3.5-flash",
+      "served_model": "google/gemini-3.5-flash",
+      "usage": {
+        "input_tokens": 4491,
+        "output_tokens": 1157,
+        "total_tokens": 5648,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 792,
+        "total_cost": 0.0171495
+      },
+      "generation_time": 6.982503041625023,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": true,
+          "reason": "Fits log10 density using a Tobit Gaussian likelihood observation model."
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "Treats ND as left-censored at 10 parasites/mL in Tobit likelihood."
+        },
+        {
+          "id": "S3",
+          "met": true,
+          "reason": "Estimates intercept and uses profile likelihood ratio bounds for PMF interval."
+        },
+        {
+          "id": "S4",
+          "met": true,
+          "reason": "Compares models using AIC and out-of-sample LOOCV RMSE."
+        },
+        {
+          "id": "B1",
+          "met": true,
+          "reason": "Interprets PMF as average multiplication over a 48-hour cycle."
+        },
+        {
+          "id": "B2",
+          "met": false,
+          "reason": "Does not relate the variation to parasite age structure."
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "Does not distinguish peripheral qPCR density from total viable biomass."
+        },
+        {
+          "id": "B4",
+          "met": true,
+          "reason": "Does not claim fluctuation demonstrates immunity or density-dependent regulation."
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "Does not identify or discuss any material lack of fit."
+        },
+        {
+          "id": "C2",
+          "met": false,
+          "reason": "Does not discuss sparse-data identifiability or single-trajectory limits."
+        }
+      ],
+      "cap": {
+        "maximum": 100,
+        "reason": "none"
+      }
+    }
+  ],
+  "judge_failures": [],
+  "web_search_calls": [],
+  "usage": {
+    "openrouter/google/gemini-3.6-flash": {
+      "input_tokens": 114471,
+      "output_tokens": 12841,
+      "total_tokens": 268503,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 141191,
+      "reasoning_tokens": 42,
+      "total_cost": 0.28919265
+    },
+    "openrouter/google/gemini-3.5-flash": {
+      "input_tokens": 4491,
+      "output_tokens": 1157,
+      "total_tokens": 5648,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 792,
+      "total_cost": 0.0171495
+    },
+    "openrouter/openai/gpt-5.5": {
+      "input_tokens": 4003,
+      "output_tokens": 584,
+      "total_tokens": 4587,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 353,
+      "total_cost": 0.037535
+    },
+    "openrouter/anthropic/claude-haiku-4.5": {
+      "input_tokens": 4767,
+      "output_tokens": 1926,
+      "total_tokens": 6693,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 1062,
+      "total_cost": 0.014397
+    }
+  },
+  "tools": {
+    "skill": 1,
+    "bash": 4,
+    "todo_write": 2,
+    "python": 13,
+    "text_editor": 3
+  },
+  "cost": {
+    "model": 0.0994046,
+    "web_search": 0,
+    "total": 0.0994046,
+    "model_calls": [
+      {
+        "model": "openrouter/google/gemini-3.6-flash",
+        "served_model": "google/gemini-3.6-flash",
+        "provider": "Google",
+        "generation_id": "gen-1785513623-kC3G9Z9w96DSYpfTlRdS",
+        "service_tier": "default",
+        "cost": 0.005202,
+        "cost_details": {
+          "upstream_inference_cost": 0.005202,
+          "upstream_inference_prompt_cost": 0.0050145,
+          "upstream_inference_completions_cost": 0.0001875
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/google/gemini-3.6-flash",
+        "served_model": "google/gemini-3.6-flash",
+        "provider": "Google",
+        "generation_id": "gen-1785513625-UsH6umrf3ArFv9ESn2cm",
+        "service_tier": "default",
+        "cost": 0.0057375,
+        "cost_details": {
+          "upstream_inference_cost": 0.0057375,
+          "upstream_inference_prompt_cost": 0.00543,
+          "upstream_inference_completions_cost": 0.0003075
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/google/gemini-3.6-flash",
+        "served_model": "google/gemini-3.6-flash",
+        "provider": "Google",
+        "generation_id": "gen-1785513626-IGw6xyqIgOneVOKCCO5Q",
+        "service_tier": "default",
+        "cost": 0.006879,
+        "cost_details": {
+          "upstream_inference_cost": 0.006879,
+          "upstream_inference_prompt_cost": 0.005634,
+          "upstream_inference_completions_cost": 0.001245
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/google/gemini-3.6-flash",
+        "served_model": "google/gemini-3.6-flash",
+        "provider": "Google",
+        "generation_id": "gen-1785513629-PmbuWHn8rOb3NkAvhZQ2",
+        "service_tier": "default",
+        "cost": 0.00406245,
+        "cost_details": {
+          "upstream_inference_cost": 0.00406245,
+          "upstream_inference_prompt_cost": 0.00341745,
+          "upstream_inference_completions_cost": 0.000645
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/google/gemini-3.6-flash",
+        "served_model": "google/gemini-3.6-flash",
+        "provider": "Google",
+        "generation_id": "gen-1785513631-Py2tesA8CMTtkFe7e8P9",
+        "service_tier": "default",
+        "cost": 0.00844215,
+        "cost_details": {
+          "upstream_inference_cost": 0.00844215,
+          "upstream_inference_prompt_cost": 0.00381465,
+          "upstream_inference_completions_cost": 0.0046275
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/openai/gpt-5.5",
+        "served_model": "openai/gpt-5.5",
+        "provider": "OpenAI",
+        "generation_id": "gen-1785514374-h3P0tIPElJO4fnnh1iff",
+        "service_tier": "default",
+        "cost": 0.037535,
+        "cost_details": {
+          "upstream_inference_cost": 0.037535,
+          "upstream_inference_prompt_cost": 0.020015,
+          "upstream_inference_completions_cost": 0.01752
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/anthropic/claude-haiku-4.5",
+        "served_model": "anthropic/claude-haiku-4.5",
+        "provider": "Anthropic",
+        "generation_id": "gen-1785514374-QnuFqlCjkqvUihp0fNjt",
+        "service_tier": "default",
+        "cost": 0.014397,
+        "cost_details": {
+          "upstream_inference_cost": 0.014397,
+          "upstream_inference_prompt_cost": 0.004767,
+          "upstream_inference_completions_cost": 0.00963
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/google/gemini-3.5-flash",
+        "served_model": "google/gemini-3.5-flash",
+        "provider": "Google",
+        "generation_id": "gen-1785514374-qEgRmbjlP2HASIp5mCoM",
+        "service_tier": "default",
+        "cost": 0.0171495,
+        "cost_details": {
+          "upstream_inference_cost": 0.0171495,
+          "upstream_inference_prompt_cost": 0.0067365,
+          "upstream_inference_completions_cost": 0.010413
+        },
+        "is_byok": false
+      }
+    ]
+  },
+  "timing": {
+    "started_at": "2026-07-31T16:00:22.367027+00:00",
+    "completed_at": "2026-07-31T16:13:11.363113+00:00",
+    "total_time": 768.996,
+    "working_time": 768.256
+  },
+  "error": null
+}

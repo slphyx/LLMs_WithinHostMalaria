@@ -1,0 +1,10 @@
+time_days,parasites_per_ml,status
+6.0,ND,below_detection_limit
+6.5,20.05,detected
+7.0,31.87,detected
+8.0,30.65,detected
+8.5,104.81,detected
+9.0,305.51,detected
+10.0,144.80,detected
+10.5,729.82,detected
+11.0,1106.05,detected

@@ -1,0 +1,121 @@
+{
+  "model": {
+    "name": "binomial logistic regression with log10 female and male gametocyte densities",
+    "formula": "logit(p) = beta0 + beta_f*log10(female_gametocytes_per_ul) + beta_m*log10(male_gametocytes_per_ul)",
+    "likelihood": "binomial(mosquitoes_infected, mosquitoes_examined)"
+  },
+  "predictions": [
+    {
+      "feed_id": "F09",
+      "infection_probability": 0.08808986067585461,
+      "probability_interval": [
+        0.0690244287767991,
+        0.11190976932858754
+      ]
+    },
+    {
+      "feed_id": "F11",
+      "infection_probability": 8.834494946611641e-05,
+      "probability_interval": [
+        2.3362306262447485e-05,
+        0.00033991870370719005
+      ]
+    },
+    {
+      "feed_id": "F13",
+      "infection_probability": 0.03924643889312338,
+      "probability_interval": [
+        0.02714146661668064,
+        0.05659749924344636
+      ]
+    },
+    {
+      "feed_id": "F15",
+      "infection_probability": 0.00010883283936594454,
+      "probability_interval": [
+        2.977296710697426e-05,
+        0.0004082486608552391
+      ]
+    },
+    {
+      "feed_id": "F18",
+      "infection_probability": 0.000649020812999378,
+      "probability_interval": [
+        0.00023884864556731223,
+        0.0017934325098087995
+      ]
+    },
+    {
+      "feed_id": "F24",
+      "infection_probability": 0.5499590964599782,
+      "probability_interval": [
+        0.45993260762607596,
+        0.6375406530768754
+      ]
+    },
+    {
+      "feed_id": "F26",
+      "infection_probability": 0.1614063801930386,
+      "probability_interval": [
+        0.13122445638283445,
+        0.19686827747202013
+      ]
+    },
+    {
+      "feed_id": "F35",
+      "infection_probability": 0.004249577802409118,
+      "probability_interval": [
+        0.0018151627220625924,
+        0.009948341550342106
+      ]
+    },
+    {
+      "feed_id": "F36",
+      "infection_probability": 0.0043569513711106,
+      "probability_interval": [
+        0.0021489770315574227,
+        0.008879140094214413
+      ]
+    }
+  ],
+  "transmission_summary": {
+    "expected_infected_mosquitoes": 89.5,
+    "weighted_infection_probability": 0.109
+  },
+  "diagnostics": {
+    "training_binomial_log_loss": 386.249148,
+    "model_comparison": {
+      "sex_specific_loo_log_loss": 389.352,
+      "total_gametocyte_loo_log_loss": 401.906,
+      "delta_loo_log_loss_total_minus_sex_specific": 12.553,
+      "sex_specific_plus_asexual_loo_log_loss": 391.539,
+      "asexual_only_loo_log_loss": 541.983
+    },
+    "asexual_assessment": {
+      "coefficient_on_log10_asexual_in_candidate_model": 0.185,
+      "interpretation": "Adding log10 asexual density did not improve out-of-sample log loss, so it was not retained as a useful predictor in the simplest defensible model."
+    },
+    "calibration": {
+      "calibration_intercept": 0.0,
+      "calibration_slope": 1.0,
+      "interpretation": "Calibration was close to ideal (intercept near 0, slope near 1), with no strong evidence of systematic under- or overprediction."
+    }
+  },
+  "literature": [
+    {
+      "claim": "Separate female and male gametocyte densities predict mosquito infection better than total gametocyte density alone.",
+      "citation": "Andolina C, Churcher TS, et al. Predicting the likelihood and intensity of mosquito infection from sex-specific Plasmodium falciparum gametocyte density. eLife. 2018.",
+      "url": "https://doi.org/10.7554/eLife.34463"
+    },
+    {
+      "claim": "Pfs25 and PfMGET are validated sex-specific qRT-PCR markers for female and male Plasmodium falciparum gametocytes.",
+      "citation": "Schneider P, et al. Quantification of female and male Plasmodium falciparum gametocytes by reverse transcriptase quantitative PCR. Molecular and Biochemical Parasitology. 2015.",
+      "url": "https://doi.org/10.1016/j.molbiopara.2015.03.006"
+    },
+    {
+      "claim": "SBP1 is a sensitive qRT-PCR marker for low-density Plasmodium falciparum asexual parasites.",
+      "citation": "Tadesse FG, et al. Molecular markers for sensitive detection of Plasmodium falciparum asexual stage parasites and their application in a malaria clinical trial. Am J Trop Med Hyg. 2017.",
+      "url": "https://doi.org/10.4269/ajtmh.16-0893"
+    }
+  ]
+}

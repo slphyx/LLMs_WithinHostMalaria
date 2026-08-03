@@ -1,0 +1,108 @@
+{
+  "model": {
+    "name": "Sex-Specific Binomial Logistic Regression",
+    "formula": "logit(p) = beta_0 + beta_female * log(female_gametocytes_per_ul) + beta_male * log(male_gametocytes_per_ul)",
+    "likelihood": "Binomial(mosquitoes_examined, p)"
+  },
+  "predictions": [
+    {
+      "feed_id": "F09",
+      "infection_probability": 0.08809,
+      "probability_interval": [
+        0.068861,
+        0.112042
+      ]
+    },
+    {
+      "feed_id": "F11",
+      "infection_probability": 8.8e-05,
+      "probability_interval": [
+        2.3e-05,
+        0.000338
+      ]
+    },
+    {
+      "feed_id": "F13",
+      "infection_probability": 0.039246,
+      "probability_interval": [
+        0.02713,
+        0.056459
+      ]
+    },
+    {
+      "feed_id": "F15",
+      "infection_probability": 0.000109,
+      "probability_interval": [
+        2.9e-05,
+        0.000405
+      ]
+    },
+    {
+      "feed_id": "F18",
+      "infection_probability": 0.000649,
+      "probability_interval": [
+        0.000236,
+        0.001786
+      ]
+    },
+    {
+      "feed_id": "F24",
+      "infection_probability": 0.549959,
+      "probability_interval": [
+        0.460422,
+        0.636373
+      ]
+    },
+    {
+      "feed_id": "F26",
+      "infection_probability": 0.161406,
+      "probability_interval": [
+        0.131145,
+        0.197066
+      ]
+    },
+    {
+      "feed_id": "F35",
+      "infection_probability": 0.00425,
+      "probability_interval": [
+        0.00182,
+        0.009888
+      ]
+    },
+    {
+      "feed_id": "F36",
+      "infection_probability": 0.004357,
+      "probability_interval": [
+        0.002137,
+        0.008861
+      ]
+    }
+  ],
+  "transmission_summary": {
+    "expected_infected_mosquitoes": 89.53,
+    "weighted_infection_probability": 0.108785
+  },
+  "diagnostics": {
+    "training_binomial_log_loss": 0.150175,
+    "model_comparison": "Sex-specific model significantly outperforms total-gametocyte model (LRT chi2=13.76, df=1, p=2.08e-04; AIC 778.5 vs 790.3). Both female (beta=0.878, p<0.001) and male (beta=0.547, p<0.001) densities independently predict mosquito infection.",
+    "asexual_assessment": "Asexual parasite density adds no useful predictive information after controlling for sex-specific gametocyte densities (LRT chi2=0.56, df=1, p=0.45; AIC increases to 779.9). Asexual parasitemia is an upstream correlate of gametocytogenesis rather than a direct transmission determinant.",
+    "calibration": "Goodness-of-fit deviance test indicates no significant lack of fit (deviance=15.55 on 24 d.f., p=0.9037). Pearson chi-squared (14.81, p=0.926) confirms good model calibration with no overdispersion."
+  },
+  "literature": [
+    {
+      "claim": "Pfs25 qRT-PCR specifically quantifies female Plasmodium falciparum gametocytes while PfMGET qRT-PCR quantifies male gametocytes, enabling accurate sex-specific gametocyte measurement.",
+      "citation": "Meerstein-Kessel L, et al. A multiplex assay for the sensitive detection and quantification of male and female Plasmodium falciparum gametocytes. Malaria Journal. 2018.",
+      "url": "https://doi.org/10.1186/s12936-018-2584-y"
+    },
+    {
+      "claim": "Gametocyte density measured by sex-specific qRT-PCR (Pfs25 and PfMGET) directly predicts mosquito infection rates in feeding assays, while SBP1 qRT-PCR measures asexual parasite stages.",
+      "citation": "Bradley J, et al. Plasmodium falciparum Gametocyte Density and Infectivity in Peripheral Blood and Skin Tissue of Naturally Infected Parasite Carriers in Burkina Faso. Clinical Infectious Diseases. 2021.",
+      "url": "https://doi.org/10.1093/cid/ciaa1853"
+    },
+    {
+      "claim": "Mosquito infection success requires viable male and female gametocytes for fertilization in the mosquito midgut; total gametocyte counts mask critical sex-ratio dynamics.",
+      "citation": "Bradley J, et al. Higher gametocyte production and mosquito infectivity in chronic malaria infections. Nature Communications. 2021.",
+      "url": "https://doi.org/10.1038/s41467-021-22573-7"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+__pycache__/
+.ruff_cache/
+*.py[cod]
+*.fls
+.venv/
+.env
+writeup/
+test/
+tests/
+**/test/
+**/tests/
+test_*.py
+*_test.py
+logs/
+run_history/
+results/*
+!results/benchmark/
+!results/benchmark/**
+# Submission renders are regenerated locally and uploaded separately. The full
+# benchmark is the single deliberate repository artifact under build/.
+build/*
+!build/full_short_answer_benchmark.pdf

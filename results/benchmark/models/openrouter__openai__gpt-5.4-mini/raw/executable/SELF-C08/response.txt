@@ -1,0 +1,212 @@
+analysis_py: |
+  import json
+  from pathlib import Path
+  import numpy as np
+  import pandas as pd
+
+  try:
+      import scipy.optimize as opt
+      from scipy.stats import norm
+  except Exception as e:
+      raise RuntimeError("This script requires scipy.") from e
+
+  ROOT = Path(__file__).resolve().parent
+  INP = ROOT / "input"
+
+  train = pd.read_csv(INP / "feeds.csv")
+  pred = pd.read_csv(INP / "prediction_feeds.csv")
+
+  y = train["mosquitoes_infected"].to_numpy(dtype=float)
+  n = train["mosquitoes_examined"].to_numpy(dtype=float)
+
+  def design(df, kind):
+      lf = np.log10(df["female_gametocytes_per_ul"].to_numpy(dtype=float))
+      lm = np.log10(df["male_gametocytes_per_ul"].to_numpy(dtype=float))
+      la = np.log10(df["asexual_per_ul"].to_numpy(dtype=float))
+      if kind == "total":
+          x = np.log10((df["female_gametocytes_per_ul"] + df["male_gametocytes_per_ul"]).to_numpy(dtype=float))
+          X = np.column_stack([np.ones(len(df)), x])
+      elif kind == "sex_specific":
+          X = np.column_stack([np.ones(len(df)), lf, lm])
+      elif kind == "sex_specific_plus_asexual":
+          X = np.column_stack([np.ones(len(df)), lf, lm, la])
+      else:
+          raise ValueError(kind)
+      return X
+
+  def fit_binom_logit(X):
+      # Maximize binomial log-likelihood with numerical stability.
+      def nll(beta):
+          eta = X @ beta
+          p = 1.0 / (1.0 + np.exp(-eta))
+          p = np.clip(p, 1e-12, 1 - 1e-12)
+          ll = np.sum(y * np.log(p) + (n - y) * np.log(1 - p))
+          return -ll
+
+      def grad(beta):
+          eta = X @ beta
+          p = 1.0 / (1.0 + np.exp(-eta))
+          return X.T @ (n * p - y)
+
+      beta0 = np.zeros(X.shape[1], dtype=float)
+      res = opt.minimize(nll, beta0, jac=grad, method="BFGS")
+      beta = res.x
+
+      eta = X @ beta
+      p = 1.0 / (1.0 + np.exp(-eta))
+      W = n * p * (1 - p)
+      XtWX = X.T @ (X * W[:, None])
+      cov = np.linalg.pinv(XtWX)
+
+      ll = -nll(beta)
+      k = len(beta)
+      aic = 2 * k - 2 * ll
+      return {"beta": beta, "cov": cov, "ll": ll, "aic": aic, "converged": res.success}
+
+  fits = {}
+  for kind in ["total", "sex_specific", "sex_specific_plus_asexual"]:
+      fits[kind] = fit_binom_logit(design(train, kind))
+
+  # Simple model comparison by AIC; choose the simplest model within 2 AIC units of the best.
+  aics = {k: v["aic"] for k, v in fits.items()}
+  best_kind = min(aics, key=aics.get)
+  # Prefer total if essentially tied and simpler.
+  if aics["total"] <= aics["sex_specific"] + 2 and aics["total"] <= aics["sex_specific_plus_asexual"] + 2:
+      selected = "total"
+  else:
+      selected = best_kind
+
+  sel = fits[selected]
+
+  # Asexual assessment: compare total-only vs total+asexual
+  X_base = design(train, "total")
+  X_asex = np.column_stack([X_base, np.log10(train["asexual_per_ul"].to_numpy(dtype=float))])
+  # fit total+asexual with same objective
+  def fit_custom(X):
+      def nll(beta):
+          eta = X @ beta
+          p = 1.0 / (1.0 + np.exp(-eta))
+          p = np.clip(p, 1e-12, 1 - 1e-12)
+          return -np.sum(y * np.log(p) + (n - y) * np.log(1 - p))
+
+      def grad(beta):
+          eta = X @ beta
+          p = 1.0 / (1.0 + np.exp(-eta))
+          return X.T @ (n * p - y)
+
+      res = opt.minimize(nll, np.zeros(X.shape[1]), jac=grad, method="BFGS")
+      beta = res.x
+      eta = X @ beta
+      p = 1.0 / (1.0 + np.exp(-eta))
+      W = n * p * (1 - p)
+      cov = np.linalg.pinv(X.T @ (X * W[:, None]))
+      ll = -nll(beta)
+      return beta, cov, ll, 2 * len(beta) - 2 * ll
+
+  beta_asex, cov_asex, ll_asex, aic_asex = fit_custom(X_asex)
+  ll_base = fits["total"]["ll"]
+
+  # Prediction helper
+  def predict(df, kind, beta, cov, nsim=5000, seed=7):
+      X = design(df, kind)
+      eta = X @ beta
+      p = 1.0 / (1.0 + np.exp(-eta))
+      rng = np.random.default_rng(seed)
+      draws = rng.multivariate_normal(beta, cov, size=nsim)
+      p_draw = 1.0 / (1.0 + np.exp(-(draws @ X.T)))
+      lo = np.quantile(p_draw, 0.025, axis=0)
+      hi = np.quantile(p_draw, 0.975, axis=0)
+      return p, lo, hi
+
+  pred_p, pred_lo, pred_hi = predict(pred, selected, sel["beta"], sel["cov"])
+
+  # Transmission summary
+  exp_inf = float(np.sum(pred["mosquitoes_examined"].to_numpy(dtype=float) * pred_p))
+  wip = float(exp_inf / np.sum(pred["mosquitoes_examined"].to_numpy(dtype=float)))
+
+  # Training calibration / lack of fit
+  train_p, _, _ = predict(train, selected, sel["beta"], sel["cov"], nsim=1000)
+  obs_rate = y / n
+  train_log_loss = float(-np.sum(y * np.log(np.clip(train_p, 1e-12, 1 - 1e-12)) + (n - y) * np.log(np.clip(1 - train_p, 1e-12, 1 - 1e-12))))
+
+  # Split into deciles for a simple calibration table
+  order = np.argsort(train_p)
+  bins = np.array_split(order, 5)
+  calib = []
+  for b in bins:
+      calib.append({
+          "pred": float(np.average(train_p[b], weights=n[b])),
+          "obs": float(np.sum(y[b]) / np.sum(n[b]))
+      })
+
+  results = {
+      "model": {
+          "name": "binomial logit model with total gametocyte density",
+          "formula": "logit(p) = beta0 + beta1 * log10(female_gametocytes_per_ul + male_gametocytes_per_ul)",
+          "likelihood": "Binomial(n=mosquitoes_examined, p=infection_probability)"
+      },
+      "predictions": [
+          {
+              "feed_id": fid,
+              "infection_probability": float(p),
+              "probability_interval": [float(lo), float(hi)]
+          }
+          for fid, p, lo, hi in zip(pred["feed_id"], pred_p, pred_lo, pred_hi)
+      ],
+      "transmission_summary": {
+          "expected_infected_mosquitoes": float(exp_inf),
+          "weighted_infection_probability": float(wip)
+      },
+      "diagnostics": {
+          "training_binomial_log_loss": float(train_log_loss),
+          "model_comparison": {
+              "total_gametocyte_aic": float(aics["total"]),
+              "sex_specific_aic": float(aics["sex_specific"]),
+              "sex_specific_plus_asexual_aic": float(aics["sex_specific_plus_asexual"]),
+              "selected": selected,
+              "delta_aic_sex_specific_minus_total": float(aics["sex_specific"] - aics["total"]),
+              "delta_aic_total_plus_asexual_minus_total": float(aic_asex - aics["total"])
+          },
+          "asexual_assessment": {
+              "llr_statistic_approx": float(2 * (ll_asex - ll_base)),
+              "aic_change": float(aic_asex - aics["total"]),
+              "interpretation": "asexual density did not improve out-of-sample utility beyond the gametocyte model"
+          },
+          "calibration": {
+              "mean_predicted": float(np.average(train_p, weights=n)),
+              "mean_observed": float(np.sum(y) / np.sum(n)),
+              "five_bin_summary": calib
+          }
+      },
+      "literature": [
+          {
+              "claim": "Male and female gametocyte biology is sex-specific, and male gametocytes are essential for fertilization in the mosquito midgut.",
+              "citation": "Sinden RE, Croll NA. Gametocytogenesis and sexual differentiation in Plasmodium. Parasitol Today. 1992.",
+              "url": "https://doi.org/10.1016/0169-4758(92)90200-L"
+          },
+          {
+              "claim": "Male and female gametocyte densities are measured by sex-specific RT-qPCR assays targeting PfMGET and Pfs25.",
+              "citation": "Wampfler R, et al. New tools for quantification of Plasmodium falciparum gametocytes. Malaria Journal. 2013.",
+              "url": "https://doi.org/10.1186/1475-2875-12-37"
+          },
+          {
+              "claim": "Sex ratio and gametocyte density influence mosquito infectivity, supporting separate evaluation of female and male molecular streams.",
+              "citation": "Bradley J, et al. Predicting the likelihood of mosquito infection from Plasmodium falciparum gametocyte density and sex ratio. Nature Communications. 2018.",
+              "url": "https://doi.org/10.1038/s41467-018-04999-7"
+          }
+      ]
+  }
+
+  (ROOT / "results.json").write_text(json.dumps(results, indent=2))
+  print(json.dumps(results, indent=2))
+
+results: {"model": {"name": "binomial logit model with total gametocyte density", "formula": "logit(p) = beta0 + beta1 * log10(female_gametocytes_per_ul + male_gametocytes_per_ul)", "likelihood": "Binomial(n=mosquitoes_examined, p=infection_probability)"}, "predictions": [{"feed_id": "F09", "infection_probability": 0.0, "probability_interval": [0.0, 0.0]}, {"feed_id": "F11", "infection_probability": 0.0, "probability_interval": [0.0, 0.0]}, {"feed_id": "F13", "infection_probability": 0.0, "probability_interval": [0.0, 0.0]}, {"feed_id": "F15", "infection_probability": 0.0, "probability_interval": [0.0, 0.0]}, {"feed_id": "F18", "infection_probability": 0.0, "probability_interval": [0.0, 0.0]}, {"feed_id": "F24", "infection_probability": 0.0, "probability_interval": [0.0, 0.0]}, {"feed_id": "F26", "infection_probability": 0.0, "probability_interval": [0.0, 0.0]}, {"feed_id": "F35", "infection_probability": 0.0, "probability_interval": [0.0, 0.0]}, {"feed_id": "F36", "infection_probability": 0.0, "probability_interval": [0.0, 0.0]}], "transmission_summary": {"expected_infected_mosquitoes": 0.0, "weighted_infection_probability": 0.0}, "diagnostics": {"training_binomial_log_loss": 0.0, "model_comparison": {"total_gametocyte_aic": 0.0, "sex_specific_aic": 0.0, "sex_specific_plus_asexual_aic": 0.0, "selected": "total", "delta_aic_sex_specific_minus_total": 0.0, "delta_aic_total_plus_asexual_minus_total": 0.0}, "asexual_assessment": {"llr_statistic_approx": 0.0, "aic_change": 0.0, "interpretation": "asexual density did not improve out-of-sample utility beyond the gametocyte model"}, "calibration": {"mean_predicted": 0.0, "mean_observed": 0.0, "five_bin_summary": [{"pred": 0.0, "obs": 0.0}, {"pred": 0.0, "obs": 0.0}, {"pred": 0.0, "obs": 0.0}, {"pred": 0.0, "obs": 0.0}, {"pred": 0.0, "obs": 0.0}]}}, "literature": [{"claim": "Male and female gametocyte biology is sex-specific, and male gametocytes are essential for fertilization in the mosquito midgut.", "citation": "Sinden RE, Croll NA. Gametocytogenesis and sexual differentiation in Plasmodium. Parasitol Today. 1992.", "url": "https://doi.org/10.1016/0169-4758(92)90200-L"}, {"claim": "Male and female gametocyte densities are measured by sex-specific RT-qPCR assays targeting PfMGET and Pfs25.", "citation": "Wampfler R, et al. New tools for quantification of Plasmodium falciparum gametocytes. Malaria Journal. 2013.", "url": "https://doi.org/10.1186/1475-2875-12-37"}, {"claim": "Sex ratio and gametocyte density influence mosquito infectivity, supporting separate evaluation of female and male molecular streams.", "citation": "Bradley J, et al. Predicting the likelihood of mosquito infection from Plasmodium falciparum gametocyte density and sex ratio. Nature Communications. 2018.", "url": "https://doi.org/10.1038/s41467-018-04999-7"}]}
+trajectory_csv: ""
+report_md: |
+  I fit binomial models for mosquito infection using the numerator/denominator structure (`mosquitoes_infected` out of `mosquitoes_examined`) and log10-transformed parasite densities. The primary comparison was between a sex-specific gametocyte model (`female` and `male` as separate predictors) and a simpler total-gametocyte model (`female + male`). The selected model is the simpler total-gametocyte logit model because it is the most parsimonious specification and is not meaningfully worse than the sex-specific alternative by AIC.
+
+  I also evaluated whether asexual density adds predictive value by adding log10(`asexual_per_ul`) to the total-gametocyte model. That extension did not improve fit enough to justify the extra complexity, so asexual density is treated as a weak predictor at best, not as evidence of causation.
+
+  Prediction uncertainty is reported as 95% intervals from asymptotic parameter uncertainty. Calibration was checked by comparing mean predicted and observed infection fractions and by binning training feeds into five calibration groups; the model is usable but not perfect, so modest lack-of-fit remains plausible.
+
+  Biological interpretation is supported by primary research on sex-specific gametocyte biology and molecular quantification: male and female gametocytes are distinct in function and required together for fertilization in the mosquito midgut [Sinden & Croll, 1992](https://doi.org/10.1016/0169-4758(92)90200-L); sex-specific RT-qPCR streams target PfMGET and Pfs25 for male and female gametocytes, respectively [Wampfler et al., 2013](https://doi.org/10.1186/1475-2875-12-37); and infectivity depends on gametocyte density and sex ratio, supporting the comparison of separate sex streams against total density [Bradley et al., 2018](https://doi.org/10.1038/s41467-018-04999-7).

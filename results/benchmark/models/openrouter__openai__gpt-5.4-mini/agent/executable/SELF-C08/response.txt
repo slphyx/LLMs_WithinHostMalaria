@@ -1,0 +1,1 @@
+Completed: analysis.py, results.json, and report.md were created and verified by running analysis.py successfully from the clean workspace. The final model is a binomial logistic regression with log10 female and male gametocyte densities, with prediction intervals and diagnostics included in results.json, and report.md contains linked primary-literature citations.

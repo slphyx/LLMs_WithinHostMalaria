@@ -1,0 +1,37 @@
+{
+  "model": {
+    "name": "Tobit log-linear regression",
+    "formula": "log10(parasites) = \u03b2\u2080 + \u03b2\u2081 * time + \u03b5, with \u03b5 ~ Normal(0, \u03c3\u00b2)",
+    "observation_model": "Left-censored normal distribution at L=log10(10)"
+  },
+  "growth": {
+    "log10_rate_per_day": 0.39977162827009,
+    "pmf_48h": 6.302941213342558,
+    "pmf_48h_interval": [
+      4.120212443918341,
+      9.641995037778084
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 7.5,
+      "parasites_per_ml": 36.6466059797223
+    },
+    {
+      "time_days": 9.5,
+      "parasites_per_ml": 230.98140315871734
+    },
+    {
+      "time_days": 11.5,
+      "parasites_per_ml": 1455.8622054847729
+    },
+    {
+      "time_days": 12.0,
+      "parasites_per_ml": 2306.7795142652512
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.22373851325418806,
+    "baseline_comparison": "Using the simplest defensible model for untreated parasite growth"
+  }
+}

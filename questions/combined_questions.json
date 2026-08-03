@@ -1,0 +1,758 @@
+{
+  "title": "Combined Questions for Evaluating AI Understanding of Within-host Plasmodium falciparum Modelling",
+  "question_count": 58,
+  "source_counts": {
+    "supervisor": 38,
+    "self": 20
+  },
+  "source_files": {
+    "supervisor": "supervisor_questions.json",
+    "self": "self_questions.json",
+    "computational": "computational_questions.json",
+    "model_fitting": "model_fitting_questions.json"
+  },
+  "source_policy": "Supervisor question and answer text is copied unchanged from supervisor_questions.json. Self-authored items retain answer-validation metadata from their source files.",
+  "sections": [
+    {
+      "section": "Basic understanding.",
+      "items": [
+        {
+          "id": "SUP-B01",
+          "source": "supervisor",
+          "question": "Why do untreated Plasmodium falciparum parasite counts often fluctuate with a roughly 48-hour periodicity?",
+          "answer": "Because blood-stage parasites progress through a synchronous 48-hour asexual cycle, with maturation and rupture producing waves of circulating parasites."
+        },
+        {
+          "id": "SUP-B02",
+          "source": "supervisor",
+          "question": "What is sequestration?",
+          "answer": "The movement of mature infected erythrocytes out of peripheral blood into deeper tissues or the microvasculature, reducing what is seen on microscopy."
+        },
+        {
+          "id": "SUP-B03",
+          "source": "supervisor",
+          "question": "What is an age-structured model?",
+          "answer": "A model that tracks parasites by developmental stage or age rather than as a single undifferentiated total."
+        },
+        {
+          "id": "SUP-B04",
+          "source": "supervisor",
+          "question": "Why are daily parasite measurements useful?",
+          "answer": "They capture short-term oscillations and changes in growth rate that sparse sampling can miss."
+        },
+        {
+          "id": "SUP-B05",
+          "source": "supervisor",
+          "question": "What is the main difference between microscopy and qPCR parasite measurements?",
+          "answer": "Microscopy counts visible parasites in blood films, whereas qPCR measures parasite nucleic acid and is more sensitive at low densities."
+        },
+        {
+          "id": "SUP-B06",
+          "source": "supervisor",
+          "question": "Why are observations often censored after antimalarial treatment starts?",
+          "answer": "Treatment changes parasite growth and clearance, so the untreated expansion phase is no longer being observed."
+        },
+        {
+          "id": "SUP-B07",
+          "source": "supervisor",
+          "question": "What is the purpose of an observation model?",
+          "answer": "To connect the unobserved latent parasite state to measured data while accounting for measurement error and detection limits."
+        },
+        {
+          "id": "SUP-B08",
+          "source": "supervisor",
+          "question": "Why can parasite trajectories differ between individuals or strains?",
+          "answer": "Because of differences in synchrony, replication capacity, growth limitation, host environment, and infection history."
+        },
+        {
+          "id": "SUP-B09",
+          "source": "supervisor",
+          "question": "Why compare models using predictive criteria such as LOO?",
+          "answer": "To assess which model predicts new data better while penalizing unnecessary complexity."
+        },
+        {
+          "id": "SUP-B10",
+          "source": "supervisor",
+          "question": "What does it mean to call a model phenomenological?",
+          "answer": "It describes the observed pattern with a few interpretable terms without claiming to represent every underlying biological mechanism explicitly."
+        },
+        {
+          "id": "SUP-B11",
+          "source": "supervisor",
+          "question": "What biological quantity does parasite multiplication factor (PMF) represent in the White et al. model?",
+          "answer": "The average number of merozoites that successfully invade red blood cells per infected erythrocyte completing one cycle."
+        },
+        {
+          "id": "SUP-B12",
+          "source": "supervisor",
+          "question": "Why are only parasites aged 1-26 hours assumed to contribute to observed peripheral blood counts?",
+          "answer": "Parasites older than about 26 hours are assumed to sequester and therefore are not visible in peripheral blood microscopy."
+        },
+        {
+          "id": "SELF-B01",
+          "source": "self",
+          "difficulty": "easy",
+          "question": "Which Plasmodium falciparum gametocyte stages are predominantly sequestered, which circulate in peripheral blood, and where does most immature gametocyte development occur?",
+          "answer": "Immature stages I-IV are predominantly sequestered, whereas mature stage-V gametocytes circulate. The extravascular bone marrow is a principal maturation niche.",
+          "metadata": {
+            "primary_capability": "Recall stage-specific gametocyte compartmentalisation.",
+            "answer_validation": {
+              "explanation": "Immature gametocytes are retained outside peripheral blood during development; mature stage-V gametocytes regain deformability and enter circulation.",
+              "references": [
+                {
+                  "claim": "Stages I-IV are predominantly sequestered and mature stage V circulates.",
+                  "reference": "https://doi.org/10.1182/blood-2012-03-414557"
+                },
+                {
+                  "claim": "Human tissue data identify extravascular bone marrow as a major maturation niche.",
+                  "reference": "https://doi.org/10.1126/scitranslmed.3008882"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "SELF-B02",
+          "source": "self",
+          "difficulty": "easy",
+          "question": "Circulating mature Plasmodium falciparum gametocytes are represented by dG/dt = rG with r > 0. Is this biologically defensible? If not, write a minimal balance equation for G(t).",
+          "answer": "Mature gametocytes do not replicate in human blood. A minimal model is dG/dt = J_V(t) - mu_G G(t), where J_V(t) is the delayed influx of newly matured stage-V gametocytes and mu_G is their clearance or death rate.",
+          "metadata": {
+            "primary_capability": "Check a compartment equation against parasite life-cycle biology.",
+            "answer_validation": {
+              "explanation": "A non-replicating mature compartment changes through upstream maturation input and loss, not an autonomous positive growth term.",
+              "references": [
+                {
+                  "claim": "Mature gametocyte kinetics depend on production, maturation and persistence in circulation rather than autonomous replication.",
+                  "reference": "https://doi.org/10.7554/eLife.49058"
+                },
+                {
+                  "claim": "Immature gametocytes develop before mature non-replicating forms return to peripheral circulation.",
+                  "reference": "https://doi.org/10.3389/fimmu.2019.00136"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "SELF-B03",
+          "source": "self",
+          "difficulty": "easy",
+          "question": "A blood-stage infection starts with 10^2 parasites and increases exactly tenfold every 48 hours. With no parasite loss, how many complete cycles and days are required to reach 10^11 parasites?",
+          "answer": "Nine cycles, corresponding to 18 days.",
+          "metadata": {
+            "primary_capability": "Perform a basic exponential-growth calculation.",
+            "answer_validation": {
+              "explanation": "After k cycles, N_k = 10^2 x 10^k. Setting N_k = 10^11 gives k = 9, and 9 x 48 hours = 18 days.",
+              "references": []
+            }
+          }
+        },
+        {
+          "id": "SELF-B04",
+          "source": "self",
+          "difficulty": "easy",
+          "question": "In the cycle model N_(k+1) = M S N_k, M is the parasite multiplication factor and S is the fraction surviving all losses. When does parasite burden decline, and what is the stationary threshold?",
+          "answer": "Burden declines when M S < 1, equivalently S < 1/M. The stationary threshold is M S = 1.",
+          "metadata": {
+            "primary_capability": "Interpret a multiplicative cycle model.",
+            "answer_validation": {
+              "explanation": "For N_k > 0, the cycle-to-cycle ratio is N_(k+1)/N_k = M S. The burden declines below a ratio of one and is unchanged at one.",
+              "references": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "section": "Applied reasoning",
+      "items": [
+        {
+          "id": "SUP-A01",
+          "source": "supervisor",
+          "question": "What features should a model fitted to microscopy data usually capture?",
+          "answer": "Periodic fluctuations, sequestration-related loss from peripheral blood, timing of growth, and the effect of detection thresholds."
+        },
+        {
+          "id": "SUP-A02",
+          "source": "supervisor",
+          "question": "What additional features may matter when fitting qPCR data?",
+          "answer": "Lower detection limits, irregular sampling times, and the possibility that the measured signal reflects parasite DNA rather than only visible parasites."
+        },
+        {
+          "id": "SUP-A03",
+          "source": "supervisor",
+          "question": "Why might a pure exponential growth model be insufficient for untreated parasite trajectories?",
+          "answer": "Many infections slow down, plateau, or decline rather than growing indefinitely at a constant rate."
+        },
+        {
+          "id": "SUP-A04",
+          "source": "supervisor",
+          "question": "When would you add a density-dependent growth effect to a model?",
+          "answer": "When parasite expansion weakens as density increases or when trajectories show plateauing or decline after an initial rise."
+        },
+        {
+          "id": "SUP-A05",
+          "source": "supervisor",
+          "question": "What would explicit sexual commitment add to a within-host model?",
+          "answer": "It would move some parasites out of the asexual replication cycle and allow the model to describe gametocyte production and transmission potential."
+        },
+        {
+          "id": "SUP-A06",
+          "source": "supervisor",
+          "question": "Why can hierarchical models be helpful when fitting many individual profiles?",
+          "answer": "They share information across individuals, improve estimation of common patterns, and reduce noise in poorly informed profiles."
+        },
+        {
+          "id": "SUP-A07",
+          "source": "supervisor",
+          "question": "Why can individual-level parameter estimates have wide credible intervals?",
+          "answer": "Because each trajectory may contain only a few time points and several parameters can explain the same pattern."
+        },
+        {
+          "id": "SUP-A08",
+          "source": "supervisor",
+          "question": "What does overlapping credible intervals imply when comparing strains?",
+          "answer": "The data do not provide strong evidence that the strain-specific differences are clearly separated."
+        },
+        {
+          "id": "SUP-A09",
+          "source": "supervisor",
+          "question": "How should you interpret similar LOO performance for two models?",
+          "answer": "The data do not strongly favor one model; both explain the observations about equally well."
+        },
+        {
+          "id": "SUP-A10",
+          "source": "supervisor",
+          "question": "What would suggest that a more complex model is unnecessary?",
+          "answer": "If it does not improve predictive performance or if added parameters are not identifiable from the data."
+        },
+        {
+          "id": "SUP-A11",
+          "source": "supervisor",
+          "question": "Why is a normal distribution used for the initial parasite age distribution?",
+          "answer": "It is a simple way to represent initial synchrony or asynchrony with only two parameters, the mean age and its spread."
+        },
+        {
+          "id": "SUP-A12",
+          "source": "supervisor",
+          "question": "How does a lower parasite multiplication factor (PMF) change the predicted parasite trajectory?",
+          "answer": "It reduces the rate of exponential expansion, so parasite densities rise more slowly and peak later or at lower levels."
+        },
+        {
+          "id": "SUP-A13",
+          "source": "supervisor",
+          "question": "A within-host model predicts smooth exponential growth but fails to reproduce the oscillations observed in microscopy parasite count data. What biological process is most likely missing?",
+          "answer": "The model is probably missing explicit parasite age structure and sequestration. Without representing the developmental stages of the parasite and sequestration of mature stages, peripheral parasite densities will not oscillate."
+        },
+        {
+          "id": "SUP-A14",
+          "source": "supervisor",
+          "question": "Why is an age-structured model generally better able to reproduce parasite count fluctuations than a simple exponential growth model?",
+          "answer": "Because an age-structured model tracks parasites through their developmental stages, allowing mature parasites to sequester and young parasites to reappear after schizont rupture. A simple exponential model treats all parasites identically and therefore cannot generate periodic oscillations."
+        },
+        {
+          "id": "SELF-A01",
+          "source": "self",
+          "difficulty": "moderate",
+          "question": "Can female-gametocyte density estimated from Pfs25 RT-qPCR be interpreted as a direct measure of mosquito infectivity? Give one assay-related and one biological reason for your answer.",
+          "answer": "No. Pfs25 RT-qPCR is an assay-dependent transcript measurement and does not establish that detected gametocytes are viable or fertilisation-competent. Mosquito infection also depends on male-gametocyte availability, sex ratio, nonlinear density effects, and host or mosquito factors.",
+          "metadata": {
+            "primary_capability": "Distinguish a molecular marker from a functional transmission endpoint.",
+            "answer_validation": {
+              "explanation": "The assay estimates a female-enriched transcript, whereas infectivity is the observed ability of a blood meal to establish mosquito infection.",
+              "references": [
+                {
+                  "claim": "Pfs25 measurements predominantly reflect female gametocytaemia and molecular signal can persist after infectivity falls.",
+                  "reference": "https://doi.org/10.1186/1475-2875-13-483"
+                },
+                {
+                  "claim": "Transmission requires both sexes and depends on density and sex ratio.",
+                  "reference": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2817308/"
+                },
+                {
+                  "claim": "The relationship between gametocyte density and mosquito infection is nonlinear.",
+                  "reference": "https://doi.org/10.7554/eLife.00626"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "SELF-A02",
+          "source": "self",
+          "difficulty": "moderate",
+          "question": "An assay reports a nondetect below 0.02 parasites per microlitre. Assuming uniform distribution in 5 L of blood, what parasite count corresponds to this limit? If F_Y is the observation-model CDF, what is the likelihood contribution of the nondetect?",
+          "answer": "The limit corresponds to 0.02 x 5 x 10^6 = 10^5 parasites. The observation is left-censored at L, so its likelihood contribution is Pr(Y < L) = F_Y(L), not a point observation of zero parasites.",
+          "metadata": {
+            "primary_capability": "Translate an assay limit and formulate a left-censored likelihood.",
+            "answer_validation": {
+              "explanation": "A nondetect provides the event that the measured value lies below the assay limit. This statistical left-censoring is distinct from ending an untreated analysis period when treatment begins.",
+              "references": [
+                {
+                  "claim": "Values below a detection limit are left-censored and contribute cumulative probability at the threshold.",
+                  "reference": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7322891/"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "SELF-A03",
+          "source": "self",
+          "difficulty": "hard",
+          "question": "Construct a minimal hourly age-structured model of the 48-hour asexual blood-stage cycle. Include parasite ageing, survival, schizont rupture, total burden, and an age-dependent mapping to peripheral parasite density.",
+          "answer": "Let P_a(t) be the host-wide number of infected erythrocytes aged a to a+1 hours, a = 0,...,47. Use P_(a+1)(t+1) = s_a P_a(t) for a < 47 and P_0(t+1) = R s_47 P_47(t), where R is effective establishment per rupturing schizont. Total burden is T(t) = sum_a P_a(t). If v_a is the peripheral fraction at age a and V_b is blood volume, expected peripheral density is A(t) = V_b^(-1) sum_a v_a P_a(t).",
+          "metadata": {
+            "primary_capability": "Construct an age-structured state model and observation mapping.",
+            "answer_validation": {
+              "explanation": "Surviving cohorts advance through hourly bins, the oldest cohort produces new age-zero infections, and age-dependent visibility separates latent burden from peripheral density.",
+              "references": [
+                {
+                  "claim": "Falciparum dynamics can be represented with hourly age bins and a rupture boundary using effective multiplication.",
+                  "reference": "https://doi.org/10.1093/infdis/jiy649"
+                },
+                {
+                  "claim": "Sequestration makes peripheral parasitaemia differ from total parasite burden.",
+                  "reference": "https://doi.org/10.1073/pnas.95.13.7620"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "SELF-A04",
+          "source": "self",
+          "difficulty": "hard",
+          "question": "Extend an hourly age-structured parasite model to include concentration- and age-dependent antimalarial killing. Define drug survival over one hour and show how it changes the ageing and rupture equations.",
+          "answer": "Let kappa_a(C) be an age-specific killing hazard. Drug survival during hour [t,t+1) is D_a(t) = exp{-integral_t^(t+1) kappa_a[C(u)]du}. The treated transitions are P_(a+1)(t+1) = s_a D_a(t)P_a(t) and P_0(t+1) = R s_47 D_47(t)P_47(t). The PK model, exposure compartment, concentration-effect form, stage specificity, and any delayed injury require empirical validation.",
+          "metadata": {
+            "primary_capability": "Formulate a stage-specific PK/PD extension.",
+            "answer_validation": {
+              "explanation": "A killing hazard has inverse-time units and becomes an interval survival probability through the exponential of its negative integral.",
+              "references": [
+                {
+                  "claim": "Hourly age-bin models can represent antimalarial action using stage-specific killing profiles.",
+                  "reference": "https://doi.org/10.1128/AAC.01172-15"
+                },
+                {
+                  "claim": "Antimalarial concentration-effect relationships can be sigmoidal and stage-specific.",
+                  "reference": "https://doi.org/10.1128/AAC.00287-13"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "section": "Synthesis and critique",
+      "items": [
+        {
+          "id": "SUP-S01",
+          "source": "supervisor",
+          "question": "If microscopy shows oscillations but qPCR is smoother, what does that suggest?",
+          "answer": "The oscillations may be partly due to what the measurement captures, but the smoother qPCR profile can also reflect improved sensitivity and reduced sparsity in detection."
+        },
+        {
+          "id": "SUP-S02",
+          "source": "supervisor",
+          "question": "How would you distinguish a true biological plateau from a detection-limited plateau?",
+          "answer": "By using additional data such as qPCR, stage-specific counts, or repeated measures that extend beyond the microscopy detection range."
+        },
+        {
+          "id": "SUP-S03",
+          "source": "supervisor",
+          "question": "Why is it risky to assign one specific mechanism to a fitted growth-limiting term?",
+          "answer": "Different processes such as immunity, resource limitation, sexual commitment, and density dependence can produce similar parasite count patterns."
+        },
+        {
+          "id": "SUP-S04",
+          "source": "supervisor",
+          "question": "How would you decide whether to model asexual parasites and gametocytes jointly?",
+          "answer": "Do so when gametocyte data or transmission outcomes are available and the scientific question includes sexual differentiation or infectivity."
+        },
+        {
+          "id": "SUP-S05",
+          "source": "supervisor",
+          "question": "What additional data would help separate host-mediated killing from parasite-intrinsic regulation?",
+          "answer": "Immune markers, gametocyte counts, sequestration markers, and possibly intervention or perturbation data."
+        },
+        {
+          "id": "SUP-S06",
+          "source": "supervisor",
+          "question": "How would changing the assumed sequestration age affect fitted trajectories?",
+          "answer": "It would change how long parasites remain visible in peripheral blood, shifting the timing and amplitude of the predicted oscillations."
+        },
+        {
+          "id": "SUP-S07",
+          "source": "supervisor",
+          "question": "Why might a model that fits the training data well still fail on new trajectories?",
+          "answer": "It may overfit idiosyncratic features of the training set or miss the real biological process that drives new data."
+        },
+        {
+          "id": "SUP-S08",
+          "source": "supervisor",
+          "question": "What is the advantage of keeping the latent biology separate from the observation process?",
+          "answer": "It lets the model distinguish parasite dynamics from measurement artifacts and makes the biological assumptions easier to test."
+        },
+        {
+          "id": "SUP-S09",
+          "source": "supervisor",
+          "question": "How would you adapt a model if the goal changed from parasite counts to transmission prediction?",
+          "answer": "Add sexual-stage dynamics and a link from gametocyte density to mosquito infectivity."
+        },
+        {
+          "id": "SUP-S10",
+          "source": "supervisor",
+          "question": "Why is a parsimonious model often preferable when the data are sparse?",
+          "answer": "It is easier to identify, less prone to overfitting, and more likely to generalize to new data."
+        },
+        {
+          "id": "SUP-S11",
+          "source": "supervisor",
+          "question": "Can daily fluctuations in parasite count profiles alone be considered evidence for immune responses?",
+          "answer": "No. Daily fluctuations are primarily explained by parasite age structure and sequestration. Immune responses generally influence the longer-term trajectory (attenuation, plateau, decline) rather than the periodic oscillations themselves."
+        },
+        {
+          "id": "SUP-S12",
+          "source": "supervisor",
+          "question": "A model accurately reproduces the 48-hour oscillations in parasite density but consistently overestimates parasite counts after day 8. What does this suggest about the model?",
+          "answer": "The model captures parasite age structure and sequestration correctly but lacks a mechanism that limits parasite expansion later in infection, such as immune responses, resource limitation, density-dependent regulation, or sexual commitment."
+        },
+        {
+          "id": "SELF-S01",
+          "source": "self",
+          "difficulty": "hard",
+          "question": "Extend an age-structured asexual model with sexual commitment, delayed immature-gametocyte development, and circulating mature female and male gametocytes. State whether commitment follows a same-cycle or next-cycle convention and conserve parasite flow.",
+          "answer": "Under a next-cycle convention, if Q(t) is viable rupture progeny, send B(t) = c(t)Q(t) into a delayed immature-gametocyte chain and (1-c(t))Q(t) into the next asexual generation. A transit chain with rate k = m/T_g gives mean maturation time T_g, defensibly about 8-12 days. Split mature outflow into female and male compartments with their own loss rates. Under a same-cycle convention, divert a pre-rupture asexual flow instead; it must not include the rupture multiplier. Mature gametocytes do not replicate in human blood.",
+          "metadata": {
+            "primary_capability": "Construct a flow-consistent sexual-stage extension.",
+            "answer_validation": {
+              "explanation": "The commitment convention determines whether the sexual source is drawn from rupture progeny or from a pre-rupture asexual state; using both conventions simultaneously violates flow consistency.",
+              "references": [
+                {
+                  "claim": "An in vivo model estimated an approximately 8.4-day period before immature gametocytes appear in peripheral circulation.",
+                  "reference": "https://doi.org/10.7554/eLife.49058"
+                },
+                {
+                  "claim": "Both next-cycle and same-cycle sexual conversion routes are biologically supported.",
+                  "reference": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6294672/"
+                },
+                {
+                  "claim": "Developing gametocytes accumulate in extravascular bone marrow before mature forms circulate.",
+                  "reference": "https://doi.org/10.1126/scitranslmed.3008882"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "SELF-S02",
+          "source": "self",
+          "difficulty": "hard",
+          "question": "How should a within-host model link latent asexual, female-gametocyte, and male-gametocyte states to microscopy, pan-Plasmodium DNA qPCR, and sex-enriched RT-qPCR observations?",
+          "answer": "Use a separate observation function and error model for each assay. Microscopy should depend on the peripheral, age-weighted asexual state and sampled blood volume. Pan-Plasmodium qPCR needs target-specific scaling and may include DNA from multiple detectable stages. Female- and male-enriched RT-qPCR require separate calibration and may include cross-expression. A nondetect below L contributes Pr(Y < L), and molecular positivity alone does not establish viability or infectivity.",
+          "metadata": {
+            "primary_capability": "Construct assay-specific mappings from shared latent states.",
+            "answer_validation": {
+              "explanation": "The assays measure different biological targets with different scales, errors and detection limits, so one common observation equation is not defensible.",
+              "references": [
+                {
+                  "claim": "Microscopy and nucleic-acid assays have different detection limits and density mappings.",
+                  "reference": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6712708/"
+                },
+                {
+                  "claim": "Pfs25 and PfMGET assays require target-specific calibration.",
+                  "reference": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7310411/"
+                },
+                {
+                  "claim": "Common female and male markers are enriched rather than perfectly sex-exclusive.",
+                  "reference": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6396025/"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "SELF-S03",
+          "source": "self",
+          "difficulty": "expert",
+          "question": "A treatment model contains unknown initial biomass, parasite-age distribution, multiplication, sequestration, stage-specific killing, drug exposure, and immune clearance. Only peripheral parasite density is measured every six hours for 48 hours. Which effects are confounded, and what additional measurements would help separate them?",
+          "answer": "Initial biomass is confounded with the circulating fraction determined by age and sequestration. Stage-specific killing is confounded with unmeasured exposure and the stages present at treatment. Sequestration can mimic clearance, while multiplication, drug killing, and immune clearance contribute only a net observed rate. Stage-resolved counts, measured pharmacokinetics, an independent biomass marker such as PfHRP2, longer untreated observations, and immune measurements would reduce these ambiguities. Exact structural identifiability cannot be claimed without the complete equations.",
+          "metadata": {
+            "primary_capability": "Audit practical identifiability under partial observation.",
+            "answer_validation": {
+              "explanation": "Peripheral density is a visibility-weighted projection of latent biomass, and multiple biological processes enter the same observed net growth or clearance rate.",
+              "references": [
+                {
+                  "claim": "Identifiability depends on model equations, observation functions and available data.",
+                  "reference": "https://academic.oup.com/bioinformatics/article/25/15/1923/213246"
+                },
+                {
+                  "claim": "Sequestration can produce peripheral decline unrelated to drug killing.",
+                  "reference": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3837842/"
+                },
+                {
+                  "claim": "PfHRP2 can add information about biomass missing from peripheral counts.",
+                  "reference": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1188247/"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "SELF-S04",
+          "source": "self",
+          "difficulty": "hard",
+          "question": "Why is parasite-clearance half-life usually more informative about reduced artemisinin susceptibility than time to microscopy negativity, and why is it not a pure parasite-intrinsic killing rate?",
+          "answer": "Time to negativity depends on starting density, the microscopy detection limit, and sampling frequency. During log-linear decline P(t) = P0 exp(-kt), the half-life ln(2)/k is independent of P0 and is therefore more comparable. It still measures disappearance from peripheral blood, not parasite death alone, and is affected by parasite age, sequestration, schizogony, drug exposure, splenic clearance, immunity, and measurement choices.",
+          "metadata": {
+            "primary_capability": "Interpret and qualify an in vivo drug-susceptibility endpoint.",
+            "answer_validation": {
+              "explanation": "The time to cross a detection limit is [ln(P0)-ln(L)]/k, whereas the fitted half-life is ln(2)/k. The latter reduces baseline dependence but still combines biological and measurement processes.",
+              "references": [
+                {
+                  "claim": "Slope half-life is estimated from the log-linear phase and reduces dependence on starting parasitaemia.",
+                  "reference": "https://doi.org/10.1186/1475-2875-10-339"
+                },
+                {
+                  "claim": "Parasite age, schizogony and sequestration influence clearance profiles.",
+                  "reference": "https://doi.org/10.1093/infdis/jiy673"
+                },
+                {
+                  "claim": "Peripheral clearance combines drug, host and splenic-removal processes.",
+                  "reference": "https://doi.org/10.1186/s12936-017-1731-1"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "section": "Computational modelling",
+      "items": [
+        {
+          "id": "SELF-C01",
+          "source": "self",
+          "difficulty": "computational",
+          "question": "At integer hour t, P_a(t) is the number of infected erythrocytes in parasite-age bin a, for a = 0,...,47. Initially P_0 = 120, P_12 = 80, P_25 = 50, P_47 = 30, and all other bins are zero. Apply the simultaneous update P_(a+1)(t+1) = 0.98 P_a(t) for a = 0,...,46 and P_0(t+1) = 8 x 0.98 P_47(t). Define peripheral count A(t) = sum_(a=0)^25 P_a(t) and total burden T(t) = sum_(a=0)^47 P_a(t). Without intermediate rounding, calculate A(24), A(48), T(48), A(96), and T(96). Report two decimal places.",
+          "answer": "A(24) = 467.99; A(48) = 758.37; T(48) = 849.38; A(96) = 2300.51; T(96) = 2576.57.",
+          "metadata": {
+            "primary_capability": "Execute an age-structured renewal calculation.",
+            "answer_validation": {
+              "explanation": "All age bins are advanced simultaneously, survival is applied once per hour, and only the oldest surviving bin receives the multiplication factor at renewal.",
+              "verification": "A fresh 48-element state vector was formed at each of 96 updates. The unrounded checkpoints were A(24) = 467.9930557469, A(48) = 758.3708456625, T(48) = 849.3753471420, A(96) = 2300.5053582032, and T(96) = 2576.5660011876.",
+              "references": [
+                {
+                  "claim": "Falciparum dynamics can be represented using hourly parasite-age bins and renewal at schizont rupture.",
+                  "reference": "https://doi.org/10.1093/infdis/jiy649"
+                },
+                {
+                  "claim": "Peripheral parasitaemia is an age-dependent projection of total parasite burden because mature parasites sequester.",
+                  "reference": "https://doi.org/10.1073/pnas.95.13.7620"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "SELF-C02",
+          "source": "self",
+          "difficulty": "computational",
+          "question": "Discretise parasite age as a = 0,...,47 hours and time as t_n = 0.25n hours. Set w_a = exp[-(a-8)^2/(2 x 4^2)] and p_a^0 = 10^6 w_a/sum_(b=0)^47 w_b. At step n set C_n = 200 x 2^(-t_n/6) and kappa_(a,n) = h_a C_n/(50+C_n), where h_a = 0.15 h^-1 for 18 <= a <= 40 and 0.02 h^-1 otherwise. Define q_0^n = 8p_47^n and q_a^n = p_(a-1)^n for a = 1,...,47, then update all bins simultaneously by p_a^(n+1) = p_a^n + 0.25[q_a^n - p_a^n - kappa_(a,n)p_a^n]. With A_n = sum_(a=0)^25 p_a^n and T_n = sum_(a=0)^47 p_a^n, calculate A at 24, 48, and 72 hours and T at 72 hours. Iterate exactly as specified without intermediate rounding and report one decimal place.",
+          "answer": "A(24) = 80992.6; A(48) = 2272713.5; A(72) = 1245629.8; T(72) = 3159203.8.",
+          "metadata": {
+            "primary_capability": "Numerically solve a treated age-transport model.",
+            "answer_validation": {
+              "explanation": "The stated forward-Euler transport and killing update is applied for 96, 192, and 288 steps to reach 24, 48, and 72 hours.",
+              "verification": "A direct implementation gave unrounded values A(24) = 80992.6146278291, A(48) = 2272713.5370377745, A(72) = 1245629.7614338696, and T(72) = 3159203.7982378057.",
+              "references": [
+                {
+                  "claim": "Age-structured within-host models can represent stage-specific antimalarial killing.",
+                  "reference": "https://doi.org/10.1128/AAC.01172-15"
+                },
+                {
+                  "claim": "Antimalarial concentration-effect relationships can be concentration- and stage-dependent.",
+                  "reference": "https://doi.org/10.1128/AAC.00287-13"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "SELF-C03",
+          "source": "self",
+          "difficulty": "computational",
+          "question": "Model log10 parasite density at day t_i as Y_i ~ Normal(mu_i, 0.15^2), where mu_i = alpha + r t_i. The observations (t_i, Y_i) are (0, ND), (1, ND), (2, -0.72), (3, -0.38), (4, 0.05), (5, 0.29), and (6, 0.67); ND means Y_i < -1. Let phi and Phi be the standard-normal density and CDF. Maximise ell(alpha,r) = sum_detected log{phi[(Y_i-mu_i)/0.15]/0.15} + sum_ND log Phi[(-1-mu_i)/0.15], subject to -3 <= alpha <= 1 and 0 <= r <= 1. Report alpha, r, the maximised log-likelihood, and the time (-1-alpha)/r at which the latent mean crosses the detection limit, each to three decimal places.",
+          "answer": "alpha = -1.478; r = 0.362 per day; maximised log-likelihood = 4.419; detection-limit crossing time = 1.320 days.",
+          "metadata": {
+            "primary_capability": "Fit a censored parasite-growth observation model.",
+            "answer_validation": {
+              "explanation": "Detected observations contribute normal densities and nondetects contribute cumulative probability below the stated detection limit.",
+              "verification": "Solving both likelihood score equations gives alpha = -1.4782513130 and r = 0.3622020163. Substitution gives ell = 4.4190909747 and crossing time = 1.3203993668 days.",
+              "references": [
+                {
+                  "claim": "Measurements below a detection threshold should contribute a left-censored likelihood rather than be treated as observed zeros.",
+                  "reference": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7322891/"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "SELF-C04",
+          "source": "self",
+          "difficulty": "computational",
+          "question": "Consider the Gaussian hierarchical model y_ij ~ Normal(theta_i, 0.2^2), theta_i ~ Normal(mu, 0.3^2), and mu ~ Normal(0, 1^2), where the values after each comma are standard deviations. The three groups are y_1 = (-0.1, 0.0, 0.1), y_2 = (0.8, 0.9, 1.0), and y_3 = (1.8, 2.0, 2.2). Compute the exact joint Gaussian posterior. For mu, theta_1, theta_2, and theta_3, report the posterior mean and the central interval defined as mean +/- 1.96 posterior standard deviations, each to three decimal places.",
+          "answer": "mu: 0.934 [0.577, 1.292]; theta_1: 0.121 [-0.096, 0.337]; theta_2: 0.904 [0.688, 1.121]; theta_3: 1.863 [1.646, 2.079].",
+          "metadata": {
+            "primary_capability": "Calculate partial pooling in a hierarchical model.",
+            "answer_validation": {
+              "explanation": "Because every sampling distribution and prior is Gaussian with known variance, the joint posterior is multivariate Gaussian and its marginal intervals follow from the posterior precision matrix.",
+              "verification": "For x = (mu, theta_1, theta_2, theta_3), the posterior precision has diagonal (34.3333, 86.1111, 86.1111, 86.1111), each mu-theta off-diagonal is -11.1111, and the information vector is (0, 0, 67.5, 150). The stated results follow from Q^-1 h and diag(Q^-1).",
+              "references": [
+                {
+                  "claim": "Hierarchical models estimate group effects through partial pooling under a shared population distribution.",
+                  "reference": "https://mc-stan.org/docs/2_24/stan-users-guide/multilevel-regression-and-poststratification.html"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "SELF-C05",
+          "source": "self",
+          "difficulty": "computational",
+          "question": "For 12 observations, the pointwise PSIS-LOO expected log predictive densities are A = (-1.2, -0.8, -1.5, -2.0, -0.9, -1.1, -3.2, -0.7, -1.8, -1.0, -2.4, -1.3) and B = (-1.5, -1.0, -1.4, -2.5, -1.0, -1.3, -2.8, -0.9, -2.1, -1.2, -2.0, -1.6). Let d_i = A_i-B_i, Delta = sum_i d_i, and SE(Delta) = sqrt(12 s_d^2), where s_d^2 = sum_i(d_i-d_bar)^2/11. The Pareto-k values are k_A = (0.20, 0.30, 0.10, 0.40, 0.50, 0.20, 0.82, 0.30, 0.60, 0.20, 0.75, 0.40) and k_B = (0.25, 0.35, 0.20, 0.45, 0.40, 0.25, 0.65, 0.30, 0.55, 0.20, 0.80, 0.45). Calculate Delta and its SE to three decimal places, count observations for which either model has k > 0.7, and state the justified model-comparison conclusion.",
+          "answer": "Delta = 1.400 and SE(Delta) = 0.967, favouring model A by about 1.45 standard errors. Two observations have k > 0.7 in at least one model. The difference is not strong relative to its uncertainty, and the problematic Pareto-k values make the PSIS-LOO comparison unreliable without exact leave-one-out refits or further investigation.",
+          "metadata": {
+            "primary_capability": "Calculate and diagnose a PSIS-LOO model comparison.",
+            "answer_validation": {
+              "explanation": "Pointwise ELPD differences determine the comparison and its standard error; large Pareto-k values identify observations for which importance-sampling diagnostics are unreliable.",
+              "verification": "The pointwise differences are (0.3, 0.2, -0.1, 0.5, 0.1, 0.2, -0.4, 0.2, 0.3, 0.2, -0.4, 0.3). Their sum is 1.4 and sample variance is 0.0778788, giving sqrt(12 s_d^2) = 0.966719.",
+              "references": [
+                {
+                  "claim": "LOO model comparison uses pointwise expected log predictive-density differences and their uncertainty.",
+                  "reference": "https://doi.org/10.1007/s11222-016-9696-4"
+                },
+                {
+                  "claim": "Pareto-k diagnostics identify unreliable importance-sampling approximations.",
+                  "reference": "https://jmlr.org/papers/v25/19-556.html"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "section": "Extended computational modelling",
+      "items": [
+        {
+          "id": "SELF-C06",
+          "source": "self",
+          "difficulty": "agentic",
+          "mode": "executable_research",
+          "question": "The input directory contains synthetic pre-treatment qPCR measurements from one Plasmodium falciparum infection and four times at which parasite density must be predicted. Fit the simplest model you consider scientifically defensible. Treat a nondetect as left-censored at 10 parasites/mL. Estimate the average parasite multiplication factor per 48-hour cycle with an uncertainty interval, assess whether structure beyond free-intercept log-linear growth is supported, and interpret the result biologically. Write analysis.py, results.json in the specified schema, and a report.md of no more than 300 words. Use only the supplied input files.",
+          "answer": "A defensible analysis fits parasite density on the log scale, estimates rather than fixes the intercept, and treats the nondetect as left-censored. A free-intercept log-linear model is the required baseline; a fixed 48-hour periodic component is also defensible when supported by residual and predictive evidence. In the reference analysis, the periodic model estimates an average PMF of about 5.8 and modestly improves held-out log10 RMSE, but alternative models may receive full credit when they are reproducible, predict well, quantify uncertainty, and avoid unsupported mechanistic claims.",
+          "metadata": {
+            "primary_capability": "Fit, criticise, and biologically interpret a within-host parasite model from data.",
+            "task_directory": "../tasks/SELF-C06",
+            "rubric": "../tasks/SELF-C06/rubric.json",
+            "answer_validation": {
+              "explanation": "The task permits multiple valid models. Numerical predictions and PMF consistency are checked in code; statistical decisions and biological interpretation are marked against atomic criteria.",
+              "references": [
+                {
+                  "claim": "Free-intercept log-linear growth is a defensible simple model for individual induced blood-stage malaria profiles.",
+                  "reference": "https://doi.org/10.1186/s12936-017-1999-1"
+                },
+                {
+                  "claim": "Log-linear, periodic, and mechanistic models have been compared for controlled human malaria qPCR trajectories.",
+                  "reference": "https://doi.org/10.1093/infdis/jit156"
+                },
+                {
+                  "claim": "Open-ended data-analysis benchmarks should recognise multiple valid intermediate decisions.",
+                  "reference": "https://doi.org/10.18653/v1/2024.findings-emnlp.815"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "SELF-C07",
+          "source": "self",
+          "difficulty": "agentic",
+          "mode": "executable_research",
+          "question": "The input directory contains a synthetic asexual-parasite driver, mature female-gametocyte measurements analogous to Pfs25 qRT-PCR from one Plasmodium falciparum infection, and four prediction times. Fit a non-negative compartment ODE linking the asexual trajectory to delayed mature-gametocyte appearance. Include at least one sequestered immature compartment and a non-replicating mature compartment with first-order loss. Treat the nondetect as left-censored at 2 gametocytes/mL. Estimate maturation, effective production, mature clearance and half-life with uncertainty; compare an alternative maturation structure; and interpret the result biologically. Write analysis.py, results.json in the specified schema, trajectory.csv, and a report.md of no more than 400 words. Literature may inform assumptions or priors, but do not add external participant-level observations.",
+          "answer": "A defensible analysis uses a stable adaptive ODE solve, a non-negative delayed maturation structure, and an observation model on a positive scale with the nondetect censored. The reference uses four immature transit compartments feeding a circulating mature female compartment, but other compartment counts or production functions can receive full credit. The production scale must not be interpreted directly as a sexual commitment probability, mature gametocytes must not replicate, and the analysis should expose confounding among production, maturation time and persistence. Female transcript-based density is not direct evidence of viability or infectivity. Numerical forecasts and the clearance-to-half-life identity are checked in code; scientific assumptions, comparison and interpretation are scored against atomic criteria.",
+          "metadata": {
+            "primary_capability": "Build, fit, criticise, and biologically interpret a delayed gametocyte ODE model.",
+            "task_directory": "../tasks/SELF-C07",
+            "rubric": "../tasks/SELF-C07/rubric.json",
+            "answer_validation": {
+              "explanation": "The task permits multiple valid ODE structures. Hidden forecasts and internal parameter consistency are checked deterministically; model construction and scientific interpretation are marked against atomic criteria.",
+              "references": [
+                {
+                  "claim": "A fitted within-host model represents four sequestered immature gametocyte stages feeding circulating stage V and estimates an approximately 8.4-day sequestration time.",
+                  "reference": "https://doi.org/10.7554/eLife.49058"
+                },
+                {
+                  "claim": "Controlled infection data provide empirical estimates of mature female and male gametocyte half-lives.",
+                  "reference": "https://doi.org/10.7554/eLife.31549"
+                },
+                {
+                  "claim": "Open-ended data-analysis benchmarks should recognise multiple valid analytical decisions.",
+                  "reference": "https://doi.org/10.18653/v1/2024.findings-emnlp.815"
+                },
+                {
+                  "claim": "Scientific-agent tasks can require executable code and combine output checks with expert-validated rubrics.",
+                  "reference": "https://openreview.net/forum?id=6z4YKr0GK6"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "SELF-C08",
+          "source": "self",
+          "difficulty": "agentic",
+          "mode": "executable_research",
+          "question": "The input directory contains synthetic direct membrane feeding experiments with asexual parasite, female-gametocyte, and male-gametocyte molecular measurements and mosquito infection counts. Develop the simplest defensible model for mosquito infection probability and predict the supplied held-out feeds. Use the infected and examined counts, compare sex-specific with total-gametocyte modelling, assess whether asexual density adds predictive information, quantify uncertainty, and diagnose the fit. Research and cite at least three primary articles that support the biological and assay interpretation, while distinguishing prior evidence from conclusions supported by these synthetic data. Write analysis.py, results.json in the specified schema, and a report.md of no more than 500 words. Use no external outcome data.",
+          "answer": "A defensible analysis uses a binomial or justified overdispersed likelihood, respects the feeding denominators, and returns calibrated held-out probabilities with uncertainty. It compares separate female and male predictors with a simpler total-density model using predictive or complexity-aware evidence. The reference saturating model predicts better than a training-rate baseline and a total-density alternative; adding asexual density is not supported. Other model families may receive full credit when their predictions, uncertainty, diagnostics, biological interpretation, and primary citations are sound.",
+          "metadata": {
+            "primary_capability": "Research, fit, criticise, and biologically interpret a multi-assay human-to-mosquito transmission model.",
+            "task_directory": "../tasks/SELF-C08",
+            "rubric": "../tasks/SELF-C08/rubric.json",
+            "answer_validation": {
+              "explanation": "The task permits multiple valid models. Hidden binomial prediction, schema consistency, uncertainty structure, and transmission summaries are checked in code; statistical decisions, biological interpretation, and source support are marked against atomic criteria.",
+              "references": [
+                {
+                  "claim": "Female and male gametocyte densities jointly inform mosquito infection probability, particularly at low male density.",
+                  "reference": "https://doi.org/10.7554/eLife.34463"
+                },
+                {
+                  "claim": "Asexual, female-gametocyte, and male-gametocyte molecular assay streams have been used jointly in within-host Plasmodium falciparum modelling.",
+                  "reference": "https://doi.org/10.7554/eLife.49058"
+                },
+                {
+                  "claim": "Gametocyte density has a nonlinear relationship with mosquito infection in feeding experiments.",
+                  "reference": "https://doi.org/10.7554/eLife.00626"
+                },
+                {
+                  "claim": "Open-ended data-analysis benchmarks should recognise multiple valid analytical decisions.",
+                  "reference": "https://doi.org/10.18653/v1/2024.findings-emnlp.815"
+                },
+                {
+                  "claim": "Scientific agent tasks can combine executable outputs with task-specific evaluation.",
+                  "reference": "https://proceedings.iclr.cc/paper_files/paper/2025/hash/f12b4df26344f3be803c06b555252efe-Abstract-Conference.html"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

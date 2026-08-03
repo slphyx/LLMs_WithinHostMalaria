@@ -1,0 +1,512 @@
+{
+  "id": "SELF-C07",
+  "condition": "agent",
+  "model": "openrouter/anthropic/claude-opus-5",
+  "score": 50,
+  "explanation": "Automated 49.1/50; scientific 36.7/50; cap 50.",
+  "response_file": null,
+  "artifact_error": null,
+  "automated": {
+    "score": 49.123,
+    "maximum": 50,
+    "components": {
+      "schema": 10.0,
+      "held_out_prediction": 24.123,
+      "half_life_consistency": 10.0,
+      "uncertainty_interval": 5.0
+    },
+    "metrics": {
+      "held_out_log10_rmse": 0.06974953979049728
+    },
+    "checks": {
+      "model": true,
+      "parameters": true,
+      "diagnostics": true,
+      "prediction_rows": true,
+      "half_life_interval": true
+    }
+  },
+  "scientific": {
+    "score": 36.666666666666664,
+    "maximum": 50,
+    "criteria": [
+      {
+        "id": "S1",
+        "criterion": "States the ODEs, initial conditions, parameter units, and mapping from latent mature gametocytes to observations.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "S2",
+        "criterion": "Uses an adaptive ODE solver with reported tolerances and checks non-negativity and numerical convergence.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "S3",
+        "criterion": "Fits positive density on an appropriate scale and treats the nondetect as left-censored at 2 gametocytes/mL.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "S4",
+        "criterion": "Quantifies uncertainty and distinguishes information supplied by this profile from information imposed through bounds or literature-informed priors.",
+        "points": 5,
+        "votes_met": 2,
+        "votes_total": 3,
+        "awarded": 3.333333333333333
+      },
+      {
+        "id": "S5",
+        "criterion": "Compares at least one alternative maturation structure using predictive evidence and parsimony rather than training fit alone.",
+        "points": 5,
+        "votes_met": 2,
+        "votes_total": 3,
+        "awarded": 3.333333333333333
+      },
+      {
+        "id": "B1",
+        "criterion": "Represents immature stages as delayed and sequestered, with only mature stage-V female gametocytes mapped to the supplied peripheral measurements.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "B2",
+        "criterion": "Models mature gametocytes as non-replicating, with upstream maturation inflow and clearance loss.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "B3",
+        "criterion": "Interprets the fitted production coefficient as an effective scale and does not equate it directly with a sexual commitment probability.",
+        "points": 5,
+        "votes_met": 2,
+        "votes_total": 3,
+        "awarded": 3.333333333333333
+      },
+      {
+        "id": "B4",
+        "criterion": "Separates the supplied no-direct-gametocytocidal-effect assumption from an empirical conclusion about antimalarial drugs.",
+        "points": 5,
+        "votes_met": 1,
+        "votes_total": 3,
+        "awarded": 1.6666666666666665
+      },
+      {
+        "id": "C1",
+        "criterion": "Discusses confounding among production, maturation and persistence, and does not equate female transcript-based gametocyte density with viability or mosquito infectivity.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      }
+    ],
+    "cap": 50
+  },
+  "execution": {
+    "success": true,
+    "complete": false,
+    "returncode": 0,
+    "stdout": "1 1.7895878423494112 [1.05900545e+07 2.46001575e+10 7.80042138e-08 2.56075967e-01]\n2 -7.389046495719843 [ 0.04482613 24.95309688  0.08014095  0.13033999]\n3 -12.13670935925783 [ 0.03165397 12.10671714  0.24762016  0.09204901]\n5 -16.272729714185836 [0.01188978 6.487443   0.1045999  0.06871026]\n{\n  \"effective_production_per_day\": 0.011889777568578496,\n  \"mean_maturation_days\": 6.487443002464551,\n  \"mature_clearance_rate_per_day\": 0.10459990020211224,\n  \"mature_half_life_days\": 6.626652408086602,\n  \"mature_half_life_interval\": [\n    0.016431845500395,\n    2672.4035432626715\n  ]\n}\n[{'time_days': 10.0, 'gametocytes_per_ml': 120.27887035772164}, {'time_days': 14.0, 'gametocytes_per_ml': 650.6880604268642}, {'time_days': 21.0, 'gametocytes_per_ml': 665.3175034392427}, {'time_days': 24.0, 'gametocytes_per_ml': 507.4336705092472}]\n",
+    "stderr": "",
+    "reproduced": false,
+    "timed_out": false,
+    "timeout_seconds": 600,
+    "error": null
+  },
+  "judges": [
+    {
+      "judge": "openrouter/openai/gpt-5.5",
+      "served_model": "openai/gpt-5.5",
+      "usage": {
+        "input_tokens": 13239,
+        "output_tokens": 680,
+        "total_tokens": 13919,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 454,
+        "total_cost": 0.086595
+      },
+      "generation_time": 11.593507945537567,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": true,
+          "reason": "Equations, units, initial states, observation model stated"
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "Adaptive LSODA tolerances and solver success checked"
+        },
+        {
+          "id": "S3",
+          "met": true,
+          "reason": "Log-scale likelihood with ND censored at LOD 2"
+        },
+        {
+          "id": "S4",
+          "met": true,
+          "reason": "Profile half-life interval and weak identification discussed"
+        },
+        {
+          "id": "S5",
+          "met": false,
+          "reason": "Uses AIC, not predictive evidence"
+        },
+        {
+          "id": "B1",
+          "met": true,
+          "reason": "Sequestered immature chain feeds measured mature compartment"
+        },
+        {
+          "id": "B2",
+          "met": true,
+          "reason": "Mature compartment has inflow and first-order clearance"
+        },
+        {
+          "id": "B3",
+          "met": true,
+          "reason": "Coefficient labelled effective scale with units"
+        },
+        {
+          "id": "B4",
+          "met": false,
+          "reason": "No explicit treatment-assumption discussion"
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "No viability or infectivity caveat"
+        }
+      ],
+      "cap": {
+        "maximum": 100,
+        "reason": "none"
+      }
+    },
+    {
+      "judge": "openrouter/anthropic/claude-haiku-4.5",
+      "served_model": "anthropic/claude-haiku-4.5",
+      "usage": {
+        "input_tokens": 14876,
+        "output_tokens": 1637,
+        "total_tokens": 16513,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 835,
+        "total_cost": 0.023060999999999998
+      },
+      "generation_time": 17.882928304374218,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": true,
+          "reason": "ODEs stated in results.json with units, initial conditions (zero), parameter definitions."
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "Uses scipy LSODA with rtol=1e-7, atol=1e-9; clips states non-negative."
+        },
+        {
+          "id": "S3",
+          "met": true,
+          "reason": "Fits log₁₀-normal scale; left-censoring at LOD=2 via Φ((log₁₀(2)−log₁₀(G))/σ)."
+        },
+        {
+          "id": "S4",
+          "met": false,
+          "reason": "CI [0.016, 2672] d is implausibly wide; profile likelihood failed numerically or exposed severe non-identifiability without adequate discussion of implications."
+        },
+        {
+          "id": "S5",
+          "met": true,
+          "reason": "Compares n=1,2,3,5 immature stages; selects n=5 by AIC; reports nll and AIC for each."
+        },
+        {
+          "id": "B1",
+          "met": true,
+          "reason": "Immature I₁…Iₙ sequestered; mature G only mapped to peripheral measurements."
+        },
+        {
+          "id": "B2",
+          "met": true,
+          "reason": "Mature G has inflow (n/τ)Iₙ and clearance δG; no replication."
+        },
+        {
+          "id": "B3",
+          "met": true,
+          "reason": "Parameter called 'effective_production_coefficient'; not claimed as commitment probability."
+        },
+        {
+          "id": "B4",
+          "met": true,
+          "reason": "Assumes treatment removes asexual parasites only; no direct gametocytocidal effect stated as input assumption."
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "Identifiability discussion mentions weak separation but does not discuss f–δ confounding mechanism or transcript-viability distinction."
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "report.md is empty; required artefact absent. Code runs and produces results, but missing final document blocks reproducibility verification of biological interpretation and literature engagement."
+      }
+    },
+    {
+      "judge": "openrouter/google/gemini-3.5-flash",
+      "served_model": "google/gemini-3.5-flash",
+      "usage": {
+        "input_tokens": 22444,
+        "output_tokens": 2045,
+        "total_tokens": 24489,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 1658,
+        "total_cost": 0.052071000000000006
+      },
+      "generation_time": 12.285057328641415,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": true,
+          "reason": "ODEs, initial conditions, units, and observation mapping are fully specified in results.json."
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "Uses LSODA solver with rtol=1e-7, atol=1e-9, and checks success."
+        },
+        {
+          "id": "S3",
+          "met": true,
+          "reason": "Fits on log10 scale with left-censored likelihood at LOD=2."
+        },
+        {
+          "id": "S4",
+          "met": true,
+          "reason": "Quantifies uncertainty via profile likelihood and discusses weak parameter separation."
+        },
+        {
+          "id": "S5",
+          "met": true,
+          "reason": "Compares n=1, 2, 3, 5 Erlang chains using AIC."
+        },
+        {
+          "id": "B1",
+          "met": true,
+          "reason": "Models sequestered immature compartments and maps only mature G to observations."
+        },
+        {
+          "id": "B2",
+          "met": true,
+          "reason": "Mature compartment has maturation inflow and first-order clearance loss."
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "Report is empty; does not discuss interpretation of the production coefficient."
+        },
+        {
+          "id": "B4",
+          "met": false,
+          "reason": "Report is empty; does not discuss the antimalarial drug assumption."
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "Report is empty; does not discuss transcript-based density vs viability/infectivity."
+        }
+      ],
+      "cap": {
+        "maximum": 100,
+        "reason": "none"
+      }
+    }
+  ],
+  "judge_failures": [],
+  "web_search_calls": [],
+  "usage": {
+    "openrouter/anthropic/claude-opus-5": {
+      "input_tokens": 30828,
+      "output_tokens": 6435,
+      "total_tokens": 67557,
+      "input_tokens_cache_write": 20196,
+      "input_tokens_cache_read": 10098,
+      "reasoning_tokens": 520,
+      "total_cost": 0.44628899999999994
+    },
+    "openrouter/openai/gpt-5.5": {
+      "input_tokens": 13239,
+      "output_tokens": 680,
+      "total_tokens": 13919,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 454,
+      "total_cost": 0.086595
+    },
+    "openrouter/google/gemini-3.5-flash": {
+      "input_tokens": 22444,
+      "output_tokens": 2045,
+      "total_tokens": 24489,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 1658,
+      "total_cost": 0.052071000000000006
+    },
+    "openrouter/anthropic/claude-haiku-4.5": {
+      "input_tokens": 14876,
+      "output_tokens": 1637,
+      "total_tokens": 16513,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 835,
+      "total_cost": 0.023060999999999998
+    }
+  },
+  "tools": {
+    "bash": 5,
+    "text_editor": 1
+  },
+  "cost": {
+    "model": 0.51286475,
+    "web_search": 0,
+    "total": 0.51286475,
+    "model_calls": [
+      {
+        "model": "openrouter/anthropic/claude-opus-5",
+        "served_model": "anthropic/claude-opus-5",
+        "provider": "Amazon Bedrock",
+        "generation_id": "gen-1785511470-tDdQXv3MbJslJXi12V2H",
+        "service_tier": "default",
+        "cost": 0.04322125,
+        "cost_details": {
+          "upstream_inference_cost": 0.04322125,
+          "upstream_inference_prompt_cost": 0.04102125,
+          "upstream_inference_completions_cost": 0.0022
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/anthropic/claude-opus-5",
+        "served_model": "anthropic/claude-opus-5",
+        "provider": "Amazon Bedrock",
+        "generation_id": "gen-1785511474-2BZ6Y9DuWDB6G8PZSWR8",
+        "service_tier": "default",
+        "cost": 0.1108245,
+        "cost_details": {
+          "upstream_inference_cost": 0.1108245,
+          "upstream_inference_prompt_cost": 0.0129495,
+          "upstream_inference_completions_cost": 0.097875
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/anthropic/claude-opus-5",
+        "served_model": "anthropic/claude-opus-5",
+        "provider": "Amazon Bedrock",
+        "generation_id": "gen-1785511526-6U7ireQdemlpyJpsGXWc",
+        "service_tier": "default",
+        "cost": 0.0341095,
+        "cost_details": {
+          "upstream_inference_cost": 0.0341095,
+          "upstream_inference_prompt_cost": 0.0326345,
+          "upstream_inference_completions_cost": 0.001475
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/anthropic/claude-opus-5",
+        "served_model": "anthropic/claude-opus-5",
+        "provider": "Amazon Bedrock",
+        "generation_id": "gen-1785512135-wadzx7nIOfzD0bqtGidl",
+        "service_tier": "default",
+        "cost": 0.08982125,
+        "cost_details": {
+          "upstream_inference_cost": 0.08982125,
+          "upstream_inference_prompt_cost": 0.06204625,
+          "upstream_inference_completions_cost": 0.027775
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/anthropic/claude-opus-5",
+        "served_model": "anthropic/claude-opus-5",
+        "provider": "Amazon Bedrock",
+        "generation_id": "gen-1785512751-BTZsroe6sWEs9dWlAEgX",
+        "service_tier": "default",
+        "cost": 0.07316125,
+        "cost_details": {
+          "upstream_inference_cost": 0.07316125,
+          "upstream_inference_prompt_cost": 0.06768625,
+          "upstream_inference_completions_cost": 0.005475
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/openai/gpt-5.5",
+        "served_model": "openai/gpt-5.5",
+        "provider": "OpenAI",
+        "generation_id": "gen-1785513592-RTraEe6KLUG7WU0zbi1N",
+        "service_tier": "default",
+        "cost": 0.086595,
+        "cost_details": {
+          "upstream_inference_cost": 0.086595,
+          "upstream_inference_prompt_cost": 0.066195,
+          "upstream_inference_completions_cost": 0.0204
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/anthropic/claude-haiku-4.5",
+        "served_model": "anthropic/claude-haiku-4.5",
+        "provider": "Anthropic",
+        "generation_id": "gen-1785513592-OHc2kdCRH1BEbZxPGbKJ",
+        "service_tier": "default",
+        "cost": 0.023061,
+        "cost_details": {
+          "upstream_inference_cost": 0.023061,
+          "upstream_inference_prompt_cost": 0.014876,
+          "upstream_inference_completions_cost": 0.008185
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/google/gemini-3.5-flash",
+        "served_model": "google/gemini-3.5-flash",
+        "provider": "Google",
+        "generation_id": "gen-1785513592-b5m4qm3nf8BV8Q2J8mHJ",
+        "service_tier": "provisioned",
+        "cost": 0.052071,
+        "cost_details": {
+          "upstream_inference_cost": 0.052071,
+          "upstream_inference_prompt_cost": 0.033666,
+          "upstream_inference_completions_cost": 0.018405
+        },
+        "is_byok": false
+      }
+    ]
+  },
+  "timing": {
+    "started_at": "2026-07-31T15:24:29.366082+00:00",
+    "completed_at": "2026-07-31T16:00:10.663852+00:00",
+    "total_time": 2141.298,
+    "working_time": 2140.806
+  },
+  "error": null
+}

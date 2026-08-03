@@ -1,0 +1,37 @@
+{
+  "model": {
+    "name": "log-linear growth with 48h harmonic oscillation and left-censored Tobit observation model",
+    "formula": "log10(P(t)) = a + b*t + A*sin(pi*t) + B*cos(pi*t)",
+    "observation_model": "Gaussian log10 errors with left-censoring below limit of detection (10 parasites/mL)"
+  },
+  "growth": {
+    "log10_rate_per_day": 0.3821,
+    "pmf_48h": 5.8096,
+    "pmf_48h_interval": [
+      4.9325,
+      6.845
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 7.5,
+      "parasites_per_ml": 21.9585
+    },
+    {
+      "time_days": 9.5,
+      "parasites_per_ml": 127.5702
+    },
+    {
+      "time_days": 11.5,
+      "parasites_per_ml": 741.1332
+    },
+    {
+      "time_days": 12.0,
+      "parasites_per_ml": 932.8676
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.068,
+    "baseline_comparison": "Harmonic model improves training log10 RMSE from 0.2237 to 0.0680, AIC from 5.89 to -10.30, and LOOCV RMSE from 0.2746 to 0.1259, capturing the 48-hour Plasmodium falciparum schizogony/sequestration cycle."
+  }
+}

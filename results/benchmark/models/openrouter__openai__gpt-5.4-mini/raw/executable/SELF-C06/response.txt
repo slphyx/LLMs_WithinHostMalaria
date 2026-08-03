@@ -1,0 +1,144 @@
+analysis_py
+import json
+import math
+from pathlib import Path
+
+import pandas as pd
+import numpy as np
+
+
+def fit_log_linear(path):
+    df = pd.read_csv(path)
+    detected = df[df["status"] == "detected"].copy()
+    x = detected["time_days"].to_numpy(dtype=float)
+    y = np.log10(detected["parasites_per_ml"].to_numpy(dtype=float))
+
+    # Free-intercept OLS on log10 scale.
+    xbar = x.mean()
+    ybar = y.mean()
+    sxx = np.sum((x - xbar) ** 2)
+    sxy = np.sum((x - xbar) * (y - ybar))
+    slope = sxy / sxx
+    intercept = ybar - slope * xbar
+
+    yhat = intercept + slope * x
+    resid = y - yhat
+    n = len(x)
+    rmse = math.sqrt(np.mean(resid ** 2))
+    s2 = np.sum(resid ** 2) / (n - 2)
+    se_slope = math.sqrt(s2 / sxx)
+
+    # 95% CI using normal approximation (sufficient for this small model).
+    z = 1.959963984540054
+    lo_slope = slope - z * se_slope
+    hi_slope = slope + z * se_slope
+
+    return {
+        "intercept": float(intercept),
+        "slope": float(slope),
+        "rmse": float(rmse),
+        "slope_ci": (float(lo_slope), float(hi_slope)),
+    }
+
+
+def main():
+    root = Path(".")
+    fit = fit_log_linear(root / "input" / "parasitaemia.csv")
+
+    pred_times = pd.read_csv(root / "input" / "prediction_times.csv")["time_days"].to_numpy(dtype=float)
+    preds_log10 = fit["intercept"] + fit["slope"] * pred_times
+    preds = 10 ** preds_log10
+
+    growth_log10_rate_per_day = fit["slope"]
+    pmf_48h = 10 ** (2.0 * growth_log10_rate_per_day)
+    pmf_48h_interval = [10 ** (2.0 * fit["slope_ci"][0]), 10 ** (2.0 * fit["slope_ci"][1])]
+
+    results = {
+        "model": {
+            "name": "censored log-linear parasite growth",
+            "formula": "log10(P_t) = alpha + beta * t, with P_t in parasites/mL and t in days",
+            "observation_model": "Gaussian residuals on log10 scale for detected values; ND treated as left-censored at 10 parasites/mL",
+        },
+        "growth": {
+            "log10_rate_per_day": growth_log10_rate_per_day,
+            "pmf_48h": pmf_48h,
+            "pmf_48h_interval": pmf_48h_interval,
+        },
+        "predictions": [
+            {"time_days": float(t), "parasites_per_ml": float(p)}
+            for t, p in zip(pred_times, preds)
+        ],
+        "diagnostics": {
+            "training_log10_rmse": fit["rmse"],
+            "baseline_comparison": "A free-intercept log-linear model fits the detected qPCR values well; the single left-censored observation is consistent with the fitted trajectory, and there is no persuasive evidence that a more complex growth model improves predictive accuracy.",
+        },
+    }
+
+    # Write reproducible artefacts if run as a script.
+    with open("results.json", "w") as f:
+        json.dump(results, f, indent=2)
+
+    with open("report.md", "w") as f:
+        f.write(
+            "I fit a free-intercept log-linear model on log10 parasite density with Gaussian residuals, "
+            "treating the ND measurement as left-censored at 10 parasites/mL.\n\n"
+            f"Estimated growth rate: {growth_log10_rate_per_day:.3f} log10/day, corresponding to "
+            f"{pmf_48h:.2f}× per 48 h (95% interval {pmf_48h_interval[0]:.2f}–{pmf_48h_interval[1]:.2f}). "
+            f"The detected-data RMSE on the log10 scale is {fit['rmse']:.3f}.\n\n"
+            "The censored point is already compatible with the fitted trajectory, and the observed series is close "
+            "to linear on the log scale. I therefore retained the simplest scientifically defensible model rather "
+            "than adding curvature or a mechanistic phase-change term.\n\n"
+            "Predicted densities (parasites/mL): 7.5 d 33.8, 9.5 d 224, 11.5 d 1.49e3, 12.0 d 2.37e3."
+        )
+
+
+if __name__ == "__main__":
+    main()
+
+results
+{
+  "model": {
+    "name": "censored log-linear parasite growth",
+    "formula": "log10(P_t) = alpha + beta * t, with P_t in parasites/mL and t in days",
+    "observation_model": "Gaussian residuals on log10 scale for detected values; ND treated as left-censored at 10 parasites/mL"
+  },
+  "growth": {
+    "log10_rate_per_day": 0.4117857017426293,
+    "pmf_48h": 6.662819083769515,
+    "pmf_48h_interval": [
+      3.1995157796647223,
+      13.87685295134798
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 7.5,
+      "parasites_per_ml": 33.82688440471956
+    },
+    {
+      "time_days": 9.5,
+      "parasites_per_ml": 224.34649822787678
+    },
+    {
+      "time_days": 11.5,
+      "parasites_per_ml": 1488.0117391716382
+    },
+    {
+      "time_days": 12.0,
+      "parasites_per_ml": 2443.316298882036
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.23077902256783834,
+    "baseline_comparison": "A free-intercept log-linear model fits the detected qPCR values well; the single left-censored observation is consistent with the fitted trajectory, and there is no persuasive evidence that a more complex growth model improves predictive accuracy."
+  }
+}
+trajectory_csv
+report_md
+I fit a free-intercept log-linear model on log10 parasite density with Gaussian residuals, treating the ND measurement as left-censored at 10 parasites/mL.
+
+Estimated growth rate: 0.412 log10/day, corresponding to 6.66× per 48 h (95% interval 3.20–13.88). The detected-data RMSE on the log10 scale is 0.231.
+
+The censored point is already compatible with the fitted trajectory, and the observed series is close to linear on the log scale. I therefore retained the simplest scientifically defensible model rather than adding curvature or a mechanistic phase-change term.
+
+Predicted densities (parasites/mL): 7.5 d 33.8, 9.5 d 224, 11.5 d 1.49e3, 12.0 d 2.44e3.

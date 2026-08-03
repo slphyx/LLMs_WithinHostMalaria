@@ -1,0 +1,101 @@
+{
+  "id": "SELF-C08",
+  "total_points": 100,
+  "automated_points": 50,
+  "judge_points": 50,
+  "required_artifacts": ["analysis.py", "results.json", "report.md"],
+  "reproduced_artifacts": ["results.json"],
+  "execution_gate": "analysis.py must run successfully in a clean task workspace and recreate results.json; a valid report.md must also be submitted.",
+  "automated": [
+    {
+      "criterion": "Required model, prediction, diagnostic, and summary fields are present and well formed.",
+      "points": 10
+    },
+    {
+      "criterion": "Predicted probabilities improve on the training-rate baseline under hidden per-mosquito binomial log loss.",
+      "points": 25
+    },
+    {
+      "criterion": "Every prediction has an ordered probability interval containing its estimate.",
+      "points": 5
+    },
+    {
+      "criterion": "The transmission summary is numerically consistent with the submitted probabilities and denominators.",
+      "points": 5
+    },
+    {
+      "criterion": "At least three claim-citation-URL records are supplied for scientific review.",
+      "points": 5
+    }
+  ],
+  "judge": [
+    {
+      "id": "S1",
+      "criterion": "Models infected mosquitoes out of those examined with a binomial or defensibly overdispersed count likelihood.",
+      "points": 5
+    },
+    {
+      "id": "S2",
+      "criterion": "Compares sex-specific and total-gametocyte models using predictive evidence or a complexity-aware criterion.",
+      "points": 5
+    },
+    {
+      "id": "S3",
+      "criterion": "Derives probability uncertainty with a stated method that reflects parameter uncertainty.",
+      "points": 5
+    },
+    {
+      "id": "S4",
+      "criterion": "Checks calibration or residual lack of fit and does not turn zero infected counts into zero infection probabilities.",
+      "points": 5
+    },
+    {
+      "id": "S5",
+      "criterion": "Tests the predictive contribution of asexual density while recognising correlation, sparse data, and possible confounding.",
+      "points": 5
+    },
+    {
+      "id": "B1",
+      "criterion": "Explains why both female and male gametocytes can matter, particularly male limitation at low density, without claiming the fitted association proves that mechanism.",
+      "points": 5
+    },
+    {
+      "id": "B2",
+      "criterion": "Distinguishes sex-specific molecular assay signals from counts of viable, mature, infectious gametocytes.",
+      "points": 5
+    },
+    {
+      "id": "B3",
+      "criterion": "Treats membrane-feeding infection as an imperfect transmission endpoint and interprets nonlinear or saturating density effects cautiously.",
+      "points": 5
+    },
+    {
+      "id": "R1",
+      "criterion": "Uses at least three verifiable primary research articles whose contents directly support the associated biological or measurement claims.",
+      "points": 5
+    },
+    {
+      "id": "R2",
+      "criterion": "Separates conclusions supported by this synthetic dataset from prior evidence and states limits on generalisation to natural infections or other sites.",
+      "points": 5
+    }
+  ],
+  "caps": [
+    {
+      "condition": "Uses hidden prediction outcomes or any external outcome data during fitting.",
+      "maximum_total_points": 0
+    },
+    {
+      "condition": "Code does not run, exceeds the 600-second clean-replay limit, or required artefacts are absent.",
+      "maximum_total_points": 50
+    },
+    {
+      "condition": "Reported probabilities are non-finite or outside [0, 1].",
+      "maximum_total_points": 50
+    },
+    {
+      "condition": "Ignores mosquitoes_examined and treats observed proportions as equally precise continuous outcomes without justification.",
+      "maximum_total_points": 75
+    }
+  ]
+}

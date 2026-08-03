@@ -1,0 +1,42 @@
+{
+  "model": {
+    "name": "3-immature-compartment Erlang maturation model",
+    "equations": "dI1/dt = beta*A(t) - 3k I1; dIi/dt = 3k(I{i-1}-Ii) for i=2..3; dM/dt = 3k I3 - cM, with A(t) the fixed asexual driver in parasites/mL and M in gametocytes/mL.",
+    "driver_interpolation": "piecewise-linear interpolation on the supplied arithmetic-scale asexual trajectory; values outside the range are held constant at the boundary values.",
+    "solver": "SciPy solve_ivp with LSODA, rtol=1e-7, atol=1e-10",
+    "observation_model": "lognormal observation error for detected values; ND is left-censored below 2 gametocytes/mL via the lognormal CDF"
+  },
+  "parameters": {
+    "effective_production_per_day": 0.005218818930603218,
+    "mean_maturation_days": 3.800005395708836,
+    "mature_clearance_rate_per_day": 0.00010000000000000009,
+    "mature_half_life_days": 6931.471805599447,
+    "mature_half_life_interval": [
+      976.3561731954826,
+      49208.78539086222
+    ]
+  },
+  "predictions": [
+    {
+      "time_days": 10.0,
+      "gametocytes_per_ml": 1e-12
+    },
+    {
+      "time_days": 14.0,
+      "gametocytes_per_ml": 0.4755858388591496
+    },
+    {
+      "time_days": 21.0,
+      "gametocytes_per_ml": 0.8771715267920329
+    },
+    {
+      "time_days": 24.0,
+      "gametocytes_per_ml": 0.8849468296186235
+    }
+  ],
+  "diagnostics": {
+    "training_log10_rmse": 0.30120266229708875,
+    "alternative_model": "1-immature-compartment model had log-likelihood -579.53 and AIC 1167.07 versus -82.04 and 172.08 for the 3-compartment model.",
+    "identifiability": "beta, maturation time, and clearance are partially confounded by the short profile and the single ND value; the mature half-life is better identified than the immature-chain shape."
+  }
+}

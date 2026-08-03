@@ -1,0 +1,1151 @@
+{
+  "complete": true,
+  "scoring_policy": "all_task_mean uses 0 for missing or unscored model calls; observed_mean excludes them",
+  "expected": {
+    "models": [
+      "openrouter/openai/gpt-5.6-sol",
+      "openrouter/anthropic/claude-opus-5",
+      "openrouter/google/gemini-3.6-flash",
+      "openrouter/deepseek/deepseek-v4-pro",
+      "openrouter/openai/gpt-5.4-mini",
+      "openrouter/deepseek/deepseek-r1-0528",
+      "openrouter/qwen/qwen3.5-9b",
+      "openrouter/mistralai/ministral-3b-2512"
+    ],
+    "conditions": [
+      "raw",
+      "agent"
+    ],
+    "sample_ids": [
+      "SELF-C06",
+      "SELF-C07",
+      "SELF-C08"
+    ],
+    "cells": 48,
+    "scored_cells": 48,
+    "noncompleted_cells": 0
+  },
+  "cost": {
+    "total": 8.0591898442,
+    "model": 7.679115169199998,
+    "web_search": 0.38007467500000003
+  },
+  "sources": [
+    {
+      "directory": "results/benchmark/models",
+      "description": "Materialised selected executable-task artefacts",
+      "rows": 48
+    }
+  ],
+  "aggregates": [
+    {
+      "model": "openrouter/openai/gpt-5.6-sol",
+      "condition": "raw",
+      "expected_n": 3,
+      "scored_n": 3,
+      "coverage": 1.0,
+      "observed_mean": 0.0,
+      "all_task_mean": 0.0
+    },
+    {
+      "model": "openrouter/openai/gpt-5.6-sol",
+      "condition": "agent",
+      "expected_n": 3,
+      "scored_n": 3,
+      "coverage": 1.0,
+      "observed_mean": 94.115,
+      "all_task_mean": 94.115
+    },
+    {
+      "model": "openrouter/anthropic/claude-opus-5",
+      "condition": "raw",
+      "expected_n": 3,
+      "scored_n": 3,
+      "coverage": 1.0,
+      "observed_mean": 0.0,
+      "all_task_mean": 0.0
+    },
+    {
+      "model": "openrouter/anthropic/claude-opus-5",
+      "condition": "agent",
+      "expected_n": 3,
+      "scored_n": 3,
+      "coverage": 1.0,
+      "observed_mean": 81.103,
+      "all_task_mean": 81.103
+    },
+    {
+      "model": "openrouter/google/gemini-3.6-flash",
+      "condition": "raw",
+      "expected_n": 3,
+      "scored_n": 3,
+      "coverage": 1.0,
+      "observed_mean": 0.0,
+      "all_task_mean": 0.0
+    },
+    {
+      "model": "openrouter/google/gemini-3.6-flash",
+      "condition": "agent",
+      "expected_n": 3,
+      "scored_n": 3,
+      "coverage": 1.0,
+      "observed_mean": 57.77066666666667,
+      "all_task_mean": 57.77066666666667
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-v4-pro",
+      "condition": "raw",
+      "expected_n": 3,
+      "scored_n": 3,
+      "coverage": 1.0,
+      "observed_mean": 20.0,
+      "all_task_mean": 20.0
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-v4-pro",
+      "condition": "agent",
+      "expected_n": 3,
+      "scored_n": 3,
+      "coverage": 1.0,
+      "observed_mean": 51.35366666666667,
+      "all_task_mean": 51.35366666666667
+    },
+    {
+      "model": "openrouter/openai/gpt-5.4-mini",
+      "condition": "raw",
+      "expected_n": 3,
+      "scored_n": 3,
+      "coverage": 1.0,
+      "observed_mean": 0.5556666666666666,
+      "all_task_mean": 0.5556666666666666
+    },
+    {
+      "model": "openrouter/openai/gpt-5.4-mini",
+      "condition": "agent",
+      "expected_n": 3,
+      "scored_n": 3,
+      "coverage": 1.0,
+      "observed_mean": 69.95766666666667,
+      "all_task_mean": 69.95766666666667
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-r1-0528",
+      "condition": "raw",
+      "expected_n": 3,
+      "scored_n": 3,
+      "coverage": 1.0,
+      "observed_mean": 5.555666666666667,
+      "all_task_mean": 5.555666666666667
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-r1-0528",
+      "condition": "agent",
+      "expected_n": 3,
+      "scored_n": 3,
+      "coverage": 1.0,
+      "observed_mean": 26.353333333333335,
+      "all_task_mean": 26.353333333333335
+    },
+    {
+      "model": "openrouter/qwen/qwen3.5-9b",
+      "condition": "raw",
+      "expected_n": 3,
+      "scored_n": 3,
+      "coverage": 1.0,
+      "observed_mean": 17.222333333333335,
+      "all_task_mean": 17.222333333333335
+    },
+    {
+      "model": "openrouter/qwen/qwen3.5-9b",
+      "condition": "agent",
+      "expected_n": 3,
+      "scored_n": 3,
+      "coverage": 1.0,
+      "observed_mean": 23.889,
+      "all_task_mean": 23.889
+    },
+    {
+      "model": "openrouter/mistralai/ministral-3b-2512",
+      "condition": "raw",
+      "expected_n": 3,
+      "scored_n": 3,
+      "coverage": 1.0,
+      "observed_mean": 0.0,
+      "all_task_mean": 0.0
+    },
+    {
+      "model": "openrouter/mistralai/ministral-3b-2512",
+      "condition": "agent",
+      "expected_n": 3,
+      "scored_n": 3,
+      "coverage": 1.0,
+      "observed_mean": 7.222333333333334,
+      "all_task_mean": 7.222333333333334
+    }
+  ],
+  "comparisons": [
+    {
+      "model": "openrouter/openai/gpt-5.6-sol",
+      "raw_all_task_mean": 0.0,
+      "agent_all_task_mean": 94.115,
+      "mean_difference": 94.115,
+      "raw_scored_n": 3,
+      "agent_scored_n": 3
+    },
+    {
+      "model": "openrouter/anthropic/claude-opus-5",
+      "raw_all_task_mean": 0.0,
+      "agent_all_task_mean": 81.103,
+      "mean_difference": 81.103,
+      "raw_scored_n": 3,
+      "agent_scored_n": 3
+    },
+    {
+      "model": "openrouter/google/gemini-3.6-flash",
+      "raw_all_task_mean": 0.0,
+      "agent_all_task_mean": 57.77066666666667,
+      "mean_difference": 57.77066666666667,
+      "raw_scored_n": 3,
+      "agent_scored_n": 3
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-v4-pro",
+      "raw_all_task_mean": 20.0,
+      "agent_all_task_mean": 51.35366666666667,
+      "mean_difference": 31.35366666666667,
+      "raw_scored_n": 3,
+      "agent_scored_n": 3
+    },
+    {
+      "model": "openrouter/openai/gpt-5.4-mini",
+      "raw_all_task_mean": 0.5556666666666666,
+      "agent_all_task_mean": 69.95766666666667,
+      "mean_difference": 69.402,
+      "raw_scored_n": 3,
+      "agent_scored_n": 3
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-r1-0528",
+      "raw_all_task_mean": 5.555666666666667,
+      "agent_all_task_mean": 26.353333333333335,
+      "mean_difference": 20.797666666666668,
+      "raw_scored_n": 3,
+      "agent_scored_n": 3
+    },
+    {
+      "model": "openrouter/qwen/qwen3.5-9b",
+      "raw_all_task_mean": 17.222333333333335,
+      "agent_all_task_mean": 23.889,
+      "mean_difference": 6.666666666666664,
+      "raw_scored_n": 3,
+      "agent_scored_n": 3
+    },
+    {
+      "model": "openrouter/mistralai/ministral-3b-2512",
+      "raw_all_task_mean": 0.0,
+      "agent_all_task_mean": 7.222333333333334,
+      "mean_difference": 7.222333333333334,
+      "raw_scored_n": 3,
+      "agent_scored_n": 3
+    }
+  ],
+  "samples": [
+    {
+      "model": "openrouter/openai/gpt-5.6-sol",
+      "condition": "raw",
+      "id": "SELF-C06",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__openai__gpt-5.6-sol/raw/executable/SELF-C06",
+      "artifact": "models/openrouter__openai__gpt-5.6-sol/raw/executable/SELF-C06"
+    },
+    {
+      "model": "openrouter/openai/gpt-5.6-sol",
+      "condition": "raw",
+      "id": "SELF-C07",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__openai__gpt-5.6-sol/raw/executable/SELF-C07",
+      "artifact": "models/openrouter__openai__gpt-5.6-sol/raw/executable/SELF-C07"
+    },
+    {
+      "model": "openrouter/openai/gpt-5.6-sol",
+      "condition": "raw",
+      "id": "SELF-C08",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__openai__gpt-5.6-sol/raw/executable/SELF-C08",
+      "artifact": "models/openrouter__openai__gpt-5.6-sol/raw/executable/SELF-C08"
+    },
+    {
+      "model": "openrouter/openai/gpt-5.6-sol",
+      "condition": "agent",
+      "id": "SELF-C06",
+      "score": 87.394,
+      "effective_score": 87.394,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": true,
+      "execution_timed_out": false,
+      "execution_error": null,
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__openai__gpt-5.6-sol/agent/executable/SELF-C06",
+      "artifact": "models/openrouter__openai__gpt-5.6-sol/agent/executable/SELF-C06"
+    },
+    {
+      "model": "openrouter/openai/gpt-5.6-sol",
+      "condition": "agent",
+      "id": "SELF-C07",
+      "score": 99.972,
+      "effective_score": 99.972,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": true,
+      "execution_timed_out": false,
+      "execution_error": null,
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__openai__gpt-5.6-sol/agent/executable/SELF-C07",
+      "artifact": "models/openrouter__openai__gpt-5.6-sol/agent/executable/SELF-C07"
+    },
+    {
+      "model": "openrouter/openai/gpt-5.6-sol",
+      "condition": "agent",
+      "id": "SELF-C08",
+      "score": 94.979,
+      "effective_score": 94.979,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": true,
+      "execution_timed_out": false,
+      "execution_error": null,
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__openai__gpt-5.6-sol/agent/executable/SELF-C08",
+      "artifact": "models/openrouter__openai__gpt-5.6-sol/agent/executable/SELF-C08"
+    },
+    {
+      "model": "openrouter/anthropic/claude-opus-5",
+      "condition": "raw",
+      "id": "SELF-C06",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__anthropic__claude-opus-5/raw/executable/SELF-C06",
+      "artifact": "models/openrouter__anthropic__claude-opus-5/raw/executable/SELF-C06"
+    },
+    {
+      "model": "openrouter/anthropic/claude-opus-5",
+      "condition": "raw",
+      "id": "SELF-C07",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__anthropic__claude-opus-5/raw/executable/SELF-C07",
+      "artifact": "models/openrouter__anthropic__claude-opus-5/raw/executable/SELF-C07"
+    },
+    {
+      "model": "openrouter/anthropic/claude-opus-5",
+      "condition": "raw",
+      "id": "SELF-C08",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__anthropic__claude-opus-5/raw/executable/SELF-C08",
+      "artifact": "models/openrouter__anthropic__claude-opus-5/raw/executable/SELF-C08"
+    },
+    {
+      "model": "openrouter/anthropic/claude-opus-5",
+      "condition": "agent",
+      "id": "SELF-C06",
+      "score": 96.666,
+      "effective_score": 96.666,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": true,
+      "execution_timed_out": false,
+      "execution_error": null,
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__anthropic__claude-opus-5/agent/executable/SELF-C06",
+      "artifact": "models/openrouter__anthropic__claude-opus-5/agent/executable/SELF-C06"
+    },
+    {
+      "model": "openrouter/anthropic/claude-opus-5",
+      "condition": "agent",
+      "id": "SELF-C07",
+      "score": 50.0,
+      "effective_score": 50.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": true,
+      "execution_timed_out": false,
+      "execution_error": null,
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__anthropic__claude-opus-5/agent/executable/SELF-C07",
+      "artifact": "models/openrouter__anthropic__claude-opus-5/agent/executable/SELF-C07"
+    },
+    {
+      "model": "openrouter/anthropic/claude-opus-5",
+      "condition": "agent",
+      "id": "SELF-C08",
+      "score": 96.643,
+      "effective_score": 96.643,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": true,
+      "execution_timed_out": false,
+      "execution_error": null,
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__anthropic__claude-opus-5/agent/executable/SELF-C08",
+      "artifact": "models/openrouter__anthropic__claude-opus-5/agent/executable/SELF-C08"
+    },
+    {
+      "model": "openrouter/google/gemini-3.6-flash",
+      "condition": "raw",
+      "id": "SELF-C06",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__google__gemini-3.6-flash/raw/executable/SELF-C06",
+      "artifact": "models/openrouter__google__gemini-3.6-flash/raw/executable/SELF-C06"
+    },
+    {
+      "model": "openrouter/google/gemini-3.6-flash",
+      "condition": "raw",
+      "id": "SELF-C07",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__google__gemini-3.6-flash/raw/executable/SELF-C07",
+      "artifact": "models/openrouter__google__gemini-3.6-flash/raw/executable/SELF-C07"
+    },
+    {
+      "model": "openrouter/google/gemini-3.6-flash",
+      "condition": "raw",
+      "id": "SELF-C08",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__google__gemini-3.6-flash/raw/executable/SELF-C08",
+      "artifact": "models/openrouter__google__gemini-3.6-flash/raw/executable/SELF-C08"
+    },
+    {
+      "model": "openrouter/google/gemini-3.6-flash",
+      "condition": "agent",
+      "id": "SELF-C06",
+      "score": 84.999,
+      "effective_score": 84.999,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": true,
+      "execution_timed_out": false,
+      "execution_error": null,
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__google__gemini-3.6-flash/agent/executable/SELF-C06",
+      "artifact": "models/openrouter__google__gemini-3.6-flash/agent/executable/SELF-C06"
+    },
+    {
+      "model": "openrouter/google/gemini-3.6-flash",
+      "condition": "agent",
+      "id": "SELF-C07",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__google__gemini-3.6-flash/agent/executable/SELF-C07",
+      "artifact": "models/openrouter__google__gemini-3.6-flash/agent/executable/SELF-C07"
+    },
+    {
+      "model": "openrouter/google/gemini-3.6-flash",
+      "condition": "agent",
+      "id": "SELF-C08",
+      "score": 88.313,
+      "effective_score": 88.313,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": true,
+      "execution_timed_out": false,
+      "execution_error": null,
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__google__gemini-3.6-flash/agent/executable/SELF-C08",
+      "artifact": "models/openrouter__google__gemini-3.6-flash/agent/executable/SELF-C08"
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-v4-pro",
+      "condition": "raw",
+      "id": "SELF-C06",
+      "score": 15.0,
+      "effective_score": 15.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "nonzero_exit",
+        "stage": "clean_replay",
+        "message": "analysis.py failed during clean replay with return code 1."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__deepseek__deepseek-v4-pro/raw/executable/SELF-C06",
+      "artifact": "models/openrouter__deepseek__deepseek-v4-pro/raw/executable/SELF-C06"
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-v4-pro",
+      "condition": "raw",
+      "id": "SELF-C07",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__deepseek__deepseek-v4-pro/raw/executable/SELF-C07",
+      "artifact": "models/openrouter__deepseek__deepseek-v4-pro/raw/executable/SELF-C07"
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-v4-pro",
+      "condition": "raw",
+      "id": "SELF-C08",
+      "score": 45.0,
+      "effective_score": 45.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "nonzero_exit",
+        "stage": "clean_replay",
+        "message": "analysis.py failed during clean replay with return code 1."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__deepseek__deepseek-v4-pro/raw/executable/SELF-C08",
+      "artifact": "models/openrouter__deepseek__deepseek-v4-pro/raw/executable/SELF-C08"
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-v4-pro",
+      "condition": "agent",
+      "id": "SELF-C06",
+      "score": 82.394,
+      "effective_score": 82.394,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": true,
+      "execution_timed_out": false,
+      "execution_error": null,
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__deepseek__deepseek-v4-pro/agent/executable/SELF-C06",
+      "artifact": "models/openrouter__deepseek__deepseek-v4-pro/agent/executable/SELF-C06"
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-v4-pro",
+      "condition": "agent",
+      "id": "SELF-C07",
+      "score": 50.0,
+      "effective_score": 50.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": true,
+      "execution_timed_out": false,
+      "execution_error": null,
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__deepseek__deepseek-v4-pro/agent/executable/SELF-C07",
+      "artifact": "models/openrouter__deepseek__deepseek-v4-pro/agent/executable/SELF-C07"
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-v4-pro",
+      "condition": "agent",
+      "id": "SELF-C08",
+      "score": 21.667,
+      "effective_score": 21.667,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "nonzero_exit",
+        "stage": "clean_replay",
+        "message": "analysis.py failed during clean replay with return code 1."
+      },
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__deepseek__deepseek-v4-pro/agent/executable/SELF-C08",
+      "artifact": "models/openrouter__deepseek__deepseek-v4-pro/agent/executable/SELF-C08"
+    },
+    {
+      "model": "openrouter/openai/gpt-5.4-mini",
+      "condition": "raw",
+      "id": "SELF-C06",
+      "score": 1.667,
+      "effective_score": 1.667,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__openai__gpt-5.4-mini/raw/executable/SELF-C06",
+      "artifact": "models/openrouter__openai__gpt-5.4-mini/raw/executable/SELF-C06"
+    },
+    {
+      "model": "openrouter/openai/gpt-5.4-mini",
+      "condition": "raw",
+      "id": "SELF-C07",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__openai__gpt-5.4-mini/raw/executable/SELF-C07",
+      "artifact": "models/openrouter__openai__gpt-5.4-mini/raw/executable/SELF-C07"
+    },
+    {
+      "model": "openrouter/openai/gpt-5.4-mini",
+      "condition": "raw",
+      "id": "SELF-C08",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__openai__gpt-5.4-mini/raw/executable/SELF-C08",
+      "artifact": "models/openrouter__openai__gpt-5.4-mini/raw/executable/SELF-C08"
+    },
+    {
+      "model": "openrouter/openai/gpt-5.4-mini",
+      "condition": "agent",
+      "id": "SELF-C06",
+      "score": 77.394,
+      "effective_score": 77.394,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": true,
+      "execution_timed_out": false,
+      "execution_error": null,
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__openai__gpt-5.4-mini/agent/executable/SELF-C06",
+      "artifact": "models/openrouter__openai__gpt-5.4-mini/agent/executable/SELF-C06"
+    },
+    {
+      "model": "openrouter/openai/gpt-5.4-mini",
+      "condition": "agent",
+      "id": "SELF-C07",
+      "score": 50.0,
+      "effective_score": 50.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": true,
+      "execution_timed_out": false,
+      "execution_error": null,
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__openai__gpt-5.4-mini/agent/executable/SELF-C07",
+      "artifact": "models/openrouter__openai__gpt-5.4-mini/agent/executable/SELF-C07"
+    },
+    {
+      "model": "openrouter/openai/gpt-5.4-mini",
+      "condition": "agent",
+      "id": "SELF-C08",
+      "score": 82.479,
+      "effective_score": 82.479,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": true,
+      "execution_timed_out": false,
+      "execution_error": null,
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__openai__gpt-5.4-mini/agent/executable/SELF-C08",
+      "artifact": "models/openrouter__openai__gpt-5.4-mini/agent/executable/SELF-C08"
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-r1-0528",
+      "condition": "raw",
+      "id": "SELF-C06",
+      "score": 16.667,
+      "effective_score": 16.667,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "nonzero_exit",
+        "stage": "clean_replay",
+        "message": "analysis.py failed during clean replay with return code 1."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__deepseek__deepseek-r1-0528/raw/executable/SELF-C06",
+      "artifact": "models/openrouter__deepseek__deepseek-r1-0528/raw/executable/SELF-C06"
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-r1-0528",
+      "condition": "raw",
+      "id": "SELF-C07",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Unterminated string starting at: line 2 column 18 (char 19)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__deepseek__deepseek-r1-0528/raw/executable/SELF-C07",
+      "artifact": "models/openrouter__deepseek__deepseek-r1-0528/raw/executable/SELF-C07"
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-r1-0528",
+      "condition": "raw",
+      "id": "SELF-C08",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__deepseek__deepseek-r1-0528/raw/executable/SELF-C08",
+      "artifact": "models/openrouter__deepseek__deepseek-r1-0528/raw/executable/SELF-C08"
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-r1-0528",
+      "condition": "agent",
+      "id": "SELF-C06",
+      "score": 70.727,
+      "effective_score": 70.727,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": true,
+      "execution_timed_out": false,
+      "execution_error": null,
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__deepseek__deepseek-r1-0528/agent/executable/SELF-C06",
+      "artifact": "models/openrouter__deepseek__deepseek-r1-0528/agent/executable/SELF-C06"
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-r1-0528",
+      "condition": "agent",
+      "id": "SELF-C07",
+      "score": 8.333,
+      "effective_score": 8.333,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "nonzero_exit",
+        "stage": "clean_replay",
+        "message": "analysis.py failed during clean replay with return code 1."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__deepseek__deepseek-r1-0528/agent/executable/SELF-C07",
+      "artifact": "models/openrouter__deepseek__deepseek-r1-0528/agent/executable/SELF-C07"
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-r1-0528",
+      "condition": "agent",
+      "id": "SELF-C08",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__deepseek__deepseek-r1-0528/agent/executable/SELF-C08",
+      "artifact": "models/openrouter__deepseek__deepseek-r1-0528/agent/executable/SELF-C08"
+    },
+    {
+      "model": "openrouter/qwen/qwen3.5-9b",
+      "condition": "raw",
+      "id": "SELF-C06",
+      "score": 16.667,
+      "effective_score": 16.667,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "nonzero_exit",
+        "stage": "clean_replay",
+        "message": "analysis.py failed during clean replay with return code 1."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__qwen__qwen3.5-9b/raw/executable/SELF-C06",
+      "artifact": "models/openrouter__qwen__qwen3.5-9b/raw/executable/SELF-C06"
+    },
+    {
+      "model": "openrouter/qwen/qwen3.5-9b",
+      "condition": "raw",
+      "id": "SELF-C07",
+      "score": 11.667,
+      "effective_score": 11.667,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "nonzero_exit",
+        "stage": "clean_replay",
+        "message": "analysis.py failed during clean replay with return code 1."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__qwen__qwen3.5-9b/raw/executable/SELF-C07",
+      "artifact": "models/openrouter__qwen__qwen3.5-9b/raw/executable/SELF-C07"
+    },
+    {
+      "model": "openrouter/qwen/qwen3.5-9b",
+      "condition": "raw",
+      "id": "SELF-C08",
+      "score": 23.333,
+      "effective_score": 23.333,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "nonzero_exit",
+        "stage": "clean_replay",
+        "message": "analysis.py failed during clean replay with return code 1."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__qwen__qwen3.5-9b/raw/executable/SELF-C08",
+      "artifact": "models/openrouter__qwen__qwen3.5-9b/raw/executable/SELF-C08"
+    },
+    {
+      "model": "openrouter/qwen/qwen3.5-9b",
+      "condition": "agent",
+      "id": "SELF-C06",
+      "score": 11.667,
+      "effective_score": 11.667,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__qwen__qwen3.5-9b/agent/executable/SELF-C06",
+      "artifact": "models/openrouter__qwen__qwen3.5-9b/agent/executable/SELF-C06"
+    },
+    {
+      "model": "openrouter/qwen/qwen3.5-9b",
+      "condition": "agent",
+      "id": "SELF-C07",
+      "score": 25.0,
+      "effective_score": 25.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "nonzero_exit",
+        "stage": "clean_replay",
+        "message": "analysis.py failed during clean replay with return code 1."
+      },
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__qwen__qwen3.5-9b/agent/executable/SELF-C07",
+      "artifact": "models/openrouter__qwen__qwen3.5-9b/agent/executable/SELF-C07"
+    },
+    {
+      "model": "openrouter/qwen/qwen3.5-9b",
+      "condition": "agent",
+      "id": "SELF-C08",
+      "score": 35.0,
+      "effective_score": 35.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": true,
+      "execution_timed_out": false,
+      "execution_error": null,
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__qwen__qwen3.5-9b/agent/executable/SELF-C08",
+      "artifact": "models/openrouter__qwen__qwen3.5-9b/agent/executable/SELF-C08"
+    },
+    {
+      "model": "openrouter/mistralai/ministral-3b-2512",
+      "condition": "raw",
+      "id": "SELF-C06",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__mistralai__ministral-3b-2512/raw/executable/SELF-C06",
+      "artifact": "models/openrouter__mistralai__ministral-3b-2512/raw/executable/SELF-C06"
+    },
+    {
+      "model": "openrouter/mistralai/ministral-3b-2512",
+      "condition": "raw",
+      "id": "SELF-C07",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__mistralai__ministral-3b-2512/raw/executable/SELF-C07",
+      "artifact": "models/openrouter__mistralai__ministral-3b-2512/raw/executable/SELF-C07"
+    },
+    {
+      "model": "openrouter/mistralai/ministral-3b-2512",
+      "condition": "raw",
+      "id": "SELF-C08",
+      "score": 0.0,
+      "effective_score": 0.0,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": false,
+      "source": "results/benchmark/models/openrouter__mistralai__ministral-3b-2512/raw/executable/SELF-C08",
+      "artifact": "models/openrouter__mistralai__ministral-3b-2512/raw/executable/SELF-C08"
+    },
+    {
+      "model": "openrouter/mistralai/ministral-3b-2512",
+      "condition": "agent",
+      "id": "SELF-C06",
+      "score": 1.667,
+      "effective_score": 1.667,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "missing_analysis",
+        "stage": "clean_replay",
+        "message": "analysis.py was not submitted."
+      },
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__mistralai__ministral-3b-2512/agent/executable/SELF-C06",
+      "artifact": "models/openrouter__mistralai__ministral-3b-2512/agent/executable/SELF-C06"
+    },
+    {
+      "model": "openrouter/mistralai/ministral-3b-2512",
+      "condition": "agent",
+      "id": "SELF-C07",
+      "score": 16.667,
+      "effective_score": 16.667,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": true,
+      "execution_timed_out": false,
+      "execution_error": null,
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__mistralai__ministral-3b-2512/agent/executable/SELF-C07",
+      "artifact": "models/openrouter__mistralai__ministral-3b-2512/agent/executable/SELF-C07"
+    },
+    {
+      "model": "openrouter/mistralai/ministral-3b-2512",
+      "condition": "agent",
+      "id": "SELF-C08",
+      "score": 3.333,
+      "effective_score": 3.333,
+      "scored": true,
+      "status": "scored",
+      "artifact_error": null,
+      "execution_success": false,
+      "execution_timed_out": false,
+      "execution_error": {
+        "type": "nonzero_exit",
+        "stage": "clean_replay",
+        "message": "analysis.py failed during clean replay with return code 1."
+      },
+      "replacement": true,
+      "source": "results/benchmark/models/openrouter__mistralai__ministral-3b-2512/agent/executable/SELF-C08",
+      "artifact": "models/openrouter__mistralai__ministral-3b-2512/agent/executable/SELF-C08"
+    }
+  ],
+  "logical_result": "results/benchmark/run.json"
+}

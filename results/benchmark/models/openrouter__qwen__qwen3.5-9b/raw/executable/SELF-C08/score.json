@@ -1,0 +1,442 @@
+{
+  "id": "SELF-C08",
+  "condition": "raw",
+  "model": "openrouter/qwen/qwen3.5-9b",
+  "score": 23.333,
+  "explanation": "Automated 0.0/50; scientific 23.3/50; cap 50. Replay error: analysis.py failed during clean replay with return code 1.",
+  "response_file": "response.txt",
+  "artifact_error": null,
+  "automated": {
+    "score": 0.0,
+    "maximum": 50,
+    "error": "analysis.py failed during clean replay with return code 1."
+  },
+  "scientific": {
+    "score": 23.333333333333332,
+    "maximum": 50,
+    "criteria": [
+      {
+        "id": "S1",
+        "criterion": "Models infected mosquitoes out of those examined with a binomial or defensibly overdispersed count likelihood.",
+        "points": 5,
+        "votes_met": 2,
+        "votes_total": 3,
+        "awarded": 3.333333333333333
+      },
+      {
+        "id": "S2",
+        "criterion": "Compares sex-specific and total-gametocyte models using predictive evidence or a complexity-aware criterion.",
+        "points": 5,
+        "votes_met": 2,
+        "votes_total": 3,
+        "awarded": 3.333333333333333
+      },
+      {
+        "id": "S3",
+        "criterion": "Derives probability uncertainty with a stated method that reflects parameter uncertainty.",
+        "points": 5,
+        "votes_met": 1,
+        "votes_total": 3,
+        "awarded": 1.6666666666666665
+      },
+      {
+        "id": "S4",
+        "criterion": "Checks calibration or residual lack of fit and does not turn zero infected counts into zero infection probabilities.",
+        "points": 5,
+        "votes_met": 2,
+        "votes_total": 3,
+        "awarded": 3.333333333333333
+      },
+      {
+        "id": "S5",
+        "criterion": "Tests the predictive contribution of asexual density while recognising correlation, sparse data, and possible confounding.",
+        "points": 5,
+        "votes_met": 1,
+        "votes_total": 3,
+        "awarded": 1.6666666666666665
+      },
+      {
+        "id": "B1",
+        "criterion": "Explains why both female and male gametocytes can matter, particularly male limitation at low density, without claiming the fitted association proves that mechanism.",
+        "points": 5,
+        "votes_met": 1,
+        "votes_total": 3,
+        "awarded": 1.6666666666666665
+      },
+      {
+        "id": "B2",
+        "criterion": "Distinguishes sex-specific molecular assay signals from counts of viable, mature, infectious gametocytes.",
+        "points": 5,
+        "votes_met": 2,
+        "votes_total": 3,
+        "awarded": 3.333333333333333
+      },
+      {
+        "id": "B3",
+        "criterion": "Treats membrane-feeding infection as an imperfect transmission endpoint and interprets nonlinear or saturating density effects cautiously.",
+        "points": 5,
+        "votes_met": 1,
+        "votes_total": 3,
+        "awarded": 1.6666666666666665
+      },
+      {
+        "id": "R1",
+        "criterion": "Uses at least three verifiable primary research articles whose contents directly support the associated biological or measurement claims.",
+        "points": 5,
+        "votes_met": 1,
+        "votes_total": 3,
+        "awarded": 1.6666666666666665
+      },
+      {
+        "id": "R2",
+        "criterion": "Separates conclusions supported by this synthetic dataset from prior evidence and states limits on generalisation to natural infections or other sites.",
+        "points": 5,
+        "votes_met": 1,
+        "votes_total": 3,
+        "awarded": 1.6666666666666665
+      }
+    ],
+    "cap": 50
+  },
+  "execution": {
+    "success": false,
+    "complete": true,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "  File \"/tmp/replay/analysis.py\", line 1\n    import pandas as pd\\nimport numpy as np\\nfrom scipy import stats\\nimport statsmodels.api as sm\\n\\n# Load data\\nfeeds = pd.read_csv('input/feeds.csv')\\npred = pd.read_csv('input/prediction_feeds.csv')\\n\\n# Preprocessing\\nY_count = feeds['mosquitoes_infected'].values\\nY_total = feeds['mosquitoes_examined'].values\\n\\n# Create predictors\\nfeeds['total_gam'] = feeds['female_gametocytes_per_ul'] + feeds['male_gametocytes_per_ul']\\nfeeds['log_total'] = np.log2(feeds['total_gam'] + 1e-6)\\nfeeds['log_asexual'] = np.log2(feeds['asexual_per_ul'] + 1e-6)\\n\\n# Model 1: Total gametocytes + asexual (full model)\\nX_total = sm.add_constant(feeds[['log_total', 'log_asexual']])\\nmodel_full = sm.GLM(Y_count, X_total, family=sm.families.Binomial(Y_total), missing='drop')\\nresults_full = model_full.fit(disp=0)\\n\\n# Model 2: Total gametocytes only (simpler model)\\nX_gam = sm.add_constant(feeds[['log_total']])\\nmodel_gam = sm.GLM(Y_count, X_gam, family=sm.families.Binomial(Y_total), missing='drop')\\nresults_\n                        ^\nSyntaxError: unexpected character after line continuation character\n",
+    "reproduced": false,
+    "timed_out": false,
+    "timeout_seconds": 600,
+    "error": {
+      "type": "nonzero_exit",
+      "stage": "clean_replay",
+      "message": "analysis.py failed during clean replay with return code 1."
+    }
+  },
+  "judges": [
+    {
+      "judge": "openrouter/openai/gpt-5.5",
+      "served_model": "openai/gpt-5.5",
+      "usage": {
+        "input_tokens": 5297,
+        "output_tokens": 574,
+        "total_tokens": 5871,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 335,
+        "total_cost": 0.043705
+      },
+      "generation_time": 11.460658513009548,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": true,
+          "reason": "States binomial GLM for counts examined."
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "Reports AIC/LR sex-specific versus total comparison."
+        },
+        {
+          "id": "S3",
+          "met": false,
+          "reason": "Intervals given without valid uncertainty method."
+        },
+        {
+          "id": "S4",
+          "met": true,
+          "reason": "Reports calibration residual and nonzero probabilities."
+        },
+        {
+          "id": "S5",
+          "met": false,
+          "reason": "Tests asexual but lacks confounding/correlation caution."
+        },
+        {
+          "id": "B1",
+          "met": false,
+          "reason": "No male limitation at low density discussed."
+        },
+        {
+          "id": "B2",
+          "met": true,
+          "reason": "Notes molecular assays are imperfect infectivity measures."
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "No cautious membrane-feeding endpoint interpretation."
+        },
+        {
+          "id": "R1",
+          "met": false,
+          "reason": "Citations largely unverifiable or not primary support."
+        },
+        {
+          "id": "R2",
+          "met": false,
+          "reason": "No synthetic-data versus prior-evidence separation."
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "analysis.py fails clean replay with syntax error."
+      }
+    },
+    {
+      "judge": "openrouter/anthropic/claude-haiku-4.5",
+      "served_model": "anthropic/claude-haiku-4.5",
+      "usage": {
+        "input_tokens": 6237,
+        "output_tokens": 1369,
+        "total_tokens": 7606,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 719,
+        "total_cost": 0.013082
+      },
+      "generation_time": 15.274076215922832,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": false,
+          "reason": "Code fails to execute; binomial likelihood intent present but unverified."
+        },
+        {
+          "id": "S2",
+          "met": false,
+          "reason": "Model comparison attempted but code doesn't run; reported AIC values (82.4, 85.1) inconsistent with reference scale."
+        },
+        {
+          "id": "S3",
+          "met": false,
+          "reason": "Uncertainty intervals reported in results.json but derivation method unexecuted; cannot verify calculation."
+        },
+        {
+          "id": "S4",
+          "met": false,
+          "reason": "Calibration metric cited (0.087) without method details; code failure prevents verification."
+        },
+        {
+          "id": "S5",
+          "met": false,
+          "reason": "Asexual assessment claimed (p=0.18) in report but code doesn't execute to produce it."
+        },
+        {
+          "id": "B1",
+          "met": false,
+          "reason": "Report mentions female/male difference but mechanism explanation superficial; code failure prevents model inspection."
+        },
+        {
+          "id": "B2",
+          "met": false,
+          "reason": "Report lists assay names but doesn't distinguish molecular signal from gametocyte viability rigorously."
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "Saturation hinted (log-link) but nonlinearity rationale and feeding assay limitations not clearly justified."
+        },
+        {
+          "id": "R1",
+          "met": false,
+          "reason": "Three references cited (Hillgruber, Wolstenholme, Garnham) lack URLs; relevance to Pfs25/PfMGET/SBP1 assays unclear."
+        },
+        {
+          "id": "R2",
+          "met": false,
+          "reason": "Report lacks explicit boundary between synthetic data validity and natural-infection generalization."
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "Code execution failed: SyntaxError in analysis.py due to escaped newlines; clean-replay did not complete. Required reproducibility artifact absent."
+      }
+    },
+    {
+      "judge": "openrouter/google/gemini-3.5-flash",
+      "served_model": "google/gemini-3.5-flash",
+      "usage": {
+        "input_tokens": 5843,
+        "output_tokens": 678,
+        "total_tokens": 6521,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 313,
+        "total_cost": 0.0148665
+      },
+      "generation_time": 4.757682405412197,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": true,
+          "reason": "Uses binomial GLM with logit-link and examined counts as denominator."
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "Compares sex-specific and total-gametocyte models using AIC."
+        },
+        {
+          "id": "S3",
+          "met": true,
+          "reason": "Provides probability intervals reflecting parameter uncertainty in results.json."
+        },
+        {
+          "id": "S4",
+          "met": true,
+          "reason": "Calculates calibration residuals and avoids zero-probability predictions."
+        },
+        {
+          "id": "S5",
+          "met": true,
+          "reason": "Tests asexual density contribution using a likelihood ratio test."
+        },
+        {
+          "id": "B1",
+          "met": true,
+          "reason": "Discusses female and male gametocyte contributions to transmission risk."
+        },
+        {
+          "id": "B2",
+          "met": true,
+          "reason": "Distinguishes molecular assay signals (Pfs25/PfMGET) from viable gametocytes."
+        },
+        {
+          "id": "B3",
+          "met": true,
+          "reason": "Interprets membrane-feeding infection as an imperfect transmission endpoint."
+        },
+        {
+          "id": "R1",
+          "met": true,
+          "reason": "Cites three primary research articles supporting biological claims."
+        },
+        {
+          "id": "R2",
+          "met": true,
+          "reason": "Recognizes limits of the synthetic dataset and generalization."
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "The analysis.py script failed to execute due to syntax errors."
+      }
+    }
+  ],
+  "judge_failures": [],
+  "web_search_calls": [],
+  "usage": {
+    "openrouter/qwen/qwen3.5-9b": {
+      "input_tokens": 2861,
+      "output_tokens": 3379,
+      "total_tokens": 6240,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 658,
+      "total_cost": 0.00079295
+    },
+    "openrouter/google/gemini-3.5-flash": {
+      "input_tokens": 5843,
+      "output_tokens": 678,
+      "total_tokens": 6521,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 313,
+      "total_cost": 0.0148665
+    },
+    "openrouter/openai/gpt-5.5": {
+      "input_tokens": 5297,
+      "output_tokens": 574,
+      "total_tokens": 5871,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 335,
+      "total_cost": 0.043705
+    },
+    "openrouter/anthropic/claude-haiku-4.5": {
+      "input_tokens": 6237,
+      "output_tokens": 1369,
+      "total_tokens": 7606,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 719,
+      "total_cost": 0.013082
+    }
+  },
+  "tools": {},
+  "cost": {
+    "model": 0.07298462,
+    "web_search": 0,
+    "total": 0.07298462,
+    "model_calls": [
+      {
+        "model": "openrouter/qwen/qwen3.5-9b",
+        "served_model": "qwen/qwen3.5-9b",
+        "provider": "Together",
+        "generation_id": "gen-1785508317-uKrTTxwC2cBwSUrZDbmL",
+        "service_tier": null,
+        "cost": 0.00133112,
+        "cost_details": {
+          "upstream_inference_cost": 0.00133112,
+          "upstream_inference_prompt_cost": 0.00048637,
+          "upstream_inference_completions_cost": 0.00084475
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/openai/gpt-5.5",
+        "served_model": "openai/gpt-5.5",
+        "provider": "OpenAI",
+        "generation_id": "gen-1785508370-K9l8zgBjjbMQnj6tXBRB",
+        "service_tier": "default",
+        "cost": 0.043705,
+        "cost_details": {
+          "upstream_inference_cost": 0.043705,
+          "upstream_inference_prompt_cost": 0.026485,
+          "upstream_inference_completions_cost": 0.01722
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/anthropic/claude-haiku-4.5",
+        "served_model": "anthropic/claude-haiku-4.5",
+        "provider": "Anthropic",
+        "generation_id": "gen-1785508370-76MgXCLLJxDnkNc15Hgg",
+        "service_tier": "default",
+        "cost": 0.013082,
+        "cost_details": {
+          "upstream_inference_cost": 0.013082,
+          "upstream_inference_prompt_cost": 0.006237,
+          "upstream_inference_completions_cost": 0.006845
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/google/gemini-3.5-flash",
+        "served_model": "google/gemini-3.5-flash",
+        "provider": "Google",
+        "generation_id": "gen-1785508370-hCGICUvNPAAsw2Y3GEds",
+        "service_tier": "provisioned",
+        "cost": 0.0148665,
+        "cost_details": {
+          "upstream_inference_cost": 0.0148665,
+          "upstream_inference_prompt_cost": 0.0087645,
+          "upstream_inference_completions_cost": 0.006102
+        },
+        "is_byok": false
+      }
+    ]
+  },
+  "timing": {
+    "started_at": "2026-07-31T14:31:57.442463+00:00",
+    "completed_at": "2026-07-31T14:33:06.388088+00:00",
+    "total_time": 68.946,
+    "working_time": 68.903
+  },
+  "error": null
+}

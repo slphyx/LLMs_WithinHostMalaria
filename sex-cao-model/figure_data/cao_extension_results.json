@@ -1,0 +1,170 @@
+{
+  "allocation_hierarchy": {
+    "effective_in_likelihood": true,
+    "participant_rho_posterior_means": {
+      "101": 0.3592830065520027,
+      "102": 0.2717796664839769,
+      "103": 0.2305325671606533,
+      "104": 0.3183976718291294,
+      "105": 0.21234216656103058,
+      "106": 0.28044954249600706,
+      "201": 0.24372664815596307,
+      "202": 0.2553720581700821,
+      "203": 0.20644168127645235,
+      "204": 0.20359395783203016,
+      "301": 0.25945191296225234,
+      "302": 0.28647488398469684,
+      "303": 0.2519378954404807,
+      "304": 0.2814096051440987,
+      "305": 0.19095038507185727,
+      "306": 0.1905271435484937,
+      "307": 0.22710148232019486
+    },
+    "tau_rho_posterior_95": [
+      0.06213079404484708,
+      0.7274796668562601
+    ],
+    "tau_rho_posterior_mean": 0.3869852695085486,
+    "tau_rho_posterior_median": 0.38502254670320846
+  },
+  "model": {
+    "allocation_equation": "logit(rho_i) = logit(rho) + tau_rho z_i",
+    "baseline": "B0: matched Cao-derived sex-assay model with one global effective male allocation",
+    "candidate": "B2: B0 plus persistent participant-specific effective male allocation",
+    "mass_conservation": "female source=(1-rho_i)S_i(t); male source=rho_i S_i(t)",
+    "tau_prior": "tau_rho ~ half-Normal(0, 0.5)",
+    "z_prior": "z_i ~ Normal(0, 1)"
+  },
+  "posterior_draws": {
+    "arm": "b2",
+    "chains": 4,
+    "columns": [
+      "chain",
+      "draw",
+      "tau_rho",
+      "rho_male",
+      "rho_male_subject.1",
+      "rho_male_subject.2",
+      "rho_male_subject.3",
+      "rho_male_subject.4",
+      "rho_male_subject.5",
+      "rho_male_subject.6",
+      "rho_male_subject.7",
+      "rho_male_subject.8",
+      "rho_male_subject.9",
+      "rho_male_subject.10",
+      "rho_male_subject.11",
+      "rho_male_subject.12",
+      "rho_male_subject.13",
+      "rho_male_subject.14",
+      "rho_male_subject.15",
+      "rho_male_subject.16",
+      "rho_male_subject.17"
+    ],
+    "draws_per_chain": 2000,
+    "path": "cao_extension_posterior_draws.csv.gz",
+    "rows": 8000
+  },
+  "qualified_comparison": {
+    "b0_mean_nlpd": 4.655711682527845,
+    "b2_mean_nlpd": 4.63580048305118,
+    "definition": "B0 NLPD minus B2 NLPD; positive favors allocation heterogeneity",
+    "high_pareto_k_participants": {
+      "b0": [],
+      "b2": []
+    },
+    "maximum_pareto_k": {
+      "b0": 0.29199088784582405,
+      "b2": 0.31840072839827566
+    },
+    "mcmc": {
+      "b0": {
+        "chains": 4,
+        "divergences": 0,
+        "ebfmi_by_chain": [
+          0.8210582005114774,
+          0.762144481610693,
+          0.7466346385028887,
+          0.7134103616951337
+        ],
+        "max_treedepth_hits": 0,
+        "maximum_rhat": 1.0037,
+        "minimum_bulk_ess": 1484.19,
+        "minimum_tail_ess": 2770.49,
+        "passed": true,
+        "sampling_per_chain": 3000,
+        "warmup_per_chain": 2500
+      },
+      "b2": {
+        "chains": 4,
+        "divergences": 0,
+        "ebfmi_by_chain": [
+          0.8106139893147094,
+          0.7519754299837454,
+          0.7918600682142809,
+          0.7682770032628914
+        ],
+        "max_treedepth_hits": 0,
+        "maximum_rhat": 1.00559,
+        "minimum_bulk_ess": 758.659,
+        "minimum_tail_ess": 1339.05,
+        "passed": true,
+        "sampling_per_chain": 2000,
+        "warmup_per_chain": 2000
+      }
+    },
+    "mean_nlpd_gain": 0.019911199476665264,
+    "participant_bootstrap_95": [
+      0.011730424779537472,
+      0.02860692240670881
+    ],
+    "participant_gains": {
+      "101": 0.051839265130023904,
+      "102": 0.006991689561715031,
+      "103": 0.02983107029010945,
+      "104": 0.04562850227079007,
+      "105": 0.026063822222388566,
+      "106": -0.0018587802642437978,
+      "201": 0.0020965722175985135,
+      "202": -0.0018807378026890476,
+      "203": 0.0064356631606319326,
+      "204": 0.02697075806533089,
+      "301": 0.003278717753079974,
+      "302": 0.030964415890878616,
+      "303": 0.003570739020534397,
+      "304": 0.018204273296211326,
+      "305": 0.05198988217881384,
+      "306": 0.03020141189591463,
+      "307": 0.008163126216221173
+    },
+    "performance_claim_permitted": true,
+    "sex_endpoints": {
+      "female": {
+        "b0_mean_nlpd": 4.769003375905674,
+        "b2_mean_nlpd": 4.762843242886959,
+        "mean_nlpd_gain": 0.006160133018715541
+      },
+      "male": {
+        "b0_mean_nlpd": 4.542419989150018,
+        "b2_mean_nlpd": 4.508757723215403,
+        "mean_nlpd_gain": 0.03366226593461441
+      }
+    },
+    "status": "valid_primary_mcmc_psis_comparison",
+    "strict_participant_losses": 2,
+    "strict_participant_wins": 15
+  },
+  "schema": "cao-extension-report-figure-input-v2",
+  "scope": {
+    "claim_ceiling": "internal conditional prediction in the same cohort; not external or prospective validation",
+    "conditioning": "complete participant 18S and PK series; no sex-marker observations",
+    "held_out_sex_assay_rows": 390,
+    "participants": 17,
+    "protected_data_used": false,
+    "public_release_only": true,
+    "sex_assay_rows": 390,
+    "sex_marker_calibration_rows": 0,
+    "study": "Cao et al. public 3D7 volunteer cohort",
+    "validation_target": "internal participant-block sex-marker prediction"
+  }
+}

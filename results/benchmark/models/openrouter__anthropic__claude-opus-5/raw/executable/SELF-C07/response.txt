@@ -1,0 +1,90 @@
+analysis_py:
+"""SELF-C07: delayed gametocyte appearance model.
+
+Reads only input/asexual_driver.csv, input/gametocytes.csv,
+input/prediction_times.csv and writes results.json, trajectory.csv, report.md
+artefacts (report.md text is written separately; here we write the numbers).
+"""
+import json
+import numpy as np
+import pandas as pd
+from scipy.integrate import solve_ivp
+from scipy.optimize import differential_evolution, minimize
+from scipy.stats import norm
+
+RNG = np.random.default_rng(20240607)
+LOD = 2.0  # gametocytes/mL, left-censoring limit
+RTOL, ATOL = 1e-8, 1e-10
+
+drv = pd.read_csv("input/asexual_driver.csv")
+gam = pd.read_csv("input/gametocytes.csv")
+pt = pd.read_csv("input/prediction_times.csv")
+
+td = drv["time_days"].to_numpy(float)
+ad = drv["asexual_parasites_per_ml"].to_numpy(float)
+
+
+def A(t):
+    """Piecewise-linear interpolation of the fixed asexual driver; 0 outside."""
+    return np.interp(t, td, ad, left=0.0, right=0.0)
+
+
+tobs = gam["time_days"].to_numpy(float)
+detected = (gam["status"] == "detected").to_numpy()
+yobs = np.where(detected, pd.to_numeric(gam["gametocytes_per_ml"], errors="coerce"), np.nan)
+yobs = np.asarray(yobs, float)
+
+
+def simulate(theta, n, times):
+    """theta = (f, tau, delta). Erlang(n) sequestered immature chain -> mature M."""
+    f, tau, delta = theta
+    k = n / tau
+
+    def rhs(t, y):
+        d = np.empty(n + 1)
+        d[0] = f * A(t) - k * y[0]
+        for i in range(1, n):
+            d[i] = k * y[i - 1] - k * y[i]
+        d[n] = k * y[n - 1] - delta * y[n]
+        return d
+
+    tmax = max(times.max(), 26.0)
+    sol = solve_ivp(rhs, (0.0, tmax), np.zeros(n + 1), method="LSODA",
+                    rtol=RTOL, atol=ATOL, dense_output=True)
+    if not sol.success:
+        return None
+    out = sol.sol(np.clip(times, 0.0, tmax))[n]
+    return np.maximum(out, 1e-12), sol
+
+
+def nll(p, n, y=None):
+    """p = log(f), log(tau), log(delta), log(sigma); sigma on log10 scale."""
+    f, tau, delta, sigma = np.exp(p)
+    if not (1e-6 < tau < 25 and 1e-5 < delta < 5 and 1e-8 < f < 1 and 1e-3 < sigma < 3):
+        return 1e6
+    r = simulate((f, tau, delta), n, tobs)
+    if r is None:
+        return 1e6
+    m = r[0]
+    yy = yobs if y is None else y
+    ll = 0.0
+    for i in range(len(tobs)):
+        if detected[i] and np.isfinite(yy[i]):
+            ll += norm.logpdf(np.log10(yy[i]), np.log10(m[i]), sigma)
+        else:  # left-censored at the LOD
+            ll += norm.logcdf((np.log10(LOD) - np.log10(m[i])) / sigma)
+    if not np.isfinite(ll):
+        return 1e6
+    return -ll
+
+
+BOUNDS = [(np.log(1e-5), np.log(1e-1)), (np.log(0.5), np.log(15.0)),
+          (np.log(1e-3), np.log(1.0)), (np.log(0.02), np.log(1.0))]
+
+
+def fit(n, y=None, x0=None):
+    if x0 is None:
+        de = differential_evolution(nll, BOUNDS, args=(n, y), tol=1e-8, seed=1,
+                                    maxiter=300, popsize=20, polish=True)
+        x0 = de.x
+    res = minimize(nll, x0, args=(n, y), method="N

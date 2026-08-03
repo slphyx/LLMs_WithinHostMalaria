@@ -1,0 +1,502 @@
+{
+  "id": "SELF-C07",
+  "condition": "agent",
+  "model": "openrouter/mistralai/ministral-3b-2512",
+  "score": 16.667,
+  "explanation": "Automated 0.0/50; scientific 16.7/50; cap 50.",
+  "response_file": "response.txt",
+  "artifact_error": null,
+  "automated": {
+    "score": 0.0,
+    "maximum": 50,
+    "error": "No valid replay."
+  },
+  "scientific": {
+    "score": 16.666666666666664,
+    "maximum": 50,
+    "criteria": [
+      {
+        "id": "S1",
+        "criterion": "States the ODEs, initial conditions, parameter units, and mapping from latent mature gametocytes to observations.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "S2",
+        "criterion": "Uses an adaptive ODE solver with reported tolerances and checks non-negativity and numerical convergence.",
+        "points": 5,
+        "votes_met": 2,
+        "votes_total": 3,
+        "awarded": 3.333333333333333
+      },
+      {
+        "id": "S3",
+        "criterion": "Fits positive density on an appropriate scale and treats the nondetect as left-censored at 2 gametocytes/mL.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "S4",
+        "criterion": "Quantifies uncertainty and distinguishes information supplied by this profile from information imposed through bounds or literature-informed priors.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "S5",
+        "criterion": "Compares at least one alternative maturation structure using predictive evidence and parsimony rather than training fit alone.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "B1",
+        "criterion": "Represents immature stages as delayed and sequestered, with only mature stage-V female gametocytes mapped to the supplied peripheral measurements.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "B2",
+        "criterion": "Models mature gametocytes as non-replicating, with upstream maturation inflow and clearance loss.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "B3",
+        "criterion": "Interprets the fitted production coefficient as an effective scale and does not equate it directly with a sexual commitment probability.",
+        "points": 5,
+        "votes_met": 1,
+        "votes_total": 3,
+        "awarded": 1.6666666666666665
+      },
+      {
+        "id": "B4",
+        "criterion": "Separates the supplied no-direct-gametocytocidal-effect assumption from an empirical conclusion about antimalarial drugs.",
+        "points": 5,
+        "votes_met": 1,
+        "votes_total": 3,
+        "awarded": 1.6666666666666665
+      },
+      {
+        "id": "C1",
+        "criterion": "Discusses confounding among production, maturation and persistence, and does not equate female transcript-based gametocyte density with viability or mosquito infectivity.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      }
+    ],
+    "cap": 50
+  },
+  "execution": {
+    "success": true,
+    "complete": true,
+    "returncode": 0,
+    "stdout": "Trajectory generated successfully.\n",
+    "stderr": "",
+    "reproduced": false,
+    "timed_out": false,
+    "timeout_seconds": 600,
+    "error": null
+  },
+  "judges": [
+    {
+      "judge": "openrouter/openai/gpt-5.5",
+      "served_model": "openai/gpt-5.5",
+      "usage": {
+        "input_tokens": 4201,
+        "output_tokens": 539,
+        "total_tokens": 4740,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 314,
+        "total_cost": 0.037175
+      },
+      "generation_time": 9.305644370615482,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": false,
+          "reason": "Equations, units, observation mapping incomplete."
+        },
+        {
+          "id": "S2",
+          "met": false,
+          "reason": "No non-negativity or convergence checks."
+        },
+        {
+          "id": "S3",
+          "met": false,
+          "reason": "No actual fitting or censored likelihood implemented."
+        },
+        {
+          "id": "S4",
+          "met": false,
+          "reason": "Uncertainty interval arbitrary; priors not distinguished."
+        },
+        {
+          "id": "S5",
+          "met": false,
+          "reason": "Alternative comparison vague, no predictive evidence."
+        },
+        {
+          "id": "B1",
+          "met": true,
+          "reason": "Immature compartments feed measured mature stage."
+        },
+        {
+          "id": "B2",
+          "met": true,
+          "reason": "Mature compartment has inflow and clearance only."
+        },
+        {
+          "id": "B3",
+          "met": true,
+          "reason": "Coefficient described as effective production."
+        },
+        {
+          "id": "B4",
+          "met": true,
+          "reason": "Treatment effect stated as task assumption."
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "Confounding and infectivity limitations not discussed."
+        }
+      ],
+      "cap": {
+        "maximum": 100,
+        "reason": "none"
+      }
+    },
+    {
+      "judge": "openrouter/anthropic/claude-haiku-4.5",
+      "served_model": "anthropic/claude-haiku-4.5",
+      "usage": {
+        "input_tokens": 4893,
+        "output_tokens": 1843,
+        "total_tokens": 6736,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 970,
+        "total_cost": 0.014107999999999999
+      },
+      "generation_time": 17.78828427195549,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": false,
+          "reason": "ODEs shown in code; initial conditions [0,0,0] stated; mapping to observations and parameter units incompletely specified"
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "solve_ivp with RK45, rtol=1e-6, atol=1e-8 explicitly reported; no explicit non-negativity or convergence checks"
+        },
+        {
+          "id": "S3",
+          "met": false,
+          "reason": "Placeholder comments; no parameter fitting implemented; left-censored likelihood mentioned but not coded"
+        },
+        {
+          "id": "S4",
+          "met": false,
+          "reason": "Uncertainty interval shown (±0.5 days) but not derived from data; no actual fitting; profile/imposed distinction absent"
+        },
+        {
+          "id": "S5",
+          "met": false,
+          "reason": "Alternative 'single-compartment' mentioned in report; no quantitative comparison or alternative fit implemented"
+        },
+        {
+          "id": "B1",
+          "met": true,
+          "reason": "Two immature compartments model delay; mature M stage correctly separated from observations"
+        },
+        {
+          "id": "B2",
+          "met": true,
+          "reason": "Mature equation dM/dt = r_late*I_late - lambda_*M has inflow and first-order loss"
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "Production coefficient k mentioned but not interpreted as effective scale; no sexual commitment discussion"
+        },
+        {
+          "id": "B4",
+          "met": false,
+          "reason": "No explicit separation of treatment assumption from empirical gametocytocidal effect"
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "No discussion of confounding among production/maturation/persistence or measurement validity"
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "Code executes without error/timeout and required artefacts present, but analysis is incomplete: parameter estimation is not implemented (marked 'Placeholder'), left-censored likelihood not coded, alternative model not fitted, and uncertainty not derived from data. Structural model defined but inference not performed."
+      }
+    },
+    {
+      "judge": "openrouter/google/gemini-3.5-flash",
+      "served_model": "google/gemini-3.5-flash",
+      "usage": {
+        "input_tokens": 5840,
+        "output_tokens": 364,
+        "total_tokens": 6204,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 0,
+        "total_cost": 0.012036
+      },
+      "generation_time": 3.60199885815382,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": false,
+          "reason": "The report does not state the ODEs, initial conditions, or parameter units."
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "Uses solve_ivp with RK45 and reports rtol=1e-6, atol=1e-8."
+        },
+        {
+          "id": "S3",
+          "met": false,
+          "reason": "The code does not implement fitting or a left-censored likelihood."
+        },
+        {
+          "id": "S4",
+          "met": false,
+          "reason": "No parameter estimation or uncertainty quantification is actually performed in code."
+        },
+        {
+          "id": "S5",
+          "met": false,
+          "reason": "No alternative model is implemented or compared using predictive evidence."
+        },
+        {
+          "id": "B1",
+          "met": true,
+          "reason": "Models sequestered early/late compartments and maps mature to measurements."
+        },
+        {
+          "id": "B2",
+          "met": true,
+          "reason": "Mature gametocytes have maturation inflow and first-order clearance loss."
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "The report does not interpret the effective production coefficient scale."
+        },
+        {
+          "id": "B4",
+          "met": false,
+          "reason": "Does not separate the assumption from empirical drug effects."
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "Does not discuss confounding or viability/infectivity limitations."
+        }
+      ],
+      "cap": {
+        "maximum": 100,
+        "reason": "none"
+      }
+    }
+  ],
+  "judge_failures": [],
+  "web_search_calls": [],
+  "usage": {
+    "openrouter/mistralai/ministral-3b-2512": {
+      "input_tokens": 11509,
+      "output_tokens": 20629,
+      "total_tokens": 256906,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 224768,
+      "reasoning_tokens": 0,
+      "total_cost": 0.00546148
+    },
+    "openrouter/google/gemini-3.5-flash": {
+      "input_tokens": 5840,
+      "output_tokens": 364,
+      "total_tokens": 6204,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 0,
+      "total_cost": 0.012036
+    },
+    "openrouter/openai/gpt-5.5": {
+      "input_tokens": 4201,
+      "output_tokens": 539,
+      "total_tokens": 4740,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 314,
+      "total_cost": 0.037175
+    },
+    "openrouter/anthropic/claude-haiku-4.5": {
+      "input_tokens": 4893,
+      "output_tokens": 1843,
+      "total_tokens": 6736,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 970,
+      "total_cost": 0.014107999999999999
+    }
+  },
+  "tools": {
+    "todo_write": 2,
+    "plan": 1,
+    "general": 1,
+    "python": 9,
+    "text_editor": 1,
+    "bash": 2,
+    "submit": 1
+  },
+  "cost": {
+    "model": 0.06401498,
+    "web_search": 0,
+    "total": 0.06401498,
+    "model_calls": [
+      {
+        "model": "openrouter/mistralai/ministral-3b-2512",
+        "served_model": "mistralai/ministral-3b-2512",
+        "provider": "Mistral",
+        "generation_id": "gen-1785517640-8B62LVXJoLNPF7urx4d4",
+        "service_tier": "default",
+        "cost": 0.0002149,
+        "cost_details": {
+          "upstream_inference_cost": 0.0002149,
+          "upstream_inference_prompt_cost": 0.0001879,
+          "upstream_inference_completions_cost": 0.000027
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/mistralai/ministral-3b-2512",
+        "served_model": "mistralai/ministral-3b-2512",
+        "provider": "Mistral",
+        "generation_id": "gen-1785517641-qm7SePVUZXx2IV0CK9Y7",
+        "service_tier": "default",
+        "cost": 0.00009622,
+        "cost_details": {
+          "upstream_inference_cost": 0.00009622,
+          "upstream_inference_prompt_cost": 0.00005412,
+          "upstream_inference_completions_cost": 0.0000421
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/mistralai/ministral-3b-2512",
+        "served_model": "mistralai/ministral-3b-2512",
+        "provider": "Mistral",
+        "generation_id": "gen-1785517643-mYSsPmOOUBYCngbSn9MA",
+        "service_tier": "default",
+        "cost": 0.00010776,
+        "cost_details": {
+          "upstream_inference_cost": 0.00010776,
+          "upstream_inference_prompt_cost": 0.00006246,
+          "upstream_inference_completions_cost": 0.0000453
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/mistralai/ministral-3b-2512",
+        "served_model": "mistralai/ministral-3b-2512",
+        "provider": "Mistral",
+        "generation_id": "gen-1785517645-Q4iJBIk2m7Wk47wuN8Nw",
+        "service_tier": "default",
+        "cost": 0.00014882,
+        "cost_details": {
+          "upstream_inference_cost": 0.00014882,
+          "upstream_inference_prompt_cost": 0.00008542,
+          "upstream_inference_completions_cost": 0.0000634
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/mistralai/ministral-3b-2512",
+        "served_model": "mistralai/ministral-3b-2512",
+        "provider": "Mistral",
+        "generation_id": "gen-1785517648-gOlVD25lftza9uS0SSCY",
+        "service_tier": "default",
+        "cost": 0.00012828,
+        "cost_details": {
+          "upstream_inference_cost": 0.00012828,
+          "upstream_inference_prompt_cost": 0.00006868,
+          "upstream_inference_completions_cost": 0.0000596
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/openai/gpt-5.5",
+        "served_model": "openai/gpt-5.5",
+        "provider": "OpenAI",
+        "generation_id": "gen-1785517745-4RkLFVSBuxnItCm20TmM",
+        "service_tier": "default",
+        "cost": 0.037175,
+        "cost_details": {
+          "upstream_inference_cost": 0.037175,
+          "upstream_inference_prompt_cost": 0.021005,
+          "upstream_inference_completions_cost": 0.01617
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/anthropic/claude-haiku-4.5",
+        "served_model": "anthropic/claude-haiku-4.5",
+        "provider": "Anthropic",
+        "generation_id": "gen-1785517744-QXpYIN3if5y5WDOyBEpL",
+        "service_tier": "default",
+        "cost": 0.014108,
+        "cost_details": {
+          "upstream_inference_cost": 0.014108,
+          "upstream_inference_prompt_cost": 0.004893,
+          "upstream_inference_completions_cost": 0.009215
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/google/gemini-3.5-flash",
+        "served_model": "google/gemini-3.5-flash",
+        "provider": "Google",
+        "generation_id": "gen-1785517745-bfQCkCmKXmCZTa2dAQuw",
+        "service_tier": "provisioned",
+        "cost": 0.012036,
+        "cost_details": {
+          "upstream_inference_cost": 0.012036,
+          "upstream_inference_prompt_cost": 0.00876,
+          "upstream_inference_completions_cost": 0.003276
+        },
+        "is_byok": false
+      }
+    ]
+  },
+  "timing": {
+    "started_at": "2026-07-31T17:07:20.176143+00:00",
+    "completed_at": "2026-07-31T17:09:22.955675+00:00",
+    "total_time": 122.779,
+    "working_time": 122.516
+  },
+  "error": null
+}

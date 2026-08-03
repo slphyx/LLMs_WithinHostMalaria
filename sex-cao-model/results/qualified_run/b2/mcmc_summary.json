@@ -1,0 +1,25 @@
+{
+  "chains": 4,
+  "draws_sampling_per_chain": 2000,
+  "draws_warmup_per_chain": 2000,
+  "divergences": 0,
+  "max_treedepth_transitions": 0,
+  "maximum_rhat": 1.00559,
+  "minimum_bulk_ess": 758.659,
+  "minimum_tail_ess": 1339.05,
+  "ebfmi_by_chain": [
+    0.8106139893147094,
+    0.7519754299837454,
+    0.7918600682142809,
+    0.7682770032628914
+  ],
+  "diagnose": "Checking sampler transitions treedepth.\nTreedepth satisfactory for all transitions.\n\nChecking sampler transitions for divergences.\nNo divergent transitions found.\n\nChecking E-BFMI - sampler transitions HMC potential energy.\nE-BFMI satisfactory.\n\nRank-normalized split effective sample size satisfactory for all parameters.\n\nRank-normalized split R-hat values satisfactory for all parameters.\n\nProcessing complete, no problems detected.\n",
+  "schema": "cao-sex-allocation-heterogeneity-mcmc-summary-v1",
+  "arm": "b2",
+  "model": "b2_assay_calibrated_participant_allocation",
+  "allocation_active": 1,
+  "excluded_sex_participant": null,
+  "initial_metric_source": null,
+  "public_release_only": true,
+  "protected_data_used": false
+}

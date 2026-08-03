@@ -1,0 +1,10 @@
+
+
+<think>
+When parameters go into extreme unphysical regions, `solve_ivp` can overflow. I'll add sanity bounds in `solve_gametocytes` / `full_nll`.
+
+Let's test `full_nll` with parameter safeguards.
+
+
+</think>
+

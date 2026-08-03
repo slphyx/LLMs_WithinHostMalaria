@@ -1,0 +1,283 @@
+{
+  "campaign_finished": true,
+  "all_cells_scored": true,
+  "score_scales": {
+    "short": "0-1",
+    "research": "0-100"
+  },
+  "coverage": {
+    "short": {
+      "models": [
+        "openrouter/openai/gpt-5.6-sol",
+        "openrouter/anthropic/claude-opus-5",
+        "openrouter/google/gemini-3.6-flash",
+        "openrouter/deepseek/deepseek-v4-pro",
+        "openrouter/openai/gpt-5.4-mini",
+        "openrouter/deepseek/deepseek-r1-0528",
+        "openrouter/qwen/qwen3.5-9b",
+        "openrouter/mistralai/ministral-3b-2512"
+      ],
+      "conditions": [
+        "raw",
+        "agent"
+      ],
+      "sample_ids": [
+        "SUP-B01",
+        "SUP-B02",
+        "SUP-B03",
+        "SUP-B04",
+        "SUP-B05",
+        "SUP-B06",
+        "SUP-B07",
+        "SUP-B08",
+        "SUP-B09",
+        "SUP-B10",
+        "SUP-B11",
+        "SUP-B12",
+        "SELF-B01",
+        "SELF-B02",
+        "SELF-B03",
+        "SELF-B04",
+        "SUP-A01",
+        "SUP-A02",
+        "SUP-A03",
+        "SUP-A04",
+        "SUP-A05",
+        "SUP-A06",
+        "SUP-A07",
+        "SUP-A08",
+        "SUP-A09",
+        "SUP-A10",
+        "SUP-A11",
+        "SUP-A12",
+        "SUP-A13",
+        "SUP-A14",
+        "SELF-A01",
+        "SELF-A02",
+        "SELF-A03",
+        "SELF-A04",
+        "SUP-S01",
+        "SUP-S02",
+        "SUP-S03",
+        "SUP-S04",
+        "SUP-S05",
+        "SUP-S06",
+        "SUP-S07",
+        "SUP-S08",
+        "SUP-S09",
+        "SUP-S10",
+        "SUP-S11",
+        "SUP-S12",
+        "SELF-S01",
+        "SELF-S02",
+        "SELF-S03",
+        "SELF-S04",
+        "SELF-C01",
+        "SELF-C02",
+        "SELF-C03",
+        "SELF-C04",
+        "SELF-C05"
+      ],
+      "cells": 880
+    },
+    "research": {
+      "models": [
+        "openrouter/openai/gpt-5.6-sol",
+        "openrouter/anthropic/claude-opus-5",
+        "openrouter/google/gemini-3.6-flash",
+        "openrouter/deepseek/deepseek-v4-pro",
+        "openrouter/openai/gpt-5.4-mini",
+        "openrouter/deepseek/deepseek-r1-0528",
+        "openrouter/qwen/qwen3.5-9b",
+        "openrouter/mistralai/ministral-3b-2512"
+      ],
+      "conditions": [
+        "raw",
+        "agent"
+      ],
+      "sample_ids": [
+        "SELF-C06",
+        "SELF-C07",
+        "SELF-C08"
+      ],
+      "cells": 48,
+      "scored_cells": 48,
+      "noncompleted_cells": 0
+    }
+  },
+  "cost": {
+    "short_selected_samples": 26.26084857697999,
+    "short_all_loaded_attempts": 26.42704641038002,
+    "research_reported_attempts": 8.0591898442,
+    "research_model": 7.679115169199998,
+    "research_web_search": 0.38007467500000003,
+    "selected_plus_research": 34.32003842117999,
+    "all_reported_attempts": 34.48623625458002
+  },
+  "models": [
+    {
+      "model": "openrouter/openai/gpt-5.6-sol",
+      "short": {
+        "raw_mean": 0.8939393939393939,
+        "agent_mean": 0.9510101010101009,
+        "difference": 0.05707070707070694,
+        "raw_normal_mean": 0.9033333333333333,
+        "agent_normal_mean": 0.946111111111111,
+        "raw_computational_mean": 0.8,
+        "agent_computational_mean": 1.0
+      },
+      "research": {
+        "raw_all_task_mean": 0.0,
+        "agent_all_task_mean": 94.115,
+        "difference": 94.115,
+        "raw_scored_n": 3,
+        "agent_scored_n": 3,
+        "expected_n": 3
+      }
+    },
+    {
+      "model": "openrouter/anthropic/claude-opus-5",
+      "short": {
+        "raw_mean": 0.5969696969696969,
+        "agent_mean": 0.8949494949494949,
+        "difference": 0.297979797979798,
+        "raw_normal_mean": 0.6016666666666667,
+        "agent_normal_mean": 0.9044444444444444,
+        "raw_computational_mean": 0.55,
+        "agent_computational_mean": 0.8
+      },
+      "research": {
+        "raw_all_task_mean": 0.0,
+        "agent_all_task_mean": 81.103,
+        "difference": 81.103,
+        "raw_scored_n": 3,
+        "agent_scored_n": 3,
+        "expected_n": 3
+      }
+    },
+    {
+      "model": "openrouter/google/gemini-3.6-flash",
+      "short": {
+        "raw_mean": 0.2815151515151515,
+        "agent_mean": 0.8590909090909091,
+        "difference": 0.5775757575757576,
+        "raw_normal_mean": 0.26166666666666666,
+        "agent_normal_mean": 0.855,
+        "raw_computational_mean": 0.48,
+        "agent_computational_mean": 0.9
+      },
+      "research": {
+        "raw_all_task_mean": 0.0,
+        "agent_all_task_mean": 57.77066666666667,
+        "difference": 57.77066666666667,
+        "raw_scored_n": 3,
+        "agent_scored_n": 3,
+        "expected_n": 3
+      }
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-v4-pro",
+      "short": {
+        "raw_mean": 0.7424242424242424,
+        "agent_mean": 0.8227272727272729,
+        "difference": 0.08030303030303043,
+        "raw_normal_mean": 0.7766666666666667,
+        "agent_normal_mean": 0.8050000000000002,
+        "raw_computational_mean": 0.4,
+        "agent_computational_mean": 1.0
+      },
+      "research": {
+        "raw_all_task_mean": 20.0,
+        "agent_all_task_mean": 51.35366666666667,
+        "difference": 31.35366666666667,
+        "raw_scored_n": 3,
+        "agent_scored_n": 3,
+        "expected_n": 3
+      }
+    },
+    {
+      "model": "openrouter/openai/gpt-5.4-mini",
+      "short": {
+        "raw_mean": 0.6904040404040402,
+        "agent_mean": 0.8060606060606061,
+        "difference": 0.1156565656565659,
+        "raw_normal_mean": 0.7577777777777776,
+        "agent_normal_mean": 0.8166666666666668,
+        "raw_computational_mean": 0.016666666666666666,
+        "agent_computational_mean": 0.7
+      },
+      "research": {
+        "raw_all_task_mean": 0.5556666666666666,
+        "agent_all_task_mean": 69.95766666666667,
+        "difference": 69.402,
+        "raw_scored_n": 3,
+        "agent_scored_n": 3,
+        "expected_n": 3
+      }
+    },
+    {
+      "model": "openrouter/deepseek/deepseek-r1-0528",
+      "short": {
+        "raw_mean": 0.6393939393939394,
+        "agent_mean": 0.6666666666666667,
+        "difference": 0.027272727272727337,
+        "raw_normal_mean": 0.685,
+        "agent_normal_mean": 0.6733333333333335,
+        "raw_computational_mean": 0.18333333333333332,
+        "agent_computational_mean": 0.6
+      },
+      "research": {
+        "raw_all_task_mean": 5.555666666666667,
+        "agent_all_task_mean": 26.353333333333335,
+        "difference": 20.797666666666668,
+        "raw_scored_n": 3,
+        "agent_scored_n": 3,
+        "expected_n": 3
+      }
+    },
+    {
+      "model": "openrouter/qwen/qwen3.5-9b",
+      "short": {
+        "raw_mean": 0.034848484848484844,
+        "agent_mean": 0.5924242424242423,
+        "difference": 0.5575757575757575,
+        "raw_normal_mean": 0.0,
+        "agent_normal_mean": 0.6166666666666667,
+        "raw_computational_mean": 0.3833333333333333,
+        "agent_computational_mean": 0.35
+      },
+      "research": {
+        "raw_all_task_mean": 17.222333333333335,
+        "agent_all_task_mean": 23.889,
+        "difference": 6.666666666666664,
+        "raw_scored_n": 3,
+        "agent_scored_n": 3,
+        "expected_n": 3
+      }
+    },
+    {
+      "model": "openrouter/mistralai/ministral-3b-2512",
+      "short": {
+        "raw_mean": 0.31060606060606066,
+        "agent_mean": 0.3212121212121212,
+        "difference": 0.010606060606060563,
+        "raw_normal_mean": 0.34166666666666673,
+        "agent_normal_mean": 0.35333333333333333,
+        "raw_computational_mean": 0.0,
+        "agent_computational_mean": 0.0
+      },
+      "research": {
+        "raw_all_task_mean": 0.0,
+        "agent_all_task_mean": 7.222333333333334,
+        "difference": 7.222333333333334,
+        "raw_scored_n": 3,
+        "agent_scored_n": 3,
+        "expected_n": 3
+      }
+    }
+  ],
+  "sources": {
+    "short": "results/benchmark/short/summary.json",
+    "research": "results/benchmark/executable/summary.json"
+  }
+}

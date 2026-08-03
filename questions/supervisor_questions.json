@@ -1,0 +1,172 @@
+{
+  "title": "Questions for Evaluating AI Understanding of Within-host Plasmodium falciparum Modelling",
+  "sections": [
+    {
+      "section": "Basic understanding.",
+      "items": [
+        {
+          "question": "Why do untreated Plasmodium falciparum parasite counts often fluctuate with a roughly 48-hour periodicity?",
+          "answer": "Because blood-stage parasites progress through a synchronous 48-hour asexual cycle, with maturation and rupture producing waves of circulating parasites."
+        },
+        {
+          "question": "What is sequestration?",
+          "answer": "The movement of mature infected erythrocytes out of peripheral blood into deeper tissues or the microvasculature, reducing what is seen on microscopy."
+        },
+        {
+          "question": "What is an age-structured model?",
+          "answer": "A model that tracks parasites by developmental stage or age rather than as a single undifferentiated total."
+        },
+        {
+          "question": "Why are daily parasite measurements useful?",
+          "answer": "They capture short-term oscillations and changes in growth rate that sparse sampling can miss."
+        },
+        {
+          "question": "What is the main difference between microscopy and qPCR parasite measurements?",
+          "answer": "Microscopy counts visible parasites in blood films, whereas qPCR measures parasite nucleic acid and is more sensitive at low densities."
+        },
+        {
+          "question": "Why are observations often censored after antimalarial treatment starts?",
+          "answer": "Treatment changes parasite growth and clearance, so the untreated expansion phase is no longer being observed."
+        },
+        {
+          "question": "What is the purpose of an observation model?",
+          "answer": "To connect the unobserved latent parasite state to measured data while accounting for measurement error and detection limits."
+        },
+        {
+          "question": "Why can parasite trajectories differ between individuals or strains?",
+          "answer": "Because of differences in synchrony, replication capacity, growth limitation, host environment, and infection history."
+        },
+        {
+          "question": "Why compare models using predictive criteria such as LOO?",
+          "answer": "To assess which model predicts new data better while penalizing unnecessary complexity."
+        },
+        {
+          "question": "What does it mean to call a model phenomenological?",
+          "answer": "It describes the observed pattern with a few interpretable terms without claiming to represent every underlying biological mechanism explicitly."
+        },
+        {
+          "question": "What biological quantity does parasite multiplication factor (PMF) represent in the White et al. model?",
+          "answer": "The average number of merozoites that successfully invade red blood cells per infected erythrocyte completing one cycle."
+        },
+        {
+          "question": "Why are only parasites aged 1-26 hours assumed to contribute to observed peripheral blood counts?",
+          "answer": "Parasites older than about 26 hours are assumed to sequester and therefore are not visible in peripheral blood microscopy."
+        }
+      ]
+    },
+    {
+      "section": "Applied reasoning",
+      "items": [
+        {
+          "question": "What features should a model fitted to microscopy data usually capture?",
+          "answer": "Periodic fluctuations, sequestration-related loss from peripheral blood, timing of growth, and the effect of detection thresholds."
+        },
+        {
+          "question": "What additional features may matter when fitting qPCR data?",
+          "answer": "Lower detection limits, irregular sampling times, and the possibility that the measured signal reflects parasite DNA rather than only visible parasites."
+        },
+        {
+          "question": "Why might a pure exponential growth model be insufficient for untreated parasite trajectories?",
+          "answer": "Many infections slow down, plateau, or decline rather than growing indefinitely at a constant rate."
+        },
+        {
+          "question": "When would you add a density-dependent growth effect to a model?",
+          "answer": "When parasite expansion weakens as density increases or when trajectories show plateauing or decline after an initial rise."
+        },
+        {
+          "question": "What would explicit sexual commitment add to a within-host model?",
+          "answer": "It would move some parasites out of the asexual replication cycle and allow the model to describe gametocyte production and transmission potential."
+        },
+        {
+          "question": "Why can hierarchical models be helpful when fitting many individual profiles?",
+          "answer": "They share information across individuals, improve estimation of common patterns, and reduce noise in poorly informed profiles."
+        },
+        {
+          "question": "Why can individual-level parameter estimates have wide credible intervals?",
+          "answer": "Because each trajectory may contain only a few time points and several parameters can explain the same pattern."
+        },
+        {
+          "question": "What does overlapping credible intervals imply when comparing strains?",
+          "answer": "The data do not provide strong evidence that the strain-specific differences are clearly separated."
+        },
+        {
+          "question": "How should you interpret similar LOO performance for two models?",
+          "answer": "The data do not strongly favor one model; both explain the observations about equally well."
+        },
+        {
+          "question": "What would suggest that a more complex model is unnecessary?",
+          "answer": "If it does not improve predictive performance or if added parameters are not identifiable from the data."
+        },
+        {
+          "question": "Why is a normal distribution used for the initial parasite age distribution?",
+          "answer": "It is a simple way to represent initial synchrony or asynchrony with only two parameters, the mean age and its spread."
+        },
+        {
+          "question": "How does a lower parasite multiplication factor (PMF) change the predicted parasite trajectory?",
+          "answer": "It reduces the rate of exponential expansion, so parasite densities rise more slowly and peak later or at lower levels."
+        },
+        {
+          "question": "A within-host model predicts smooth exponential growth but fails to reproduce the oscillations observed in microscopy parasite count data. What biological process is most likely missing?",
+          "answer": "The model is probably missing explicit parasite age structure and sequestration. Without representing the developmental stages of the parasite and sequestration of mature stages, peripheral parasite densities will not oscillate."
+        },
+        {
+          "question": "Why is an age-structured model generally better able to reproduce parasite count fluctuations than a simple exponential growth model?",
+          "answer": "Because an age-structured model tracks parasites through their developmental stages, allowing mature parasites to sequester and young parasites to reappear after schizont rupture. A simple exponential model treats all parasites identically and therefore cannot generate periodic oscillations."
+        }
+      ]
+    },
+    {
+      "section": "Synthesis and critique",
+      "items": [
+        {
+          "question": "If microscopy shows oscillations but qPCR is smoother, what does that suggest?",
+          "answer": "The oscillations may be partly due to what the measurement captures, but the smoother qPCR profile can also reflect improved sensitivity and reduced sparsity in detection."
+        },
+        {
+          "question": "How would you distinguish a true biological plateau from a detection-limited plateau?",
+          "answer": "By using additional data such as qPCR, stage-specific counts, or repeated measures that extend beyond the microscopy detection range."
+        },
+        {
+          "question": "Why is it risky to assign one specific mechanism to a fitted growth-limiting term?",
+          "answer": "Different processes such as immunity, resource limitation, sexual commitment, and density dependence can produce similar parasite count patterns."
+        },
+        {
+          "question": "How would you decide whether to model asexual parasites and gametocytes jointly?",
+          "answer": "Do so when gametocyte data or transmission outcomes are available and the scientific question includes sexual differentiation or infectivity."
+        },
+        {
+          "question": "What additional data would help separate host-mediated killing from parasite-intrinsic regulation?",
+          "answer": "Immune markers, gametocyte counts, sequestration markers, and possibly intervention or perturbation data."
+        },
+        {
+          "question": "How would changing the assumed sequestration age affect fitted trajectories?",
+          "answer": "It would change how long parasites remain visible in peripheral blood, shifting the timing and amplitude of the predicted oscillations."
+        },
+        {
+          "question": "Why might a model that fits the training data well still fail on new trajectories?",
+          "answer": "It may overfit idiosyncratic features of the training set or miss the real biological process that drives new data."
+        },
+        {
+          "question": "What is the advantage of keeping the latent biology separate from the observation process?",
+          "answer": "It lets the model distinguish parasite dynamics from measurement artifacts and makes the biological assumptions easier to test."
+        },
+        {
+          "question": "How would you adapt a model if the goal changed from parasite counts to transmission prediction?",
+          "answer": "Add sexual-stage dynamics and a link from gametocyte density to mosquito infectivity."
+        },
+        {
+          "question": "Why is a parsimonious model often preferable when the data are sparse?",
+          "answer": "It is easier to identify, less prone to overfitting, and more likely to generalize to new data."
+        },
+        {
+          "question": "Can daily fluctuations in parasite count profiles alone be considered evidence for immune responses?",
+          "answer": "No. Daily fluctuations are primarily explained by parasite age structure and sequestration. Immune responses generally influence the longer-term trajectory (attenuation, plateau, decline) rather than the periodic oscillations themselves."
+        },
+        {
+          "question": "A model accurately reproduces the 48-hour oscillations in parasite density but consistently overestimates parasite counts after day 8. What does this suggest about the model?",
+          "answer": "The model captures parasite age structure and sequestration correctly but lacks a mechanism that limits parasite expansion later in infection, such as immune responses, resource limitation, density-dependent regulation, or sexual commitment."
+        }
+      ]
+    }
+  ]
+}

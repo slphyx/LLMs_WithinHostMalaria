@@ -1,0 +1,10 @@
+.venv/
+.cmdstan/
+__pycache__/
+*.py[cod]
+
+# Generated model and analysis outputs
+model/cao_sex_allocation
+model/cao_sex_allocation.hpp
+figures/
+outputs/

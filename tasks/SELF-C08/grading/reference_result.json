@@ -1,0 +1,108 @@
+{
+  "model": {
+    "name": "sex-specific saturating binomial model",
+    "formula": "p = p_max * (1 - exp(-k_f * female_per_ul)) * (1 - exp(-k_m * male_per_ul))",
+    "likelihood": "mosquitoes_infected ~ Binomial(mosquitoes_examined, p)"
+  },
+  "predictions": [
+    {
+      "feed_id": "F09",
+      "infection_probability": 0.10201825,
+      "probability_interval": [
+        0.06986155,
+        0.12756673
+      ]
+    },
+    {
+      "feed_id": "F11",
+      "infection_probability": 0.00001474,
+      "probability_interval": [
+        0.00000821,
+        0.00002464
+      ]
+    },
+    {
+      "feed_id": "F13",
+      "infection_probability": 0.05133805,
+      "probability_interval": [
+        0.03242688,
+        0.07034343
+      ]
+    },
+    {
+      "feed_id": "F15",
+      "infection_probability": 0.00001505,
+      "probability_interval": [
+        0.00000838,
+        0.00002515
+      ]
+    },
+    {
+      "feed_id": "F18",
+      "infection_probability": 0.00023552,
+      "probability_interval": [
+        0.00013186,
+        0.00038972
+      ]
+    },
+    {
+      "feed_id": "F24",
+      "infection_probability": 0.38451856,
+      "probability_interval": [
+        0.25712602,
+        0.48480252
+      ]
+    },
+    {
+      "feed_id": "F26",
+      "infection_probability": 0.17596893,
+      "probability_interval": [
+        0.12757546,
+        0.20742017
+      ]
+    },
+    {
+      "feed_id": "F35",
+      "infection_probability": 0.00427084,
+      "probability_interval": [
+        0.00252384,
+        0.00653528
+      ]
+    },
+    {
+      "feed_id": "F36",
+      "infection_probability": 0.00340026,
+      "probability_interval": [
+        0.00194953,
+        0.00540732
+      ]
+    }
+  ],
+  "transmission_summary": {
+    "expected_infected_mosquitoes": 72.888522,
+    "weighted_infection_probability": 0.08856442
+  },
+  "diagnostics": {
+    "training_binomial_log_loss": 0.14966373,
+    "model_comparison": "The sex-specific model has lower AIC and held-out log loss than the saturating total-gametocyte model.",
+    "asexual_assessment": "Adding log10 asexual density changes neither held-out loss materially nor AIC favourably, so it is not retained.",
+    "calibration": "Observed counts were compared with fitted binomial expectations across the probability range; sparse low-density feeds limit calibration assessment."
+  },
+  "literature": [
+    {
+      "claim": "Female and male gametocyte densities jointly predict mosquito infection, with male limitation most apparent at low density.",
+      "citation": "Bradley et al., Predicting the likelihood and intensity of mosquito infection from sex specific Plasmodium falciparum gametocyte density, eLife, 2018.",
+      "url": "https://doi.org/10.7554/eLife.34463"
+    },
+    {
+      "claim": "SBP1, Pfs25, and PfMGET molecular assays have been used to distinguish circulating asexual, female, and male parasite streams.",
+      "citation": "Cao et al., Modeling the dynamics of Plasmodium falciparum gametocytes in humans during malaria infection, eLife, 2019.",
+      "url": "https://doi.org/10.7554/eLife.49058"
+    },
+    {
+      "claim": "The relationship between gametocyte density and mosquito infection can be strongly nonlinear and feeding assays remain variable.",
+      "citation": "Churcher et al., Predicting mosquito infection from Plasmodium falciparum gametocyte density and estimating the reservoir of infection, eLife, 2013.",
+      "url": "https://doi.org/10.7554/eLife.00626"
+    }
+  ]
+}

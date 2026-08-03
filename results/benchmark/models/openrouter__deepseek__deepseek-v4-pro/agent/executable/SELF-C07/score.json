@@ -1,0 +1,612 @@
+{
+  "id": "SELF-C07",
+  "condition": "agent",
+  "model": "openrouter/deepseek/deepseek-v4-pro",
+  "score": 50,
+  "explanation": "Automated 22.5/50; scientific 41.7/50; cap 50.",
+  "response_file": null,
+  "artifact_error": null,
+  "automated": {
+    "score": 22.5,
+    "maximum": 50,
+    "components": {
+      "schema": 7.5,
+      "held_out_prediction": 0.0,
+      "half_life_consistency": 10.0,
+      "uncertainty_interval": 5.0
+    },
+    "metrics": {
+      "held_out_log10_rmse": null
+    },
+    "checks": {
+      "model": true,
+      "parameters": true,
+      "diagnostics": true,
+      "prediction_rows": false,
+      "half_life_interval": true
+    }
+  },
+  "scientific": {
+    "score": 41.66666666666666,
+    "maximum": 50,
+    "criteria": [
+      {
+        "id": "S1",
+        "criterion": "States the ODEs, initial conditions, parameter units, and mapping from latent mature gametocytes to observations.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "S2",
+        "criterion": "Uses an adaptive ODE solver with reported tolerances and checks non-negativity and numerical convergence.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "S3",
+        "criterion": "Fits positive density on an appropriate scale and treats the nondetect as left-censored at 2 gametocytes/mL.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "S4",
+        "criterion": "Quantifies uncertainty and distinguishes information supplied by this profile from information imposed through bounds or literature-informed priors.",
+        "points": 5,
+        "votes_met": 2,
+        "votes_total": 3,
+        "awarded": 3.333333333333333
+      },
+      {
+        "id": "S5",
+        "criterion": "Compares at least one alternative maturation structure using predictive evidence and parsimony rather than training fit alone.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "B1",
+        "criterion": "Represents immature stages as delayed and sequestered, with only mature stage-V female gametocytes mapped to the supplied peripheral measurements.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "B2",
+        "criterion": "Models mature gametocytes as non-replicating, with upstream maturation inflow and clearance loss.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "B3",
+        "criterion": "Interprets the fitted production coefficient as an effective scale and does not equate it directly with a sexual commitment probability.",
+        "points": 5,
+        "votes_met": 3,
+        "votes_total": 3,
+        "awarded": 5.0
+      },
+      {
+        "id": "B4",
+        "criterion": "Separates the supplied no-direct-gametocytocidal-effect assumption from an empirical conclusion about antimalarial drugs.",
+        "points": 5,
+        "votes_met": 1,
+        "votes_total": 3,
+        "awarded": 1.6666666666666665
+      },
+      {
+        "id": "C1",
+        "criterion": "Discusses confounding among production, maturation and persistence, and does not equate female transcript-based gametocyte density with viability or mosquito infectivity.",
+        "points": 5,
+        "votes_met": 1,
+        "votes_total": 3,
+        "awarded": 1.6666666666666665
+      }
+    ],
+    "cap": 50
+  },
+  "execution": {
+    "success": true,
+    "complete": false,
+    "returncode": 0,
+    "stdout": "============================================================\nErlang-chain gametocyte maturation -- model fitting\n============================================================\n\n  n = 2 immature compartments ... NLL = 6.62  |  a=3.10e-03  tau=1.1d  gamma=0.0010/d  sigma=0.403  t1/2=691.98d\n\n  n = 3 immature compartments ... NLL = 6.24  |  a=3.30e-03  tau=1.2d  gamma=0.0011/d  sigma=0.391  t1/2=603.15d\n\n  n = 4 immature compartments ... NLL = 17.02  |  a=2.22e-01  tau=19.9d  gamma=0.0014/d  sigma=0.885  t1/2=488.90d\n\n  n = 5 immature compartments ... NLL = 6.05  |  a=3.39e-03  tau=1.2d  gamma=0.0011/d  sigma=0.387  t1/2=632.55d\n\n  -> Selected n = 5  (NLL = 6.05)\n\n  n = 1 (exponential) ... NLL = 2.39  |  a=8.79e-03  tau=19.8d  gamma=0.0025/d  sigma=0.306  t1/2=282.03d\n  deltaAIC (main - alt) = 7.32\n\n  Mature half-life: 632.55 d  (95% CI: 300.34 - 964.76)\n  Training log10 RMSE: 0.3855\n\n  Held-out predictions:\n    t = 10.0 d  ->  0.00  gametocytes/mL\n    t = 14.0 d  ->  0.57  gametocytes/mL\n    t = 21.0 d  ->  0.57  gametocytes/mL\n    t = 24.0 d  ->  0.57  gametocytes/mL\n\n  trajectory.csv written  (241 rows)\n  results.json written.\n\nDone.\n",
+    "stderr": "",
+    "reproduced": true,
+    "timed_out": false,
+    "timeout_seconds": 600,
+    "error": null
+  },
+  "judges": [
+    {
+      "judge": "openrouter/openai/gpt-5.5",
+      "served_model": "openai/gpt-5.5",
+      "usage": {
+        "input_tokens": 9715,
+        "output_tokens": 735,
+        "total_tokens": 10450,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 502,
+        "total_cost": 0.070625
+      },
+      "generation_time": 15.82367566972971,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": true,
+          "reason": "ODEs, zero initials, units, observation mapping explicit"
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "LSODA tolerances reported; success checked"
+        },
+        {
+          "id": "S3",
+          "met": true,
+          "reason": "Log-scale likelihood and ND censored at 2"
+        },
+        {
+          "id": "S4",
+          "met": false,
+          "reason": "No distinction between data information and imposed bounds"
+        },
+        {
+          "id": "S5",
+          "met": true,
+          "reason": "Alternative n=1 model compared with AIC and predictions"
+        },
+        {
+          "id": "B1",
+          "met": true,
+          "reason": "Immature chain sequestered; mature mapped to measurements"
+        },
+        {
+          "id": "B2",
+          "met": true,
+          "reason": "Mature has maturation inflow and clearance loss"
+        },
+        {
+          "id": "B3",
+          "met": true,
+          "reason": "Production described as effective coefficient"
+        },
+        {
+          "id": "B4",
+          "met": false,
+          "reason": "Drug assumption not explicitly separated from inference"
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "No viability or infectivity caveat"
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "Reported held-out prediction is zero"
+      }
+    },
+    {
+      "judge": "openrouter/anthropic/claude-haiku-4.5",
+      "served_model": "anthropic/claude-haiku-4.5",
+      "usage": {
+        "input_tokens": 11383,
+        "output_tokens": 2188,
+        "total_tokens": 13571,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 1258,
+        "total_cost": 0.022323000000000003
+      },
+      "generation_time": 21.709777355194092,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": true,
+          "reason": "ODEs and parameter units stated in results.json; mapping via log10 likelihood; initial conditions implicit (zeros). report.md empty."
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "solve_ivp + LSODA; rtol=1e-8, atol=1e-10, max_step=0.1 reported; success checks; non-negativity clipping applied."
+        },
+        {
+          "id": "S3",
+          "met": true,
+          "reason": "Log10 scale; left-censored likelihood at 2 gametocytes/mL using norm.cdf(); observation model explicit."
+        },
+        {
+          "id": "S4",
+          "met": true,
+          "reason": "Numerical Hessian → delta method CI [300.34, 964.76] days; distinguishes data-driven NLL from solver tolerances. No literature priors imposed."
+        },
+        {
+          "id": "S5",
+          "met": true,
+          "reason": "Fits n=1–5; compares via NLL and deltaAIC=7.32; selects n=5 on parsimony balancing fit and parameters."
+        },
+        {
+          "id": "B1",
+          "met": true,
+          "reason": "Five immature compartments I1–I5; only M (mature) observed via log-likelihood; stage-V interpretation implicit."
+        },
+        {
+          "id": "B2",
+          "met": true,
+          "reason": "dM/dt = k*I5 − gamma*M; no replication; maturation inflow and first-order loss clear."
+        },
+        {
+          "id": "B3",
+          "met": true,
+          "reason": "Calls α 'effective_production_per_day'; notes confounding with tau; does not equate to commitment probability."
+        },
+        {
+          "id": "B4",
+          "met": true,
+          "reason": "Task assumption (treatment kills asexuals, not gametocytes) stated in model description and applied without retest."
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "Identifies confounding in results.json diagnostics but report.md is empty; no discussion of density vs. infectivity or transcript interpretation limitations."
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "report.md is entirely blank; task requires ≤400 words with biological assumptions and citations. All four deliverable files must be substantive."
+      }
+    },
+    {
+      "judge": "openrouter/google/gemini-3.5-flash",
+      "served_model": "google/gemini-3.5-flash",
+      "usage": {
+        "input_tokens": 13458,
+        "output_tokens": 338,
+        "total_tokens": 13796,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 0,
+        "total_cost": 0.023229
+      },
+      "generation_time": 2.981550268828869,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": true,
+          "reason": "ODEs, initial conditions, and observation mapping are stated in results.json."
+        },
+        {
+          "id": "S2",
+          "met": true,
+          "reason": "Uses solve_ivp with LSODA, rtol=1e-8, atol=1e-10, and clips negative values."
+        },
+        {
+          "id": "S3",
+          "met": true,
+          "reason": "Fits on log10 scale and treats ND as left-censored at 2 gametocytes/mL."
+        },
+        {
+          "id": "S4",
+          "met": true,
+          "reason": "Quantifies uncertainty via Hessian/delta method and discusses parameter confounding/bounds."
+        },
+        {
+          "id": "S5",
+          "met": true,
+          "reason": "Compares n=5 Erlang chain with n=1 exponential model using AIC."
+        },
+        {
+          "id": "B1",
+          "met": true,
+          "reason": "Models sequestered immature compartments and maps only mature stage to observations."
+        },
+        {
+          "id": "B2",
+          "met": true,
+          "reason": "Models mature gametocytes with maturation inflow and first-order clearance loss."
+        },
+        {
+          "id": "B3",
+          "met": true,
+          "reason": "Interprets production coefficient as effective scale and notes confounding in diagnostics."
+        },
+        {
+          "id": "B4",
+          "met": false,
+          "reason": "The report.md is empty, so this distinction is not discussed."
+        },
+        {
+          "id": "C1",
+          "met": true,
+          "reason": "Discusses confounding among production, maturation, and persistence in results.json."
+        }
+      ],
+      "cap": {
+        "maximum": 100,
+        "reason": "none"
+      }
+    }
+  ],
+  "judge_failures": [],
+  "web_search_calls": [
+    {
+      "query": "Cao et al 2019 eLife 49058 Plasmodium falciparum gametocyte maturation delay ODE model sequestered compartments",
+      "model": "openai/gpt-5.6-luna",
+      "generation_id": "gen-1785515497-MLWqrol7QqeGFbXGuwwn",
+      "usage": {
+        "prompt_tokens": 2259,
+        "completion_tokens": 930,
+        "total_tokens": 3189,
+        "cost": 0.005837825,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 9,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0008378250000000002,
+          "upstream_inference_prompt_cost": 0.0002798250000000001,
+          "upstream_inference_completions_cost": 0.0005580000000000001
+        },
+        "server_tool_use_details": {
+          "web_search_requests": 1,
+          "tool_calls_requested": 1,
+          "tool_calls_executed": 1
+        }
+      }
+    },
+    {
+      "query": "Reuling et al 2018 eLife 31549 Plasmodium falciparum gametocyte half-life clearance rate mature circulation",
+      "model": "openai/gpt-5.6-luna",
+      "generation_id": "gen-1785515519-RESVsGCM9WTmXf290JX3",
+      "usage": {
+        "prompt_tokens": 1952,
+        "completion_tokens": 470,
+        "total_tokens": 2422,
+        "cost": 0.0055235250000000005,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 9,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.000523525,
+          "upstream_inference_prompt_cost": 0.00024152500000000003,
+          "upstream_inference_completions_cost": 0.000282
+        },
+        "server_tool_use_details": {
+          "web_search_requests": 1,
+          "tool_calls_requested": 1,
+          "tool_calls_executed": 1
+        }
+      }
+    },
+    {
+      "query": "Plasmodium falciparum mature gametocyte half-life circulation days maturation time sequestered 10-12 days",
+      "model": "openai/gpt-5.6-luna",
+      "generation_id": "gen-1785515553-oxCdGcqhILyLABKtycqN",
+      "usage": {
+        "prompt_tokens": 1747,
+        "completion_tokens": 551,
+        "total_tokens": 2298,
+        "cost": 0.005546575,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 13,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0005465750000000001,
+          "upstream_inference_prompt_cost": 0.00021597500000000003,
+          "upstream_inference_completions_cost": 0.00033060000000000007
+        },
+        "server_tool_use_details": {
+          "web_search_requests": 1,
+          "tool_calls_requested": 1,
+          "tool_calls_executed": 1
+        }
+      }
+    }
+  ],
+  "usage": {
+    "openrouter/deepseek/deepseek-v4-pro": {
+      "input_tokens": 66624,
+      "output_tokens": 24358,
+      "total_tokens": 324966,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 233984,
+      "reasoning_tokens": 5024,
+      "total_cost": 0.051021092
+    },
+    "openrouter/google/gemini-3.5-flash": {
+      "input_tokens": 13458,
+      "output_tokens": 338,
+      "total_tokens": 13796,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 0,
+      "total_cost": 0.023229
+    },
+    "openrouter/openai/gpt-5.5": {
+      "input_tokens": 9715,
+      "output_tokens": 735,
+      "total_tokens": 10450,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 502,
+      "total_cost": 0.070625
+    },
+    "openrouter/anthropic/claude-haiku-4.5": {
+      "input_tokens": 11383,
+      "output_tokens": 2188,
+      "total_tokens": 13571,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 1258,
+      "total_cost": 0.022323000000000003
+    }
+  },
+  "tools": {
+    "todo_write": 3,
+    "text_editor": 11,
+    "bash": 10,
+    "skill": 2,
+    "openrouter_web_search": 3
+  },
+  "cost": {
+    "model": 0.12244874789999999,
+    "web_search": 0.016907924999999997,
+    "total": 0.13935667289999998,
+    "model_calls": [
+      {
+        "model": "openrouter/deepseek/deepseek-v4-pro",
+        "served_model": "deepseek/deepseek-v4-pro",
+        "provider": "Baidu",
+        "generation_id": "gen-1785515447-PKZ9oJelwaQ5dHOACG4D",
+        "service_tier": null,
+        "cost": 0.0014948999,
+        "cost_details": {
+          "upstream_inference_cost": 0.0014948999,
+          "upstream_inference_prompt_cost": 0.0010897055,
+          "upstream_inference_completions_cost": 0.0004051944
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/deepseek/deepseek-v4-pro",
+        "served_model": "deepseek/deepseek-v4-pro",
+        "provider": "Baidu",
+        "generation_id": "gen-1785515453-vAFgEsLG5lwR8YJ4viz5",
+        "service_tier": null,
+        "cost": 0.0011645047,
+        "cost_details": {
+          "upstream_inference_cost": 0.0011645047,
+          "upstream_inference_prompt_cost": 0.0008606089,
+          "upstream_inference_completions_cost": 0.0003038958
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/deepseek/deepseek-v4-pro",
+        "served_model": "deepseek/deepseek-v4-pro",
+        "provider": "Baidu",
+        "generation_id": "gen-1785515463-QVDAJEtesubP6sAzMgp2",
+        "service_tier": null,
+        "cost": 0.0011770107,
+        "cost_details": {
+          "upstream_inference_cost": 0.0011770107,
+          "upstream_inference_prompt_cost": 0.0010894687,
+          "upstream_inference_completions_cost": 0.000087542
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/deepseek/deepseek-v4-pro",
+        "served_model": "deepseek/deepseek-v4-pro",
+        "provider": "Baidu",
+        "generation_id": "gen-1785515465-4YJeJYKiKaWq8J19t8HF",
+        "service_tier": null,
+        "cost": 0.0012370395,
+        "cost_details": {
+          "upstream_inference_cost": 0.0012370395,
+          "upstream_inference_prompt_cost": 0.0011469963,
+          "upstream_inference_completions_cost": 0.0000900432
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/deepseek/deepseek-v4-pro",
+        "served_model": "deepseek/deepseek-v4-pro",
+        "provider": "Baidu",
+        "generation_id": "gen-1785515467-1EeR4XbqwKFnleYaY5cJ",
+        "service_tier": null,
+        "cost": 0.0011982931,
+        "cost_details": {
+          "upstream_inference_cost": 0.0011982931,
+          "upstream_inference_prompt_cost": 0.0008768889,
+          "upstream_inference_completions_cost": 0.0003214042
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/openai/gpt-5.5",
+        "served_model": "openai/gpt-5.5",
+        "provider": "OpenAI",
+        "generation_id": "gen-1785516616-rCRNhRHpE9inqemCqbNL",
+        "service_tier": "default",
+        "cost": 0.070625,
+        "cost_details": {
+          "upstream_inference_cost": 0.070625,
+          "upstream_inference_prompt_cost": 0.048575,
+          "upstream_inference_completions_cost": 0.02205
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/anthropic/claude-haiku-4.5",
+        "served_model": "anthropic/claude-haiku-4.5",
+        "provider": "Anthropic",
+        "generation_id": "gen-1785516616-VB4WXSdq1gNkfhBeRPte",
+        "service_tier": "default",
+        "cost": 0.022323,
+        "cost_details": {
+          "upstream_inference_cost": 0.022323,
+          "upstream_inference_prompt_cost": 0.011383,
+          "upstream_inference_completions_cost": 0.01094
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/google/gemini-3.5-flash",
+        "served_model": "google/gemini-3.5-flash",
+        "provider": "Google",
+        "generation_id": "gen-1785516616-0yIsfF67epKrmcBDAtQt",
+        "service_tier": "default",
+        "cost": 0.023229,
+        "cost_details": {
+          "upstream_inference_cost": 0.023229,
+          "upstream_inference_prompt_cost": 0.020187,
+          "upstream_inference_completions_cost": 0.003042
+        },
+        "is_byok": false
+      }
+    ]
+  },
+  "timing": {
+    "started_at": "2026-07-31T16:30:47.839514+00:00",
+    "completed_at": "2026-07-31T16:50:38.356738+00:00",
+    "total_time": 1190.517,
+    "working_time": 1190.118
+  },
+  "error": null
+}

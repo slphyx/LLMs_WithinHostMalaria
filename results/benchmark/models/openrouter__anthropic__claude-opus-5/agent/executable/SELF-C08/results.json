@@ -1,0 +1,145 @@
+{
+  "model": {
+    "name": "Binomial logistic GLM on log10 gametocyte density (sex)",
+    "formula": "logit(p) = b0 + b1*log10(female) + b2*log10(male)  with coefficients {\"intercept\": -5.4965, \"log10_female\": 2.0221, \"log10_male\": 1.2591} (standard errors {\"intercept\": 0.3886, \"log10_female\": 0.2623, \"log10_male\": 0.2353})",
+    "likelihood": "mosquitoes_infected ~ Binomial(mosquitoes_examined, p); maximum likelihood via scipy.optimize (BFGS)"
+  },
+  "predictions": [
+    {
+      "feed_id": "F09",
+      "infection_probability": 0.0881,
+      "probability_interval": [
+        0.069,
+        0.1123
+      ]
+    },
+    {
+      "feed_id": "F11",
+      "infection_probability": 0.0001,
+      "probability_interval": [
+        0.0,
+        0.0003
+      ]
+    },
+    {
+      "feed_id": "F13",
+      "infection_probability": 0.0392,
+      "probability_interval": [
+        0.0271,
+        0.0565
+      ]
+    },
+    {
+      "feed_id": "F15",
+      "infection_probability": 0.0001,
+      "probability_interval": [
+        0.0,
+        0.0004
+      ]
+    },
+    {
+      "feed_id": "F18",
+      "infection_probability": 0.0006,
+      "probability_interval": [
+        0.0002,
+        0.0018
+      ]
+    },
+    {
+      "feed_id": "F24",
+      "infection_probability": 0.55,
+      "probability_interval": [
+        0.4599,
+        0.637
+      ]
+    },
+    {
+      "feed_id": "F26",
+      "infection_probability": 0.1614,
+      "probability_interval": [
+        0.1313,
+        0.1974
+      ]
+    },
+    {
+      "feed_id": "F35",
+      "infection_probability": 0.0042,
+      "probability_interval": [
+        0.0018,
+        0.0099
+      ]
+    },
+    {
+      "feed_id": "F36",
+      "infection_probability": 0.0044,
+      "probability_interval": [
+        0.0021,
+        0.0089
+      ]
+    }
+  ],
+  "transmission_summary": {
+    "expected_infected_mosquitoes": 89.5,
+    "weighted_infection_probability": 0.1088
+  },
+  "diagnostics": {
+    "training_binomial_log_loss": 0.1502,
+    "model_comparison": "Sex-specific model (log10 female + log10 male) vs total-gametocyte model (log10[female+male]): AIC 778.5 vs 790.3; leave-one-feed-out binomial log loss 0.1514 vs 0.1563; likelihood-ratio test of adding separate male term to the total model chi2=13.76, df=1, p=0.000. Selected: sex (lowest out-of-sample log loss and lowest AIC). The two sexes carry distinct information: forcing a single total-density slope fits worse, and the fitted female slope exceeds the male slope. Collinearity is moderate (Pearson r of log10 female and log10 male = 0.81), so both coefficients remain estimable but with correlated uncertainty.",
+    "asexual_assessment": "Adding log10 asexual density to the selected model: LRT chi2=0.56, df=1, p=0.453; LOO log loss 0.1522 vs 0.1514 without it. Asexual density does not improve out-of-sample prediction and was excluded. Asexual density is correlated with gametocyte density (r=0.73 on the log10 scale), so any association is a marker of concurrent gametocytaemia, not evidence that asexual parasites infect mosquitoes.",
+    "calibration": "Pearson chi2=14.4 on 24 df (dispersion 0.60, p=0.937); beta-binomial extension LRT p=0.360 (phi=670.3), so binomial variance is adequate. Grouped calibration (3 equal-count bins of fitted probability): bin1 fitted 0.0003 vs observed 0.0; bin2 fitted 0.0071 vs observed 0.008; bin3 fitted 0.1742 vs observed 0.1828; Hosmer-Lemeshow-type statistic 0.35, p=0.552. 95% intervals are Wald/Monte-Carlo intervals for the mean infection probability from the asymptotic sampling distribution of the coefficients (40,000 draws).",
+    "model_table": {
+      "total": {
+        "k": 2,
+        "aic": 790.26,
+        "loo_log_loss": 0.1563,
+        "train_log_loss": 0.1528
+      },
+      "sex": {
+        "k": 3,
+        "aic": 778.5,
+        "loo_log_loss": 0.1514,
+        "train_log_loss": 0.1502
+      },
+      "total_asex": {
+        "k": 3,
+        "aic": 789.18,
+        "loo_log_loss": 0.1602,
+        "train_log_loss": 0.1523
+      },
+      "sex_asex": {
+        "k": 4,
+        "aic": 779.93,
+        "loo_log_loss": 0.1522,
+        "train_log_loss": 0.1501
+      },
+      "female": {
+        "k": 2,
+        "aic": 806.97,
+        "loo_log_loss": 0.1606,
+        "train_log_loss": 0.1561
+      }
+    }
+  },
+  "literature": [
+    {
+      "claim": "In 148 direct membrane feeding experiments with naturally infected carriers, mosquito infection prevalence was determined mainly by female gametocyte density, with male gametocytes limiting transmission at low densities - justifying a gametocyte-density logistic model and testing female and male terms separately.",
+      "citation": "Bradley J, Stone W, Da DF, et al. Predicting the likelihood and intensity of mosquito infection from sex specific Plasmodium falciparum gametocyte density. eLife 2018;7:e34463.",
+      "url": "https://doi.org/10.7554/eLife.34463"
+    },
+    {
+      "claim": "PfMGET (male) and Pfs25 (female) qRT-PCR quantify the two gametocyte sexes separately in clinical samples, which is why the two density streams in these data are distinct measurements rather than duplicates.",
+      "citation": "Santolamazza F, Avellino P, Siciliano G, et al. A molecular assay to quantify male and female Plasmodium falciparum gametocytes: results from 2 randomized controlled trials using primaquine for gametocyte clearance. Journal of Infectious Diseases 2017;216(4):468-476.",
+      "url": "https://doi.org/10.1093/infdis/jix237"
+    },
+    {
+      "claim": "Pfs25 qRT-PCR gametocyte density is a molecular biomarker whose association with mosquito infectivity is monotone but saturating and noisy, supporting a saturating (logit-linear in log density) link with binomial sampling error rather than a linear dose-response in raw density.",
+      "citation": "Stone W, Sawa P, Lanke K, et al. Comparison of molecular quantification of Plasmodium falciparum gametocytes by Pfs25 qRT-PCR and QT-NASBA in relation to mosquito infectivity. Malaria Journal 2017;16:8.",
+      "url": "https://doi.org/10.1186/s12936-016-1584-z"
+    },
+    {
+      "claim": "Total parasite (asexual) density and gametocyte density are correlated in natural infections and asexual stages are not themselves infectious to mosquitoes, so asexual density can only act as a proxy marker and any predictive association must not be read causally.",
+      "citation": "Ouedraogo AL, Goncalves BP, Gneme A, et al. Dynamics of the human infectious reservoir for malaria determined by mosquito feeding assays and ultrasensitive malaria diagnostics in Burkina Faso. Journal of Infectious Diseases 2016;213(1):90-99.",
+      "url": "https://doi.org/10.1093/infdis/jiv370"
+    }
+  ]
+}

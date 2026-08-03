@@ -1,0 +1,442 @@
+{
+  "id": "SELF-C06",
+  "condition": "raw",
+  "model": "openrouter/mistralai/ministral-3b-2512",
+  "score": 0.0,
+  "explanation": "Automated 0.0/50; scientific 0.0/50; cap 50. Replay error: analysis.py was not submitted.",
+  "response_file": "response.txt",
+  "artifact_error": "Expecting value: line 1 column 1 (char 0)",
+  "automated": {
+    "score": 0.0,
+    "maximum": 50,
+    "error": "analysis.py was not submitted."
+  },
+  "scientific": {
+    "score": 0.0,
+    "maximum": 50,
+    "criteria": [
+      {
+        "id": "S1",
+        "criterion": "Fits positive parasite density on an appropriate scale with a stated observation model.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "S2",
+        "criterion": "Treats the nondetect as left-censored at 10 parasites/mL rather than as zero or an exact threshold value.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "S3",
+        "criterion": "Estimates the intercept and explains a defensible method for the PMF uncertainty interval.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "S4",
+        "criterion": "Compares added structure with free-intercept log-linear growth using diagnostics or predictive evidence rather than training fit alone.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "B1",
+        "criterion": "Interprets PMF as average successful blood-stage multiplication over 48 hours.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "B2",
+        "criterion": "Relates supported approximately 48-hour variation to parasite age structure and sequestration without treating a statistical periodic term as proof of mechanism.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "B3",
+        "criterion": "Distinguishes peripheral qPCR density from total viable parasite biomass.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "B4",
+        "criterion": "Does not claim that short-period fluctuation alone demonstrates immunity or density-dependent regulation.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "C1",
+        "criterion": "Checks residual or predictive behaviour and identifies material lack of fit.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      },
+      {
+        "id": "C2",
+        "criterion": "Discusses parsimony, sparse-data identifiability, and the limits of inference from one trajectory.",
+        "points": 5,
+        "votes_met": 0,
+        "votes_total": 3,
+        "awarded": 0.0
+      }
+    ],
+    "cap": 50
+  },
+  "execution": {
+    "success": false,
+    "complete": false,
+    "returncode": null,
+    "stdout": "",
+    "stderr": "",
+    "reproduced": false,
+    "timed_out": false,
+    "timeout_seconds": 600,
+    "error": {
+      "type": "missing_analysis",
+      "stage": "clean_replay",
+      "message": "analysis.py was not submitted."
+    }
+  },
+  "judges": [
+    {
+      "judge": "openrouter/openai/gpt-5.5",
+      "served_model": "openai/gpt-5.5",
+      "usage": {
+        "input_tokens": 1403,
+        "output_tokens": 246,
+        "total_tokens": 1649,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 36,
+        "total_cost": 0.014395000000000002
+      },
+      "generation_time": 11.176689997315407,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": false,
+          "reason": "No submitted analysis or model."
+        },
+        {
+          "id": "S2",
+          "met": false,
+          "reason": "No censoring treatment described."
+        },
+        {
+          "id": "S3",
+          "met": false,
+          "reason": "No intercept or uncertainty interval."
+        },
+        {
+          "id": "S4",
+          "met": false,
+          "reason": "No model comparison provided."
+        },
+        {
+          "id": "B1",
+          "met": false,
+          "reason": "No PMF interpretation provided."
+        },
+        {
+          "id": "B2",
+          "met": false,
+          "reason": "No periodic biology discussion."
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "No qPCR versus biomass distinction."
+        },
+        {
+          "id": "B4",
+          "met": false,
+          "reason": "No claims or discussion submitted."
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "No residual or predictive checks."
+        },
+        {
+          "id": "C2",
+          "met": false,
+          "reason": "No parsimony or inference limits discussed."
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "analysis.py missing; clean replay failed."
+      }
+    },
+    {
+      "judge": "openrouter/anthropic/claude-haiku-4.5",
+      "served_model": "anthropic/claude-haiku-4.5",
+      "usage": {
+        "input_tokens": 1621,
+        "output_tokens": 763,
+        "total_tokens": 2384,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 371,
+        "total_cost": 0.005436
+      },
+      "generation_time": 5.9766309931874275,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": false,
+          "reason": "No analysis.py or results submitted; execution failed"
+        },
+        {
+          "id": "S2",
+          "met": false,
+          "reason": "No analysis.py or results submitted; execution failed"
+        },
+        {
+          "id": "S3",
+          "met": false,
+          "reason": "No analysis.py or results submitted; execution failed"
+        },
+        {
+          "id": "S4",
+          "met": false,
+          "reason": "No analysis.py or results submitted; execution failed"
+        },
+        {
+          "id": "B1",
+          "met": false,
+          "reason": "No analysis.py or results submitted; execution failed"
+        },
+        {
+          "id": "B2",
+          "met": false,
+          "reason": "No analysis.py or results submitted; execution failed"
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "No analysis.py or results submitted; execution failed"
+        },
+        {
+          "id": "B4",
+          "met": false,
+          "reason": "No analysis.py or results submitted; execution failed"
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "No analysis.py or results submitted; execution failed"
+        },
+        {
+          "id": "C2",
+          "met": false,
+          "reason": "No analysis.py or results submitted; execution failed"
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "Code does not run and required artefacts (analysis.py, results.json, report.md) absent; clean-replay execution failure"
+      }
+    },
+    {
+      "judge": "openrouter/google/gemini-3.5-flash",
+      "served_model": "google/gemini-3.5-flash",
+      "usage": {
+        "input_tokens": 1554,
+        "output_tokens": 492,
+        "total_tokens": 2046,
+        "input_tokens_cache_write": null,
+        "input_tokens_cache_read": 0,
+        "reasoning_tokens": 160,
+        "total_cost": 0.006758999999999999
+      },
+      "generation_time": 3.364213526248932,
+      "model_metadata": null,
+      "criteria": [
+        {
+          "id": "S1",
+          "met": false,
+          "reason": "No analysis.py or report.md submitted."
+        },
+        {
+          "id": "S2",
+          "met": false,
+          "reason": "No analysis.py or report.md submitted."
+        },
+        {
+          "id": "S3",
+          "met": false,
+          "reason": "No analysis.py or report.md submitted."
+        },
+        {
+          "id": "S4",
+          "met": false,
+          "reason": "No analysis.py or report.md submitted."
+        },
+        {
+          "id": "B1",
+          "met": false,
+          "reason": "No analysis.py or report.md submitted."
+        },
+        {
+          "id": "B2",
+          "met": false,
+          "reason": "No analysis.py or report.md submitted."
+        },
+        {
+          "id": "B3",
+          "met": false,
+          "reason": "No analysis.py or report.md submitted."
+        },
+        {
+          "id": "B4",
+          "met": false,
+          "reason": "No analysis.py or report.md submitted."
+        },
+        {
+          "id": "C1",
+          "met": false,
+          "reason": "No analysis.py or report.md submitted."
+        },
+        {
+          "id": "C2",
+          "met": false,
+          "reason": "No analysis.py or report.md submitted."
+        }
+      ],
+      "cap": {
+        "maximum": 50,
+        "reason": "Required artefacts are absent and code did not run."
+      }
+    }
+  ],
+  "judge_failures": [],
+  "web_search_calls": [],
+  "usage": {
+    "openrouter/mistralai/ministral-3b-2512": {
+      "input_tokens": 876,
+      "output_tokens": 1811,
+      "total_tokens": 2687,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 0,
+      "total_cost": 0.00026869999999999997
+    },
+    "openrouter/google/gemini-3.5-flash": {
+      "input_tokens": 1554,
+      "output_tokens": 492,
+      "total_tokens": 2046,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 160,
+      "total_cost": 0.006758999999999999
+    },
+    "openrouter/anthropic/claude-haiku-4.5": {
+      "input_tokens": 1621,
+      "output_tokens": 763,
+      "total_tokens": 2384,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 371,
+      "total_cost": 0.005436
+    },
+    "openrouter/openai/gpt-5.5": {
+      "input_tokens": 1403,
+      "output_tokens": 246,
+      "total_tokens": 1649,
+      "input_tokens_cache_write": null,
+      "input_tokens_cache_read": 0,
+      "reasoning_tokens": 36,
+      "total_cost": 0.014395000000000002
+    }
+  },
+  "tools": {},
+  "cost": {
+    "model": 0.0268587,
+    "web_search": 0,
+    "total": 0.0268587,
+    "model_calls": [
+      {
+        "model": "openrouter/mistralai/ministral-3b-2512",
+        "served_model": "mistralai/ministral-3b-2512",
+        "provider": "Mistral",
+        "generation_id": "gen-1785508737-9xbiKVESeoSPWpyEcPPf",
+        "service_tier": "default",
+        "cost": 0.0002687,
+        "cost_details": {
+          "upstream_inference_cost": 0.0002687,
+          "upstream_inference_prompt_cost": 0.0000876,
+          "upstream_inference_completions_cost": 0.0001811
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/openai/gpt-5.5",
+        "served_model": "openai/gpt-5.5",
+        "provider": "OpenAI",
+        "generation_id": "gen-1785508747-7l4uGnq0Rg9Iv9oKW0LP",
+        "service_tier": "default",
+        "cost": 0.014395,
+        "cost_details": {
+          "upstream_inference_cost": 0.014395,
+          "upstream_inference_prompt_cost": 0.007015,
+          "upstream_inference_completions_cost": 0.00738
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/anthropic/claude-haiku-4.5",
+        "served_model": "anthropic/claude-haiku-4.5",
+        "provider": "Anthropic",
+        "generation_id": "gen-1785508747-u88IkiwI8QT6LZROTDAd",
+        "service_tier": "default",
+        "cost": 0.005436,
+        "cost_details": {
+          "upstream_inference_cost": 0.005436,
+          "upstream_inference_prompt_cost": 0.001621,
+          "upstream_inference_completions_cost": 0.003815
+        },
+        "is_byok": false
+      },
+      {
+        "model": "openrouter/google/gemini-3.5-flash",
+        "served_model": "google/gemini-3.5-flash",
+        "provider": "Google",
+        "generation_id": "gen-1785508747-CYdmKMIPS3zxk0Sv7Qun",
+        "service_tier": "provisioned",
+        "cost": 0.006759,
+        "cost_details": {
+          "upstream_inference_cost": 0.006759,
+          "upstream_inference_prompt_cost": 0.002331,
+          "upstream_inference_completions_cost": 0.004428
+        },
+        "is_byok": false
+      }
+    ]
+  },
+  "timing": {
+    "started_at": "2026-07-31T14:38:56.895950+00:00",
+    "completed_at": "2026-07-31T14:39:19.050944+00:00",
+    "total_time": 22.155,
+    "working_time": 22.129
+  },
+  "error": null
+}

@@ -1,0 +1,42 @@
+{
+  "schema": "cao-sex-allocation-heterogeneity-matched-comparison-v1",
+  "status": "valid_primary_mcmc_psis_comparison",
+  "performance_claim_permitted": true,
+  "component_status": {
+    "both_mcmc_strictly_valid": true,
+    "both_participant_block_psis_valid": true,
+    "high_pareto_k_participants": {
+      "b0": [],
+      "b2": []
+    }
+  },
+  "definition": "B0 NLPD minus B2 NLPD; positive favors allocation heterogeneity",
+  "mean_nlpd_gain": 0.019911199476665264,
+  "participant_bootstrap_95": [
+    0.011730424779537472,
+    0.02860692240670881
+  ],
+  "strict_participant_wins": 15,
+  "participant_gains": {
+    "101": 0.051839265130023904,
+    "102": 0.006991689561715031,
+    "103": 0.02983107029010945,
+    "104": 0.04562850227079007,
+    "105": 0.026063822222388566,
+    "106": -0.0018587802642437978,
+    "201": 0.0020965722175985135,
+    "202": -0.0018807378026890476,
+    "203": 0.0064356631606319326,
+    "204": 0.02697075806533089,
+    "301": 0.003278717753079974,
+    "302": 0.030964415890878616,
+    "303": 0.003570739020534397,
+    "304": 0.018204273296211326,
+    "305": 0.05198988217881384,
+    "306": 0.03020141189591463,
+    "307": 0.008163126216221173
+  },
+  "random_effect_holdout_warning": "B2's held-out z_rho is learned from the deleted block; any high Pareto-k requires an exact sex_include=0 masked refit before a performance claim.",
+  "public_release_only": true,
+  "protected_data_used": false
+}

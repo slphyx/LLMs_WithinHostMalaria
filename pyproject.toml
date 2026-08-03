@@ -1,0 +1,19 @@
+[project]
+name = "malaria-within-host-benchmark"
+version = "1.0.0"
+requires-python = ">=3.10"
+dependencies = [
+    "httpx==0.28.1",
+    "inspect-ai==0.3.251",
+    "openai==2.50.0",
+]
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+writeup = [
+    "matplotlib>=3.10.9",
+    "pandas>=2.3.3",
+    "seaborn>=0.13.2",
+]
