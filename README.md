@@ -1,193 +1,146 @@
-# Within-host malaria modelling benchmark
-
-A benchmark of postgraduate-level understanding and application of within-host
-*Plasmodium falciparum* modelling.
-
-- 38 question–answer pairs were supplied by the project supervisor.
-- 20 are self-authored and include literature-backed answer metadata.
-- Five self-authored questions require exact computational results.
-- Three extended computational modelling tasks require code, structured results, and a report.
-- Questions progress from basic understanding to applied, synthetic, and computational work.
-- The supervisor's question and answer text is unchanged.
-
-## Setup
-
-Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then
-create the locked environment:
-
+Evaluating large language models for within-host malaria modelling
+This repository contains the benchmark questions, model configurations, assessment procedures, code, and results supporting the manuscript “Evaluating large language models for within-host malaria modelling.”
+The study investigates whether large language models (LLMs) can support specialised Plasmodium falciparum within-host modelling, including biological reasoning, executable modelling, and the development of testable model extensions. It compares conventional single responses with tool-enabled agentic workflows. A separate, exploratory experiment investigates whether an agentic LLM can propose a useful extension to an established gametocyte-dynamics model.
+Study overview
+Component	Design
+LLM respondents	8 models
+Configurations	Single-response (`raw`) and agentic workflow (`agent`)
+Short-answer benchmark	55 questions across four categories
+Extended benchmark	3 synthetic-data computational modelling tasks
+Short-answer evaluation	3 independent LLM graders using question-specific criteria
+Extended-task evaluation	100-point hybrid assessment: deterministic checks and rubric-based scientific assessment
+Exploratory open-research experiment	15 agentic attempts; one Cao-derived model extension independently evaluated
+The fixed benchmark and the exploratory open-research experiment are distinct parts of the study. The benchmark compares performance on predefined tasks; the exploratory experiment examines an agent-generated modelling hypothesis without a predefined correct solution.
+Models and configurations
+The eight respondent models were:
+GPT-5.6 Sol
+Claude Opus 5
+Gemini 3.6 Flash
+DeepSeek V4 Pro
+GPT-5.4 Mini
+DeepSeek R1
+Qwen 3.5 9B
+Ministral 3B
+Each model was tested under the same two configurations:
+Single-response (`raw`): the model returns a direct answer without the external tools available to the agentic workflow.
+Agentic workflow (`agent`): the model can use literature/web search, a sandboxed computational environment, file operations, relevant guidance skills, and subagent delegation to develop and revise its answer.
+The detailed agent setup is documented in `agent/README.md`, with the respondent and evaluator model identifiers in `config/benchmark.json`. See also `MODEL_SELECTION.md` for the model-panel rationale.
+Benchmark tasks
+Short-answer questions (55)
+The benchmark assesses four categories of within-host malaria modelling knowledge and reasoning:
+Basic understanding
+Applied reasoning
+Synthesis and critique
+Numerical calculation
+Questions cover malaria biology, mathematical modelling, and interpretation of within-host parasite dynamics. The repository's question registry contains 58 entries in total: the 55 short-answer questions and three separate extended computational tasks. The source material comprises 38 supervisor-supplied and 20 self-authored entries; the registry total should not be confused with the number of short-answer questions used in the benchmark.
+The questions, reference answers, and marking criteria are available in `questions/` and as a human-readable catalogue in `build/full_short_answer_benchmark.pdf`. The reference answers represent acceptable scientific solutions rather than wording that respondents must reproduce exactly.
+Extended computational modelling tasks (3)
+Three independent tasks use different synthetic datasets:
+Task	Modelling topic	Location
+SELF-C06	Asexual parasite multiplication	`tasks/SELF-C06`
+SELF-C07	Delayed gametocyte maturation	`tasks/SELF-C07`
+SELF-C08	Human-to-mosquito infection	`tasks/SELF-C08`
+Each task requires executable modelling work, structured numerical outputs, and biological interpretation. Task folders contain public inputs and output specifications; hidden evaluation targets are kept out of the respondent's task workspace. The same task specifications and assessment rules are applied to both configurations.
+How performance was assessed
+Short-answer grading
+Short answers were evaluated by three LLM graders from different model families:
+GPT-5.5
+Claude Haiku 4.5
+Gemini 3.5 Flash
+The graders are separate from the respondents and do not use the agentic workflow being evaluated. The same grading process is applied to single-response and agentic-workflow answers.
+Each grader receives the question, a reference answer, predefined question-specific criteria, and the candidate response. Criteria are marked individually; scientifically equivalent answers may receive credit even if their wording or approach differs from the reference. The scoring code averages criterion-level coverage across valid grader judgements and applies a cap based on the most severe factual error identified. Mathematical or biological inaccuracies, unsupported mechanisms, and contradictions can reduce the score.
+The factual-error caps are 1.00 for no substantive error, 0.50 for a minor error, 0.25 for a major error with some correct core material, and 0.00 when the central answer is wrong or contradicted. A response is left unscored if fewer than two valid grader judgements are returned. Full credit requires complete criterion coverage and no detected substantive error.
+The scoring logic and grading criteria are available in `benchmark.py`, `judging.py`, and `questions/rubrics.json`.
+Limitation: LLM graders may be incorrect, especially when assessing open-ended scientific answers. Automated grading was not independently validated against human assessments in this study, so the scores should be interpreted with this limitation in mind.
+Extended-task grading
+Each extended task is scored on a 100-point scale using two complementary components:
+50 points — deterministic checks: executable outputs, hidden predictions, numerical consistency, uncertainty validity, and reproducibility checks, including independent code replay.
+50 points — rubric-based assessment: statistical choices, biological interpretation, research quality, and criticism of the proposed model, using separately invoked LLM graders.
+This separates checks that can be reproduced computationally from scientific judgements that require interpretation. The extended-task scorer is implemented in `research_scorer.py`, with additional documentation in `agent/README.md`.
+Main benchmark findings
+The manuscript reports the following results for the fixed benchmark:
+Outcome	Single-response	Agentic workflow
+Mean short-answer score	52.4%	73.9%
+Extended-task submissions meeting all three execution, completeness, and reproduction criteria	0/24	12/24
+Across the 440 model–question pairs, the agentic workflow scored higher in 188, tied in 198, and scored lower in 54. Sixteen of the 24 agentic computational submissions executed successfully, and 12 satisfied all three execution, completeness, and reproducibility criteria. GPT-5.6 Sol achieved the highest reported mean agentic short-answer score (95.1%) and extended-task score (94.1/100).
+The comparison evaluates the combined agentic configuration; it does not isolate the effects of individual tools, subagents, or workflow components. Computational performance also does not by itself establish biological validity.
+The completed benchmark records are under `results/benchmark/`, including:
+`run.json`: evaluated model panel, task counts, and campaign metadata;
+`summary.json`: aggregate results by model and configuration;
+`scores.csv`: selected per-task scores;
+`costs.csv`: recorded usage costs.
+The result set covers 880 short-answer cells (8 × 2 × 55) and 48 extended-task cells (8 × 2 × 3), for 928 selected cells overall. Additional saved attempts or replacements are recorded separately from these selected results.
+Exploratory open-research experiment
+After the fixed benchmark, 15 agentic attempts were made to formulate, implement, and evaluate a model of the partially observed P. falciparum sexual-stage pathway:
+Five attempts targeted Fable 5.
+Ten attempts used GPT-5.6 Sol.
+All 15 attempts were interrupted by automated safeguards. The five Fable attempts were rerouted immediately; the ten GPT-5.6 Sol attempts began but were subsequently interrupted. No attempt completed the planned autonomous research workflow.
+Before its interruption, one GPT-5.6 Sol run proposed extending the published Cao et al. gametocyte model by allowing a participant-specific, partially pooled effective male-allocation parameter. The proposed model was treated as a hypothesis and was independently implemented and evaluated by researchers; it was not accepted as an autonomously validated biological discovery.
+Independent evaluation of the Cao-derived extension
+The evaluation used publicly available data from 17 volunteers in controlled human malaria infection studies. The models were fitted to total-parasite 18S measurements, female-marker Pfs25 and male-marker PfMGET measurements, with participant-specific piperaquine pharmacokinetic information.
+The hierarchical extension was compared with a matched Cao-derived model using a common effective allocation parameter across participants. Predictive performance was assessed using participant-block Pareto-smoothed importance sampling (PSIS), withholding each participant's Pfs25/PfMGET measurement block while retaining their 18S and pharmacokinetic data.
+Predictive metric	Global-allocation comparator	Hierarchical extension
+Participant- and sex-equal mean negative log predictive density (NLPD; lower is better)	4.656	4.636
+The improvement was 0.020 per observation (95% participant-bootstrap interval 0.012–0.029), with the hierarchical model favoured in 15 of 17 participants. This was a small improvement in internal conditional sex-marker prediction, not external or prospective validation. The effective allocation parameter should not be interpreted as a directly measured gametocyte sex ratio: sex-specific transcript abundance and assay characteristics can contribute to its value.
+Related materials are in `sex-cao-model/`. The original model is described by Cao et al., eLife (2019), “Modeling the dynamics of Plasmodium falciparum gametocytes in humans during malaria infection”.
+Installation and running the benchmark
+The scripts use Python and uv. The agentic configuration additionally uses Docker. Running the benchmark may incur API and search charges, and current provider availability or outputs may differ from the original evaluation.
+Create the locked Python environment from the repository root:
 ```sh
 uv sync --locked
 ```
-
-Store the OpenRouter key in the ignored `.env` file:
-
+Save your OpenRouter API key in a local `.env` file (which should not be committed):
 ```text
-OPENROUTER_API_KEY=...
+OPENROUTER_API_KEY=your_key_here
 ```
-
-## Run
-
-The respondent and judge panels are in
-[`config/benchmark.json`](config/benchmark.json). Start with one easy question
-and one respondent:
-
+Run one short-answer question with one model:
 ```sh
-uv run python run.py \
+uv run --env-file .env python run.py \
   --sample-id SELF-B03 \
   --model openrouter/qwen/qwen3.5-9b \
   --name test_question
 ```
-
-Run the same question across every configured respondent:
-
+Run the same question across the configured respondents:
 ```sh
-uv run python run.py --sample-id SELF-B03 --name one-question
+uv run --env-file .env python run.py --sample-id SELF-B03 --name one-question
 ```
-
-Run the complete raw benchmark:
-
+Run the complete single-response short-answer benchmark:
 ```sh
-uv run python run.py --name full
+uv run --env-file .env python run.py --condition raw --name full
 ```
-
-Run a paired comparison of the same model in raw and agent mode:
-
+Build the agent container and run a paired comparison for one model:
 ```sh
 docker compose -f agent/compose.yaml build
 uv run --env-file .env python run.py \
   --condition both \
-  --model openrouter/openai/gpt-5.6-terra \
+  --model openrouter/openai/gpt-5.6-sol \
   --name paired
 ```
-
-Both modes receive the same 55 samples and are marked by the same
-judge setup. Only the solver changes: `raw` generates a direct
-answer, while `agent` supplies the reusable tools, skills, sandbox, and web
-search setup in [`agent/setup.py`](agent/setup.py).
-
-The three extended computational modelling tasks remain a separate setup because their
-output and replay checks require case by case handling.
-
-
-
-## Results
-
-The completed evaluation will look something like this:
-
-```text
-results/benchmark/
-├── run.json
-├── summary.json
-├── scores.csv
-├── costs.csv
-├── short/summary.json
-├── executable/summary.json
-└── models/<model>/<condition>/
-    ├── short/results.json
-    └── executable/<task>/
-```
-
-`summary.json` joins both conditions across all eight models and both benchmark
-suites. `scores.csv` contains the 928 selected model–condition–task cells;
-`costs.csv` accounts for all 959 persisted attempts, including replacements.
-The model directories contain the selected readable short-answer records and
-extended-task artefacts.
-
-The complete human-readable question, reference-answer and rubric catalogue is
-retained as [`build/full_short_answer_benchmark.pdf`](build/full_short_answer_benchmark.pdf).
-It is a repository artefact, not an assessed supplementary-text submission.
-
-### Open-research attempts
-
-The subsequent open-research phase comprised 15 attempts: five targeting
-Fable 5 and ten using GPT-5.6 Sol. Safeguards stopped all five Fable attempts
-immediately and eventually interrupted all ten GPT-5.6 Sol attempts; the
-Cao-derived candidate was the only substantive result produced before an
-interruption. These are observed operational outcomes, not a controlled
-estimate of safeguard performance.
-
-For a judge-stability check, repeat the same selected items with
-`--epochs 3`.
-
-
-
-
-## Marking method
-
-Each answer is assessed against the question-specific criteria in
-[`questions/rubrics.json`](questions/rubrics.json). The three judges run in
-parallel and receive:
-
-1. the question;
-2. the reference answer;
-3. the atomic criteria; and
-4. the anonymous candidate answer.
-
-The reference is explicitly described as one valid formulation, not a wording
-template. Scientifically equivalent answers are accepted, and omissions are
-distinguished from false claims.
-
-Each judge returns one boolean per positive criterion and one overall factual
-error level. Reasons are limited to short audit notes. Python calculates
-coverage from the criterion votes and applies the strictest valid error finding:
-
-- no substantive error: 1.00;
-- minor local error: 0.50;
-- major error with some correct core material: 0.25; and
-- central answer wrong or contradicted: 0.00.
-
-Full credit requires complete coverage and no detected
-substantive error. A response is unscored when fewer than two judges return
-valid verdicts.
-
-The approach follows marking in MT-Bench and Prometheus,
-positive and negative criteria in HealthBench, criterion-level grading in
-PaperBench, structured decisions in G-Eval, and diverse judge panels in PoLL.
-
-Respondents are asked for a direct answer. Conceptual short answers are capped
-at 768 output tokens; exact calculations and extended tasks use 12,000.
-
-
-## Extended computational modelling tasks
-
-[`tasks/SELF-C06`](tasks/SELF-C06), [`tasks/SELF-C07`](tasks/SELF-C07), and
-[`tasks/SELF-C08`](tasks/SELF-C08) cover parasite growth, delayed gametocyte
-ODE modelling, and human-to-mosquito transmission. Each contains public
-synthetic data, an exact output contract, hidden targets, and a 100-point
-rubric while permitting defensible alternative models.
-
-Half of the score is deterministic: output validity, hidden prediction error,
-numerical consistency, and uncertainty validity. The remaining criteria cover
-statistical choices, biological interpretation, research quality, and model
-criticism. Only `input/`, `README.md`, and `result.example.json` enter the
-model workspace; hidden grading files remain outside it.
-
-The extended-task suite is documented in
-[`agent/README.md`](agent/README.md). Run all three tasks with:
-
+Run the three extended computational tasks:
 ```sh
-docker compose -f agent/compose.yaml build
 uv run --env-file .env python run_research.py --name paired-test
 ```
-
-## Files
-
-```text
-benchmark.py                        shared short-answer samples, scorer, conditions
-judging.py                          task-agnostic judge-panel plumbing
-run.py                              raw/agent short-answer runner
-results.py                          paired projection of short-answer logs
-config/benchmark.json              respondent, judge, and parallelism settings
-questions/combined_questions.json  canonical 58-question registry
-questions/computational_questions.json exact computational source set
-questions/model_fitting_questions.json three extended-task records
-questions/rubrics.json             114 atomic marking criteria
-questions/supervisor_questions.json supervisor-supplied source set
-questions/self_questions.json      self-authored source set and references
-tasks/SELF-C06...SELF-C08/          research inputs, contracts, and graders
-research.py                         raw/agent extended-task conditions
-research_scorer.py                  hybrid extended-task evaluator
-run_research.py                     extended-task runner
-agent/                              reusable solver, image, tools, and skills only
-MODEL_SELECTION.md                  model-panel rationale
-```
+See `agent/README.md` for additional options, task-level runs, and details of the computational environment. For an exploratory judge-stability check on selected items, the short-answer runner supports `--epochs 3`. This is not a substitute for expert validation.
+Re-running the software is not guaranteed to reproduce identical LLM outputs, even with the original configurations, because hosted model versions, provider behaviour, and tool availability may change. The saved results document the original evaluation.
+Repository guide
+Path	Purpose
+`config/benchmark.json`	Respondent and judge model panel; agent settings
+`questions/`	Questions, reference answers, and marking criteria
+`tasks/`	Synthetic datasets, task contracts, and evaluation files
+`benchmark.py`, `judging.py`	Short-answer scoring and LLM judge-panel logic
+`research_scorer.py`	Hybrid assessment of extended computational tasks
+`run.py`, `run_research.py`	Benchmark runners
+`agent/`	Agentic workflow setup, tools, and sandbox configuration
+`results/benchmark/`	Completed benchmark results and artefacts
+`build/full_short_answer_benchmark.pdf`	Human-readable question, reference-answer, and rubric catalogue
+`sex-cao-model/`	Cao-derived model extension and related materials
+`MODEL_SELECTION.md`	Model-selection rationale
+Interpretation and limitations
+The findings support LLMs as assistants to human-led malaria modelling, rather than as autonomous substitutes for scientific expertise. In particular:
+LLM-based grading can contain errors and was not independently validated against human markings.
+The benchmark covers a defined set of tasks and model configurations; results should not be generalised uncritically to other settings.
+All open-research attempts were interrupted, preventing completion of the planned autonomous research processes.
+The Cao-derived extension was evaluated on the same cohort under conditional internal cross-validation; independent data and biological investigation are needed to assess generalisability and mechanistic meaning.
+Manuscript and data availability
+Manuscript: Chung A, Aguas R, Gao B, Saralamba S. Evaluating large language models for within-host malaria modelling. 
+The benchmark datasets, implementations, assessment code, and saved results are provided in this repository. The underlying Cao study and its data should be cited separately when used.
